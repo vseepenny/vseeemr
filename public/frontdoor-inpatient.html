@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSee Inpatient - Hospital Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== Design System Tokens ===== */
+  :root {
+    --font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+
+    --brand: #0D875C;
+    --brand-hover: #0B7550;
+    --brand-light: #E6F5EE;
+    --brand-50: #F0FAF5;
+
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-tertiary: #6F7787;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --white: #FFFFFF;
+    --grey-200: #F8F9FA;
+    --grey-300: #F1F2F4;
+    --grey-400: #E8EAED;
+
+    --success: #0D875C;
+    --success-light: #E6F5EE;
+    --success-border: #A7F3D0;
+    --success-dark: #065F46;
+
+    --info: #196CD2;
+    --info-light: #E0F2FE;
+    --info-border: #BAE6FD;
+    --info-dark: #075985;
+
+    --warning: #FFCB5A;
+    --warning-light: #FEF3C7;
+    --warning-border: #FDE68A;
+    --warning-dark: #92400E;
+
+    --danger: #DC2626;
+    --danger-light: #FEE2E2;
+    --danger-border: #FECACA;
+    --danger-dark: #991B1B;
+
+    --fs-caption: 13px;
+    --fs-body: 14px;
+    --fs-h5: 16px;
+    --fs-subtitle: 18px;
+    --fs-h4: 20px;
+    --fs-h3: 24px;
+
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 12px;
+    --sp-4: 16px;
+    --sp-6: 24px;
+    --sp-8: 32px;
+
+    --r-xs: 4px;
+    --r-sm: 6px;
+    --r-md: 8px;
+    --r-lg: 12px;
+    --r-xl: 16px;
+
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+
+    --nav-width: 240px;
+    --header-height: 56px;
+    --bottom-bar-height: 108px;
+  }
+
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    font-family: var(--font-family);
+    font-size: var(--fs-body);
+    color: var(--text-primary);
+    background: var(--grey-200);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    height: var(--header-height);
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--sp-6);
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+
+  .header-logo {
+    font-size: var(--fs-h4);
+    font-weight: 700;
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .header-logo svg { flex-shrink: 0; }
+
+  .header-center {
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .unit-selector {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--white);
+    cursor: pointer;
+  }
+
+  .unit-selector:hover { border-color: var(--border-strong); }
+
+  .online-status {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: var(--fs-caption);
+    color: var(--success);
+    font-weight: 500;
+  }
+
+  .online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    cursor: pointer;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs-caption);
+    font-weight: 600;
+  }
+
+  .user-name {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ===== Layout ===== */
+  .app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ===== Sidebar ===== */
+  .sidebar {
+    width: var(--nav-width);
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+  }
+
+  .nav-section {
+    padding: var(--sp-4) 0;
+  }
+
+  .nav-section + .nav-section {
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    padding: 0 var(--sp-6) var(--sp-2);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-2) var(--sp-6);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+    text-decoration: none;
+  }
+
+  .nav-item:hover {
+    color: var(--text-primary);
+    background: var(--grey-200);
+  }
+
+  .nav-item.active {
+    color: var(--brand);
+    background: var(--brand-50);
+    border-left-color: var(--brand);
+    font-weight: 600;
+  }
+
+  .nav-item svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .nav-item.active svg { opacity: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+
+  .nav-badge.info {
+    background: var(--info-light);
+    color: var(--info-dark);
+  }
+
+  .nav-badge.danger {
+    background: var(--danger-light);
+    color: var(--danger-dark);
+  }
+
+  /* ===== Main Content ===== */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  /* ===== Stat Cards ===== */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-4);
+  }
+
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    padding: var(--sp-4) var(--sp-6);
+    box-shadow: var(--shadow-xs);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    transition: box-shadow 0.15s ease;
+  }
+
+  .stat-card:hover { box-shadow: var(--shadow-md); }
+
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .stat-icon svg { width: 22px; height: 22px; }
+
+  .stat-icon.info { background: var(--info-light); color: var(--info); }
+  .stat-icon.danger { background: var(--danger-light); color: var(--danger); }
+  .stat-icon.success { background: var(--success-light); color: var(--success); }
+  .stat-icon.warning { background: var(--warning-light); color: var(--warning-dark); }
+  .stat-icon.brand { background: var(--brand-light); color: var(--brand); }
+
+  .stat-content { flex: 1; }
+  .stat-label {
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .stat-value {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .stat-value.info { color: var(--info); }
+  .stat-value.danger { color: var(--danger); }
+  .stat-value.success { color: var(--success); }
+  .stat-value.warning { color: var(--warning-dark); }
+  .stat-value.brand { color: var(--brand); }
+
+  /* ===== Cards ===== */
+  .card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-xs);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: var(--sp-4) var(--sp-6);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-title {
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .card-body {
+    padding: var(--sp-4) var(--sp-6);
+  }
+
+  /* ===== Two Column ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--sp-6);
+    flex: 1;
+    min-height: 0;
+  }
+
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  /* ===== Bed Grid ===== */
+  .bed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-3);
+  }
+
+  .bed-cell {
+    padding: var(--sp-3);
+    border-radius: var(--r-md);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .bed-cell:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .bed-cell.occupied {
+    background: var(--info-light);
+    border-color: var(--info-border);
+  }
+
+  .bed-cell.critical {
+    background: var(--danger-light);
+    border-color: var(--danger-border);
+  }
+
+  .bed-cell.discharge {
+    background: var(--success-light);
+    border-color: var(--success-border);
+  }
+
+  .bed-cell.empty {
+    background: var(--grey-300);
+    border-color: var(--grey-400);
+  }
+
+  .bed-number {
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  .bed-patient {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .bed-status {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .bed-cell.occupied .bed-status { color: var(--info-dark); }
+  .bed-cell.critical .bed-status { color: var(--danger-dark); }
+  .bed-cell.discharge .bed-status { color: var(--success-dark); }
+  .bed-cell.empty .bed-patient { color: var(--text-tertiary); font-weight: 500; }
+  .bed-cell.empty .bed-status { color: var(--text-tertiary); }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: var(--sp-6);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border);
+    margin-top: var(--sp-4);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--r-xs);
+    border: 1.5px solid;
+  }
+
+  .legend-dot.occupied { background: var(--info-light); border-color: var(--info-border); }
+  .legend-dot.critical { background: var(--danger-light); border-color: var(--danger-border); }
+  .legend-dot.discharge { background: var(--success-light); border-color: var(--success-border); }
+  .legend-dot.empty-legend { background: var(--grey-300); border-color: var(--grey-400); }
+
+  /* ===== Alerts Card ===== */
+  .card.alerts {
+    border-color: var(--danger-border);
+  }
+
+  .card.alerts .card-header {
+    background: var(--danger-light);
+    border-bottom-color: var(--danger-border);
+  }
+
+  .card.alerts .card-title { color: var(--danger-dark); }
+
+  .alert-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .alert-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .alert-row:last-child { border-bottom: none; }
+
+  .alert-tag {
+    padding: 2px 8px;
+    border-radius: var(--r-xs);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .alert-tag.stat { background: var(--danger); color: var(--white); }
+  .alert-tag.overdue { background: var(--warning); color: var(--warning-dark); }
+
+  .alert-info { flex: 1; }
+  .alert-patient { font-weight: 600; font-size: var(--fs-body); color: var(--text-primary); }
+  .alert-desc { font-size: var(--fs-caption); color: var(--text-secondary); margin-top: 1px; }
+
+  .alert-time {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ===== Pending Orders ===== */
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-caption);
+  }
+
+  .orders-table th {
+    text-align: left;
+    padding: var(--sp-2) var(--sp-2);
+    font-weight: 600;
+    color: var(--text-tertiary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .orders-table td {
+    padding: var(--sp-2);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+  }
+
+  .orders-table tr:last-child td { border-bottom: none; }
+
+  .order-type-badge {
+    padding: 2px 8px;
+    border-radius: var(--r-xs);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .order-type-badge.lab { background: var(--info-light); color: var(--info-dark); }
+  .order-type-badge.imaging { background: #F3E8FF; color: #6B21A8; }
+  .order-type-badge.rx { background: var(--success-light); color: var(--success-dark); }
+
+  .order-status {
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .order-status.pending { color: var(--warning-dark); }
+  .order-status.review { color: var(--info); }
+
+  /* ===== Discharge Tracker ===== */
+  .card.discharge-card {
+    border-color: var(--success-border);
+  }
+
+  .card.discharge-card .card-header {
+    background: var(--success-light);
+    border-bottom-color: var(--success-border);
+  }
+
+  .card.discharge-card .card-title { color: var(--success-dark); }
+
+  .dc-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .dc-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dc-row:last-child { border-bottom: none; }
+
+  .dc-patient {
+    font-weight: 600;
+    font-size: var(--fs-body);
+    color: var(--text-primary);
+    min-width: 90px;
+  }
+
+  .dc-checklist {
+    display: flex;
+    gap: var(--sp-2);
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  .dc-check {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: var(--r-xs);
+  }
+
+  .dc-check.done {
+    background: var(--success-light);
+    color: var(--success-dark);
+  }
+
+  .dc-check.pending {
+    background: var(--grey-300);
+    color: var(--text-tertiary);
+  }
+
+  /* ===== Bottom Bar ===== */
+  .bottom-bar {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    padding: var(--sp-3) var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .quick-actions {
+    display: flex;
+    gap: var(--sp-3);
+    align-items: center;
+  }
+
+  .btn {
+    padding: var(--sp-2) var(--sp-4);
+    border-radius: var(--r-sm);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    font-family: var(--font-family);
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-primary);
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    white-space: nowrap;
+  }
+
+  .btn:hover {
+    background: var(--grey-200);
+    border-color: var(--border-strong);
+  }
+
+  .btn.primary {
+    background: var(--brand);
+    color: var(--white);
+    border-color: var(--brand);
+  }
+
+  .btn.primary:hover {
+    background: var(--brand-hover);
+    border-color: var(--brand-hover);
+  }
+
+  .btn svg { width: 15px; height: 15px; }
+
+  /* Workflow Strip */
+  .workflow-strip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--grey-200);
+    border-radius: var(--r-md);
+    padding: var(--sp-1);
+    overflow-x: auto;
+  }
+
+  .wf-step {
+    padding: var(--sp-1) var(--sp-3);
+    border-radius: var(--r-sm);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .wf-step:hover { color: var(--text-primary); }
+
+  .wf-step.done {
+    color: var(--success);
+  }
+
+  .wf-step.current {
+    background: var(--brand);
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .wf-arrow {
+    color: var(--border-strong);
+    font-size: 12px;
+    padding: 0 2px;
+    flex-shrink: 0;
+  }
+
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+  /* ===== FRONT DOOR NAV ===== */
+  .fd-nav { display:flex; align-items:center; gap:2px; padding:0 24px; background:#fff; border-bottom:1px solid #E5E7EB; position:sticky; top:0; z-index:999; font-family:"Plus Jakarta Sans","Inter",system-ui,sans-serif; }
+  .fd-nav-logo { font-size:13px; font-weight:800; color:#0D875C; margin-right:20px; padding:10px 0; letter-spacing:-0.3px; white-space:nowrap; }
+  .fd-nav a { display:flex; align-items:center; gap:6px; padding:10px 16px; font-size:13px; font-weight:600; color:#6B7280; text-decoration:none; border-bottom:2px solid transparent; transition:all .12s; white-space:nowrap; }
+  .fd-nav a:hover { color:#111827; background:#F8F9FA; }
+  .fd-nav a.fd-active { color:#111827; border-bottom-color:#0D875C; background:#F0FAF5; }
+  .fd-nav-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<!-- ===== FRONT DOOR NAVIGATION ===== -->
+<nav class="fd-nav">
+  <span class="fd-nav-logo">VSee Front Door</span>
+  <a href="frontdoor-inpatient.html" class="fd-active"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital Inpatient</a>
+  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Hospital Outpatient</a>
+  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster Relief</a>
+  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Field Mission</a>
+  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual Clinic</a>
+</nav>
+
+<!-- ===== HEADER ===== -->
+<header class="header" role="banner">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect width="28" height="28" rx="6" fill="#0D875C"/>
+        <path d="M8 10l4 4-4 4M14 18h6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      VSee Inpatient
+    </div>
+  </div>
+  <div class="header-center">St. Mary's Medical Center</div>
+  <div class="header-right">
+    <button class="unit-selector" aria-label="Select unit">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M2 3h12M2 8h12M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      3 West
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="online-status">
+      <span class="online-dot" aria-hidden="true"></span>
+      Online
+    </div>
+    <div class="user-info" role="button" tabindex="0" aria-label="User menu">
+      <div class="user-avatar" aria-hidden="true">RN</div>
+      <span class="user-name">Sarah Chen, RN</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== APP BODY ===== -->
+<div class="app-body">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar" aria-label="Main navigation">
+    <div class="nav-section">
+      <div class="nav-section-title">Navigation</div>
+      <a class="nav-item active" href="#census" aria-current="page">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2" y="2" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="2" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="10" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="10" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        Census Board
+      </a>
+      <a class="nav-item" href="#bedmap">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 14h14M2 10h14M4 6h3v4H4zM11 6h3v4h-3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Bed Map
+      </a>
+      <a class="nav-item" href="#mar">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5 3h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5"/><path d="M6 7h6M6 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        MAR
+        <span class="nav-badge info">3</span>
+      </a>
+      <a class="nav-item" href="#orders">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2v14M2 9h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Order Entry
+      </a>
+      <a class="nav-item" href="#notes">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 3h10a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M6 7h6M6 10h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Nursing Notes
+      </a>
+      <a class="nav-item" href="#discharge">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M6 9l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/></svg>
+        Discharge Plan
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Tools</div>
+      <a class="nav-item" href="#vitals">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 9h3l2-4 3 8 2-4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Vitals Board
+      </a>
+      <a class="nav-item" href="#alerts">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2l7 12H2L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 8v2M9 12v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Alerts
+        <span class="nav-badge danger">5</span>
+      </a>
+      <a class="nav-item" href="#handoff">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 9h10M11 6l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Shift Handoff
+      </a>
+      <a class="nav-item" href="#scribe">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        AI Scribe
+      </a>
+      <a class="nav-item" href="#analytics">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M5 14V8M9 14V4M13 14V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Unit Analytics
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main" role="main">
+
+    <!-- Stat Cards -->
+    <section class="stat-cards" aria-label="Unit statistics">
+      <div class="stat-card">
+        <div class="stat-icon info">
+          <svg viewBox="0 0 22 22" fill="none"><path d="M11 3a8 8 0 100 16 8 8 0 000-16z" stroke="currentColor" stroke-width="1.5"/><path d="M11 7v4M11 13v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Total Patients</div>
+          <div class="stat-value info">24</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon danger">
+          <svg viewBox="0 0 22 22" fill="none"><path d="M11 3l9 16H2L11 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 9v3M11 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Critical</div>
+          <div class="stat-value danger">3</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <svg viewBox="0 0 22 22" fill="none"><path d="M7 11l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Pending DC</div>
+          <div class="stat-value success">5</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon warning">
+          <svg viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 11h14M4 16h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Pending Orders</div>
+          <div class="stat-value warning">8</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <svg viewBox="0 0 22 22" fill="none"><rect x="4" y="10" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M7 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">Empty Beds</div>
+          <div class="stat-value brand">2</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Two Column Layout -->
+    <div class="two-col">
+      <!-- Left: Census Board -->
+      <section class="card" aria-label="Census Board">
+        <div class="card-header">
+          <h2 class="card-title">Census Board -- 3 West (26 beds)</h2>
+        </div>
+        <div class="card-body">
+          <div class="bed-grid">
+            <!-- Row 1 -->
+            <div class="bed-cell occupied">
+              <div class="bed-number">301-A</div>
+              <div class="bed-patient">J.M.</div>
+              <div class="bed-status">Day 3</div>
+            </div>
+            <div class="bed-cell critical">
+              <div class="bed-number">301-B</div>
+              <div class="bed-patient">R.K.</div>
+              <div class="bed-status">CRITICAL</div>
+            </div>
+            <div class="bed-cell occupied">
+              <div class="bed-number">302-A</div>
+              <div class="bed-patient">L.W.</div>
+              <div class="bed-status">Day 1</div>
+            </div>
+            <!-- Row 2 -->
+            <div class="bed-cell discharge">
+              <div class="bed-number">302-B</div>
+              <div class="bed-patient">A.T.</div>
+              <div class="bed-status">DC Today</div>
+            </div>
+            <div class="bed-cell occupied">
+              <div class="bed-number">303-A</div>
+              <div class="bed-patient">M.S.</div>
+              <div class="bed-status">Day 5</div>
+            </div>
+            <div class="bed-cell critical">
+              <div class="bed-number">303-B</div>
+              <div class="bed-patient">D.H.</div>
+              <div class="bed-status">STAT Lab</div>
+            </div>
+            <!-- Row 3 -->
+            <div class="bed-cell occupied">
+              <div class="bed-number">304-A</div>
+              <div class="bed-patient">E.C.</div>
+              <div class="bed-status">Day 2</div>
+            </div>
+            <div class="bed-cell empty">
+              <div class="bed-number">304-B</div>
+              <div class="bed-patient">Empty</div>
+            </div>
+            <div class="bed-cell discharge">
+              <div class="bed-number">305-A</div>
+              <div class="bed-patient">T.N.</div>
+              <div class="bed-status">DC Today</div>
+            </div>
+            <!-- Row 4 -->
+            <div class="bed-cell occupied">
+              <div class="bed-number">305-B</div>
+              <div class="bed-patient">P.G.</div>
+              <div class="bed-status">Day 4</div>
+            </div>
+            <div class="bed-cell occupied">
+              <div class="bed-number">306-A</div>
+              <div class="bed-patient">C.R.</div>
+              <div class="bed-status">Day 1</div>
+            </div>
+            <div class="bed-cell critical">
+              <div class="bed-number">306-B</div>
+              <div class="bed-patient">W.F.</div>
+              <div class="bed-status">CRITICAL</div>
+            </div>
+            <!-- Row 5 -->
+            <div class="bed-cell discharge">
+              <div class="bed-number">307-A</div>
+              <div class="bed-patient">B.L.</div>
+              <div class="bed-status">DC Today</div>
+            </div>
+            <div class="bed-cell occupied">
+              <div class="bed-number">307-B</div>
+              <div class="bed-patient">K.D.</div>
+              <div class="bed-status">Day 7</div>
+            </div>
+            <div class="bed-cell occupied">
+              <div class="bed-number">308-A</div>
+              <div class="bed-patient">S.V.</div>
+              <div class="bed-status">Day 2</div>
+            </div>
+            <!-- Row 6 -->
+            <div class="bed-cell occupied">
+              <div class="bed-number">308-B</div>
+              <div class="bed-patient">N.A.</div>
+              <div class="bed-status">Day 1</div>
+            </div>
+            <div class="bed-cell empty">
+              <div class="bed-number">309-A</div>
+              <div class="bed-patient">Empty</div>
+            </div>
+            <div class="bed-cell discharge">
+              <div class="bed-number">309-B</div>
+              <div class="bed-patient">F.J.</div>
+              <div class="bed-status">DC Today</div>
+            </div>
+          </div>
+
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot occupied"></div>Occupied</div>
+            <div class="legend-item"><div class="legend-dot critical"></div>Critical</div>
+            <div class="legend-item"><div class="legend-dot discharge"></div>Discharge</div>
+            <div class="legend-item"><div class="legend-dot empty-legend"></div>Empty</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column -->
+      <div class="right-col">
+        <!-- Active Alerts -->
+        <section class="card alerts" aria-label="Active Alerts">
+          <div class="card-header">
+            <h2 class="card-title">Active Alerts</h2>
+            <span style="font-size:var(--fs-caption);color:var(--danger-dark);font-weight:600;">4 active</span>
+          </div>
+          <div class="card-body">
+            <div class="alert-list">
+              <div class="alert-row">
+                <span class="alert-tag stat">STAT</span>
+                <div class="alert-info">
+                  <div class="alert-patient">R. Kim (301-B)</div>
+                  <div class="alert-desc">Troponin level critical -- cardiology consult ordered</div>
+                </div>
+                <span class="alert-time">2 min</span>
+              </div>
+              <div class="alert-row">
+                <span class="alert-tag stat">STAT</span>
+                <div class="alert-info">
+                  <div class="alert-patient">W. Foster (306-B)</div>
+                  <div class="alert-desc">O2 sat dropped below 88% -- respiratory notified</div>
+                </div>
+                <span class="alert-time">8 min</span>
+              </div>
+              <div class="alert-row">
+                <span class="alert-tag overdue">OVERDUE</span>
+                <div class="alert-info">
+                  <div class="alert-patient">D. Hayes (303-B)</div>
+                  <div class="alert-desc">STAT CBC results pending over 45 min</div>
+                </div>
+                <span class="alert-time">47 min</span>
+              </div>
+              <div class="alert-row">
+                <span class="alert-tag overdue">OVERDUE</span>
+                <div class="alert-info">
+                  <div class="alert-patient">M. Singh (303-A)</div>
+                  <div class="alert-desc">Pain reassessment due -- Morphine given 4h ago</div>
+                </div>
+                <span class="alert-time">1h 12m</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pending Orders -->
+        <section class="card" aria-label="Pending Orders">
+          <div class="card-header">
+            <h2 class="card-title">Pending Orders</h2>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Order</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:600;">R. Kim</td>
+                  <td>Troponin I, serial</td>
+                  <td><span class="order-type-badge lab">Lab</span></td>
+                  <td><span class="order-status pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">E. Chan</td>
+                  <td>Chest X-ray PA/Lat</td>
+                  <td><span class="order-type-badge imaging">Imaging</span></td>
+                  <td><span class="order-status review">In Review</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">K. Davis</td>
+                  <td>Vancomycin 1g IV</td>
+                  <td><span class="order-type-badge rx">Rx</span></td>
+                  <td><span class="order-status pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600;">P. Garcia</td>
+                  <td>BMP, Magnesium</td>
+                  <td><span class="order-type-badge lab">Lab</span></td>
+                  <td><span class="order-status pending">Pending</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Discharge Tracker -->
+        <section class="card discharge-card" aria-label="Discharge Tracker">
+          <div class="card-header">
+            <h2 class="card-title">Discharge Tracker</h2>
+          </div>
+          <div class="card-body">
+            <div class="dc-list">
+              <div class="dc-row">
+                <div class="dc-patient">A. Torres</div>
+                <div class="dc-checklist">
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Rx</span>
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Edu</span>
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Transport</span>
+                  <span class="dc-check pending">Summary</span>
+                </div>
+              </div>
+              <div class="dc-row">
+                <div class="dc-patient">T. Nguyen</div>
+                <div class="dc-checklist">
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Rx</span>
+                  <span class="dc-check pending">Edu</span>
+                  <span class="dc-check pending">Transport</span>
+                  <span class="dc-check pending">Summary</span>
+                </div>
+              </div>
+              <div class="dc-row">
+                <div class="dc-patient">B. Lopez</div>
+                <div class="dc-checklist">
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Rx</span>
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Edu</span>
+                  <span class="dc-check pending">Transport</span>
+                  <span class="dc-check done"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Summary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== BOTTOM BAR ===== -->
+<footer class="bottom-bar" role="contentinfo">
+  <div class="quick-actions">
+    <button class="btn primary">
+      <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 2v11M2 7.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      New Order
+    </button>
+    <button class="btn">
+      <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 2v5.5M4 5l3.5 3.5L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10v2a1 1 0 001 1h9a1 1 0 001-1v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Admit Patient
+    </button>
+    <button class="btn">
+      <svg viewBox="0 0 15 15" fill="none"><path d="M4 3h7a1 1 0 011 1v7a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/><path d="M5 6h5M5 8.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      MAR View
+    </button>
+    <button class="btn">
+      <svg viewBox="0 0 15 15" fill="none"><path d="M3 7.5h9M9 4.5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Start Handoff
+    </button>
+    <button class="btn">
+      <svg viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M7.5 2v1.5M7.5 11.5V13M2 7.5h1.5M11.5 7.5H13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      AI Scribe
+    </button>
+    <button class="btn">
+      <svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5h2l1.5-3 2.5 6 2-3H13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Vitals Board
+    </button>
+  </div>
+  <nav class="workflow-strip" aria-label="Workflow steps">
+    <div class="wf-step done">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Admission
+    </div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step current">Assessment</div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step">Orders (CPOE)</div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step">Nursing Notes</div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step">Rounding</div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step">Discharge Plan</div>
+    <span class="wf-arrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 3l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="wf-step">Discharge</div>
+  </nav>
+</footer>
+
+</body>
+</html>
