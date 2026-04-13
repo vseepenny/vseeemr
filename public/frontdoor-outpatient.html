@@ -3,860 +3,302 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSee Hospital Outpatient Dashboard</title>
+<title>VSee Outpatient — Provider Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontdoor-shared.css">
 <style>
-  /* ===== CSS Variables / Design Tokens ===== */
-  :root {
-    --font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-    --green: #0D875C;
-    --green-hover: #0B7550;
-    --green-light: #E6F5EE;
-    --green-50: #F0FAF5;
-    --green-dark: #065F46;
-    --purple: #7C3AED;
-    --purple-hover: #6D28D9;
-    --purple-light: #F3EEFF;
-    --purple-50: #FAF5FF;
-    --blue: #3B82F6;
-    --blue-hover: #2563EB;
-    --blue-light: #E0F2FE;
-    --blue-50: #EFF6FF;
-    --blue-dark: #075985;
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --text-tertiary: #6F7787;
-    --border: #E5E7EB;
-    --border-strong: #D1D5DB;
-    --white: #FFFFFF;
-    --grey-200: #F8F9FA;
-    --grey-300: #F1F2F4;
-    --success: #0D875C;
-    --success-light: #E6F5EE;
-    --success-dark: #065F46;
-    --info: #196CD2;
-    --info-light: #E0F2FE;
-    --info-dark: #075985;
-    --warning: #FFCB5A;
-    --warning-light: #FEF3C7;
-    --warning-dark: #92400E;
-    --danger: #DC2626;
-    --danger-light: #FEE2E2;
-    --danger-dark: #991B1B;
-    --shadow-xs: 0 1px 2px #0000000d;
-    --shadow-md: 0 4px 6px -1px #0000001a;
-    --r-sm: 6px;
-    --r-md: 8px;
-    --r-lg: 12px;
-    --nav-width: 240px;
-  }
-
-  /* ===== Reset & Base ===== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 14px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  body { font-family: var(--font); color: var(--text-primary); background: var(--grey-200); line-height: 1.5; min-height: 100vh; }
-
-  /* ===== Top Bar ===== */
-  .top-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--white); border-bottom: 1px solid var(--border);
-    padding: 0 24px; height: 56px; position: sticky; top: 41px; z-index: 100;
-  }
-  .top-bar-left { display: flex; align-items: center; gap: 16px; }
-  .logo { font-weight: 700; font-size: 18px; color: var(--green); letter-spacing: -0.3px; }
-  .logo span { color: var(--text-primary); }
-
-  /* ===== View Tabs ===== */
-  .view-tabs { display: flex; gap: 4px; background: var(--grey-300); border-radius: var(--r-md); padding: 3px; }
-  .view-tab {
-    padding: 6px 20px; border-radius: var(--r-sm); font-size: 13px; font-weight: 600;
-    cursor: pointer; border: none; background: transparent; color: var(--text-secondary);
-    transition: all 0.2s ease;
-  }
-  .view-tab:hover { color: var(--text-primary); }
-  .view-tab.active-patient { background: var(--purple); color: var(--white); box-shadow: var(--shadow-xs); }
-  .view-tab.active-provider { background: var(--blue); color: var(--white); box-shadow: var(--shadow-xs); }
-
-  .top-bar-right { display: flex; align-items: center; gap: 12px; }
-  .avatar {
-    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 13px; font-weight: 600; color: var(--white);
-  }
-
-  /* ===== Layout Shell ===== */
-  .shell { display: flex; min-height: calc(100vh - 56px); }
-  .sidebar {
-    width: var(--nav-width); background: var(--white); border-right: 1px solid var(--border);
-    padding: 16px 0; flex-shrink: 0; position: sticky; top: 56px;
-    height: calc(100vh - 56px); overflow-y: auto;
-  }
-  .main { flex: 1; padding: 24px; max-width: 1100px; overflow-y: auto; }
-
-  /* ===== Sidebar Nav ===== */
-  .nav-section { padding: 0 12px; margin-bottom: 8px; }
-  .nav-label {
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px;
-    color: var(--text-tertiary); padding: 8px 12px 4px;
-  }
-  .nav-item {
-    display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--r-sm);
-    font-size: 14px; font-weight: 500; color: var(--text-secondary); cursor: pointer;
-    transition: all 0.15s ease; position: relative;
-  }
-  .nav-item:hover { background: var(--grey-200); color: var(--text-primary); }
-  .nav-item.active-patient { background: var(--purple-light); color: var(--purple); font-weight: 600; }
-  .nav-item.active-provider { background: var(--blue-light); color: var(--blue); font-weight: 600; }
-  .nav-icon {
-    width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .nav-icon svg { width: 18px; height: 18px; stroke-width: 1.8; }
-  .nav-badge {
-    margin-left: auto; font-size: 11px; font-weight: 600; padding: 1px 7px;
-    border-radius: 10px; min-width: 20px; text-align: center;
-  }
-  .nav-badge.purple { background: var(--purple); color: var(--white); }
-  .nav-badge.blue { background: var(--blue); color: var(--white); }
-  .nav-badge.red { background: var(--danger); color: var(--white); }
-
-  .nav-divider { height: 1px; background: var(--border); margin: 8px 12px; }
-
-  /* ===== Cards ===== */
-  .card {
-    background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
-    box-shadow: var(--shadow-xs); margin-bottom: 20px; overflow: hidden;
-  }
-  .card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px; border-bottom: 1px solid var(--border);
-  }
-  .card-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
-  .card-body { padding: 20px; }
-
-  /* ===== Featured / Accent Cards ===== */
-  .card-featured-purple {
-    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-    border: none; color: var(--white);
-  }
-  .card-featured-purple .card-body { padding: 24px; }
-  .card-featured-purple .feat-label { font-size: 12px; font-weight: 500; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .card-featured-purple .feat-title { font-size: 20px; font-weight: 700; margin-bottom: 2px; }
-  .card-featured-purple .feat-sub { font-size: 14px; opacity: 0.9; margin-bottom: 16px; }
-  .card-featured-purple .feat-meta { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; margin-bottom: 20px; }
-
-  .card-featured-blue {
-    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-    border: none; color: var(--white);
-  }
-  .card-featured-blue .card-body { padding: 24px; }
-
-  /* ===== Buttons ===== */
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
-    border-radius: var(--r-sm); font-size: 13px; font-weight: 600; cursor: pointer;
-    border: none; transition: all 0.15s ease; font-family: var(--font);
-  }
-  .btn-white { background: rgba(255,255,255,0.2); color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
-  .btn-white:hover { background: rgba(255,255,255,0.3); }
-  .btn-solid-white { background: var(--white); color: var(--purple); }
-  .btn-solid-white:hover { background: #f3f0ff; }
-  .btn-purple { background: var(--purple); color: var(--white); }
-  .btn-purple:hover { background: var(--purple-hover); }
-  .btn-blue { background: var(--blue); color: var(--white); }
-  .btn-blue:hover { background: var(--blue-hover); }
-  .btn-green { background: var(--green); color: var(--white); }
-  .btn-green:hover { background: var(--green-hover); }
-  .btn-outline {
-    background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary);
-  }
-  .btn-outline:hover { background: var(--grey-200); }
-  .btn-sm { padding: 5px 12px; font-size: 12px; }
-  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  /* ===== Status Badges / Tags ===== */
-  .tag {
-    display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px;
-    border-radius: 10px; font-size: 12px; font-weight: 600;
-  }
-  .tag-new { background: var(--info-light); color: var(--info-dark); }
-  .tag-success { background: var(--success-light); color: var(--success-dark); }
-  .tag-warning { background: var(--warning-light); color: var(--warning-dark); }
-  .tag-danger { background: var(--danger-light); color: var(--danger-dark); }
-  .tag-info { background: var(--info-light); color: var(--info-dark); }
-  .tag-neutral { background: var(--grey-300); color: var(--text-secondary); }
-  .tag-purple { background: var(--purple-light); color: #6D28D9; }
-
-  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .dot-green { background: var(--success); }
-  .dot-blue { background: var(--blue); }
-  .dot-yellow { background: #EAB308; }
-  .dot-red { background: var(--danger); }
-  .dot-grey { background: var(--border-strong); }
-
-  /* ===== Tables ===== */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th {
-    text-align: left; padding: 10px 16px; font-size: 12px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary);
-    border-bottom: 1px solid var(--border); background: var(--grey-200);
-  }
-  td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--grey-200); }
-
-  /* ===== Grid Helpers ===== */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-
-  /* ===== List Items ===== */
-  .list-item {
-    display: flex; align-items: center; gap: 12px; padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .list-item:last-child { border-bottom: none; }
-  .list-icon {
-    width: 40px; height: 40px; border-radius: var(--r-md); display: flex;
-    align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; font-weight: 600;
-  }
-  .list-content { flex: 1; min-width: 0; }
-  .list-title { font-weight: 600; font-size: 14px; color: var(--text-primary); }
-  .list-sub { font-size: 13px; color: var(--text-secondary); }
-  .list-right { text-align: right; flex-shrink: 0; }
-
-  /* ===== Waiting Room Items ===== */
-  .wait-item {
-    display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-  }
-  .wait-item:last-child { border-bottom: none; }
-  .wait-avatar {
-    width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px;
-  }
-  .wait-info { flex: 1; }
-  .wait-name { font-weight: 600; font-size: 14px; }
-  .wait-detail { font-size: 13px; opacity: 0.85; }
-  .wait-time {
-    font-size: 20px; font-weight: 700; text-align: right;
-  }
-  .wait-time small { display: block; font-size: 11px; font-weight: 500; opacity: 0.7; }
-
-  /* ===== Workflow Strip ===== */
-  .workflow-strip {
-    background: var(--white); border-top: 1px solid var(--border);
-    padding: 12px 24px; display: flex; align-items: center; justify-content: center; gap: 0;
-    position: sticky; bottom: 0; z-index: 50;
-  }
-  .wf-step {
-    display: flex; align-items: center; gap: 8px; padding: 6px 16px;
-    font-size: 13px; font-weight: 500; color: var(--text-secondary); position: relative;
-  }
-  .wf-step.done { color: var(--success); }
-  .wf-step.current { color: var(--blue); font-weight: 700; }
-  .wf-step .wf-dot {
-    width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0;
-  }
-  .wf-step.done .wf-dot { background: var(--success-light); color: var(--success); }
-  .wf-step.current .wf-dot { background: var(--blue); color: var(--white); }
-  .wf-step.pending .wf-dot { background: var(--grey-300); color: var(--text-tertiary); }
-  .wf-arrow { color: var(--border-strong); margin: 0 4px; font-size: 16px; }
-
-  /* ===== Messages ===== */
-  .msg-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .msg-item:last-child { border-bottom: none; }
-  .msg-avatar {
-    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0;
-  }
-  .msg-body { flex: 1; }
-  .msg-from { font-weight: 600; font-size: 14px; }
-  .msg-preview { font-size: 13px; color: var(--text-secondary); margin-top: 1px; }
-  .msg-time { font-size: 12px; color: var(--text-tertiary); flex-shrink: 0; }
-
-  /* ===== Checkout Queue ===== */
-  .checkout-item {
-    display: flex; align-items: center; gap: 14px; padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .checkout-item:last-child { border-bottom: none; }
-
-  /* ===== Misc ===== */
-  .text-xs { font-size: 12px; }
-  .text-sm { font-size: 13px; }
-  .text-secondary { color: var(--text-secondary); }
-  .text-tertiary { color: var(--text-tertiary); }
-  .fw-600 { font-weight: 600; }
-  .fw-700 { font-weight: 700; }
-  .mt-4 { margin-top: 4px; }
-  .mt-8 { margin-top: 8px; }
-  .mt-12 { margin-top: 12px; }
-  .mb-4 { margin-bottom: 4px; }
-  .mb-12 { margin-bottom: 12px; }
-  .mb-20 { margin-bottom: 20px; }
-  .flex { display: flex; }
-  .items-center { align-items: center; }
-  .gap-8 { gap: 8px; }
-  .gap-12 { gap: 12px; }
-  .gap-16 { gap: 16px; }
-  .justify-between { justify-content: space-between; }
-  .flex-1 { flex: 1; }
-  .hidden { display: none; }
-
-  /* SVG icon helper */
-  .icon-svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-  /* ===== Balance Card ===== */
-  .balance-amount { font-size: 28px; font-weight: 700; color: var(--text-primary); }
-  .balance-label { font-size: 13px; color: var(--text-secondary); }
-
-  /* med refill low */
-  .refill-low { color: var(--danger); font-weight: 600; }
-  /* ===== FRONT DOOR NAV ===== */
-  .fd-nav { display:flex; align-items:center; gap:2px; padding:0 24px; background:#fff; border-bottom:1px solid #E5E7EB; position:sticky; top:0; z-index:999; font-family:"Plus Jakarta Sans","Inter",system-ui,sans-serif; }
-  .fd-nav-logo { font-size:13px; font-weight:800; color:#0D875C; margin-right:20px; padding:10px 0; letter-spacing:-0.3px; white-space:nowrap; }
-  .fd-nav a { display:flex; align-items:center; gap:6px; padding:10px 16px; font-size:13px; font-weight:600; color:#6B7280; text-decoration:none; border-bottom:2px solid transparent; transition:all .12s; white-space:nowrap; }
-  .fd-nav a:hover { color:#111827; background:#F8F9FA; }
-  .fd-nav a.fd-active { color:#111827; border-bottom-color:#0D875C; background:#F0FAF5; }
-  .fd-nav-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  :root { --accent: #7C3AED; --accent-light: #F3EEFF; --accent-hover: #6D28D9; }
 </style>
 </head>
 <body>
 
-<!-- ===== FRONT DOOR NAVIGATION ===== -->
+<!-- FD-Nav -->
 <nav class="fd-nav">
-  <span class="fd-nav-logo">VSee Front Door</span>
-  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital Inpatient</a>
-  <a href="frontdoor-outpatient.html" class="fd-active"><span class="fd-nav-dot" style="background:#7C3AED"></span>Hospital Outpatient</a>
-  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster Relief</a>
-  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Field Mission</a>
-  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual Clinic</a>
+  <span class="fd-nav-logo">VSee Platform</span>
+  <a href="frontdoor-patient.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
+  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Inpatient</a>
+  <a href="frontdoor-outpatient.html" class="fd-active"><span class="fd-nav-dot" style="background:#7C3AED"></span>Outpatient</a>
+  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
+  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
+  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
 </nav>
 
-<!-- ===== TOP BAR ===== -->
-<div class="top-bar">
-  <div class="top-bar-left">
-    <div class="logo">VSee<span>Health</span></div>
-    <div style="width:1px;height:24px;background:var(--border);margin:0 4px;"></div>
-    <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">Outpatient Dashboard</span>
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      VSee Health
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-subtitle">Outpatient Dashboard</span>
   </div>
-  <div class="view-tabs">
-    <button class="view-tab active-patient" id="tabPatient" onclick="switchView('patient')">Patient Portal</button>
-    <button class="view-tab" id="tabProvider" onclick="switchView('provider')">Provider View</button>
+  <div class="header-right">
+    <span class="text-sm text-secondary">Apr 7, 2026</span>
+    <div class="user-avatar" style="background:#7C3AED">DR</div>
   </div>
-  <div class="top-bar-right">
-    <span style="font-size:13px;color:var(--text-secondary);" id="topBarDate">Apr 7, 2026</span>
-    <div class="avatar" style="background:var(--purple);" id="topAvatar">SC</div>
-  </div>
-</div>
+</header>
 
-<!-- ================================================================== -->
-<!-- PATIENT PORTAL VIEW -->
-<!-- ================================================================== -->
-<div id="viewPatient">
-  <div class="shell">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="nav-section">
-        <div class="nav-label">My Health</div>
-        <div class="nav-item active-patient">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-          Home
+<!-- App Body -->
+<div class="app-body">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="nav-section">
+      <div class="nav-section-label">Schedule</div>
+      <a class="nav-item active">
+        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Today's Schedule
+        <span class="nav-badge nav-badge-accent">12</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        Waiting Room
+        <span class="nav-badge nav-badge-accent">3</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Checkout Queue
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Clinical</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Patient Charts
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+        Orders
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
+        Referrals
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        AI Scribe
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+        eRx
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+        <span class="nav-badge nav-badge-accent">2</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Admin</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09"/></svg>
+        Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content scroll-y">
+
+    <!-- Stat Cards -->
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-icon accent">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          Appointments
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-          Test Results
-          <span class="nav-badge purple">2</span>
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>
-          Medications
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          Messages
-          <span class="nav-badge purple">1</span>
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-          Billing
+        <div class="stat-content">
+          <div class="stat-label">Today's Patients</div>
+          <div class="stat-value accent">12</div>
         </div>
       </div>
-      <div class="nav-divider"></div>
-      <div class="nav-section">
-        <div class="nav-label">Actions</div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
-          Book Visit
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></div>
-          Refill Rx
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-          My Devices
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-          Settings
+        <div class="stat-content">
+          <div class="stat-label">Checked In</div>
+          <div class="stat-value success">3</div>
         </div>
       </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="main">
-      <!-- Header -->
-      <div class="flex items-center justify-between mb-20">
-        <div>
-          <h2 style="font-size:24px;font-weight:700;">Welcome, Sarah!</h2>
-          <p class="text-sm text-secondary mt-4">VSee Patient Portal</p>
+      <div class="stat-card">
+        <div class="stat-icon info">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
-        <span class="tag tag-purple">Patient View</span>
-      </div>
-
-      <!-- Next Appointment -->
-      <div class="card card-featured-purple">
-        <div class="card-body">
-          <div class="feat-label">Next Appointment</div>
-          <div class="feat-title">Dr. Emily Chen &mdash; Cardiology</div>
-          <div class="feat-sub">Follow-up Consultation</div>
-          <div class="feat-meta">
-            <span>Apr 14, 2026</span>
-            <span>2:30 PM</span>
-            <span>Video Visit</span>
-            <span>30 min</span>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-solid-white">Complete Intake</button>
-            <button class="btn btn-white">Join Video</button>
-            <button class="btn btn-white">Reschedule</button>
-          </div>
+        <div class="stat-content">
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value info">2</div>
         </div>
       </div>
-
-      <div class="grid-2">
-        <!-- Recent Results -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Recent Results</span>
-            <button class="btn btn-outline btn-sm">View All</button>
-          </div>
-          <div class="card-body" style="padding:4px 20px 12px;">
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--info-light);color:var(--info);">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </div>
-              <div class="list-content">
-                <div class="list-title">Blood Panel (CBC)</div>
-                <div class="list-sub">Apr 3, 2026</div>
-              </div>
-              <div class="list-right"><span class="tag tag-new">New</span></div>
-            </div>
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--info-light);color:var(--info);">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </div>
-              <div class="list-content">
-                <div class="list-title">Echocardiogram Report</div>
-                <div class="list-sub">Mar 28, 2026</div>
-              </div>
-              <div class="list-right"><span class="tag tag-new">New</span></div>
-            </div>
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--success-light);color:var(--success);">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              </div>
-              <div class="list-content">
-                <div class="list-title">Hemoglobin A1C</div>
-                <div class="list-sub">Mar 15, 2026</div>
-              </div>
-              <div class="list-right"><span class="text-sm fw-600" style="color:var(--success);">6.1%</span></div>
-            </div>
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--success-light);color:var(--success);">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              </div>
-              <div class="list-content">
-                <div class="list-title">Lipid Panel</div>
-                <div class="list-sub">Mar 15, 2026</div>
-              </div>
-              <div class="list-right"><span class="text-sm fw-600" style="color:var(--text-secondary);">182 mg/dL</span></div>
-            </div>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon brand">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
-
-        <!-- Active Medications -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Active Medications</span>
-            <button class="btn btn-outline btn-sm">Refill Rx</button>
-          </div>
-          <div class="card-body" style="padding:4px 20px 12px;">
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--green-light);color:var(--green);">Rx</div>
-              <div class="list-content">
-                <div class="list-title">Lisinopril 10mg</div>
-                <div class="list-sub">Once daily &middot; Dr. Chen</div>
-              </div>
-              <div class="list-right">
-                <span class="text-sm text-secondary">5 refills left</span>
-              </div>
-            </div>
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--green-light);color:var(--green);">Rx</div>
-              <div class="list-content">
-                <div class="list-title">Metformin 500mg</div>
-                <div class="list-sub">Twice daily &middot; Dr. Chen</div>
-              </div>
-              <div class="list-right">
-                <span class="text-sm text-secondary">3 refills left</span>
-              </div>
-            </div>
-            <div class="list-item">
-              <div class="list-icon" style="background:var(--warning-light);color:var(--warning-dark);">Rx</div>
-              <div class="list-content">
-                <div class="list-title">Atorvastatin 20mg</div>
-                <div class="list-sub">Once daily at bedtime &middot; Dr. Chen</div>
-              </div>
-              <div class="list-right">
-                <span class="text-sm refill-low">1 refill left</span>
-              </div>
-            </div>
-          </div>
+        <div class="stat-content">
+          <div class="stat-label">Completed</div>
+          <div class="stat-value brand">7</div>
         </div>
       </div>
-
-      <div class="grid-2">
-        <!-- Messages -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Messages</span>
-            <button class="btn btn-outline btn-sm">Inbox</button>
-          </div>
-          <div class="card-body" style="padding:8px 20px 12px;">
-            <div class="msg-item">
-              <div class="msg-avatar" style="background:var(--purple-light);color:var(--purple);">EC</div>
-              <div class="msg-body">
-                <div class="msg-from">Dr. Emily Chen</div>
-                <div class="msg-preview">Your echo results look great. I'd like to discuss the blood panel at your next visit...</div>
-              </div>
-              <span class="msg-time">2h ago</span>
-            </div>
-            <div class="msg-item">
-              <div class="msg-avatar" style="background:var(--grey-300);color:var(--text-secondary);">FD</div>
-              <div class="msg-body">
-                <div class="msg-from">Front Desk</div>
-                <div class="msg-preview">Reminder: Please complete your intake form before your April 14 appointment.</div>
-              </div>
-              <span class="msg-time">1d ago</span>
-            </div>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon warning">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
         </div>
-
-        <!-- Balance -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Account Balance</span>
-          </div>
-          <div class="card-body" style="text-align:center;padding:32px 20px;">
-            <div class="balance-label">Outstanding Copay</div>
-            <div class="balance-amount" style="margin:8px 0 4px;">$45.00</div>
-            <div class="text-sm text-secondary mb-12">Cardiology visit &middot; Mar 10, 2026</div>
-            <button class="btn btn-green">Pay Now</button>
-          </div>
+        <div class="stat-content">
+          <div class="stat-label">No-Shows</div>
+          <div class="stat-value" style="color:var(--text-secondary)">0</div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ================================================================== -->
-<!-- PROVIDER VIEW -->
-<!-- ================================================================== -->
-<div id="viewProvider" class="hidden">
-  <div class="shell">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <div class="nav-section">
-        <div class="nav-label">Today</div>
-        <div class="nav-item active-provider">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          My Schedule
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          Waiting Room
-          <span class="nav-badge blue">3</span>
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-          Patient List
-        </div>
+    <!-- Schedule Table -->
+    <div class="card row">
+      <div class="card-header">
+        <div class="card-title">Today's Schedule <span class="card-count">12</span></div>
+        <button class="btn btn-outline btn-sm">Print</button>
       </div>
-      <div class="nav-divider"></div>
-      <div class="nav-section">
-        <div class="nav-label">Tools</div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          Inbox
-          <span class="nav-badge blue">4</span>
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>
-          eRx
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
-          AI Scribe
-        </div>
-        <div class="nav-item">
-          <div class="nav-icon"><svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-          Analytics
-        </div>
+      <div style="overflow-x:auto">
+        <table class="schedule-table">
+          <thead>
+            <tr><th>Time</th><th>Patient</th><th>Type</th><th>Provider</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>8:00 AM</td><td><strong>Sarah Chen</strong></td><td>Follow-up</td><td>Dr. Roberts</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>8:30 AM</td><td><strong>James Miller</strong></td><td>New Patient</td><td>Dr. Roberts</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>9:00 AM</td><td><strong>Maria Garcia</strong></td><td>Telehealth</td><td>Dr. Kim</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>9:30 AM</td><td><strong>Robert Lee</strong></td><td>Follow-up</td><td>Dr. Roberts</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>10:00 AM</td><td><strong>Amy Wong</strong></td><td>Annual Exam</td><td>Dr. Kim</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>10:30 AM</td><td><strong>David Brown</strong></td><td>Lab Review</td><td>Dr. Roberts</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>11:00 AM</td><td><strong>Lisa Park</strong></td><td>Follow-up</td><td>Dr. Kim</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr class="row-active"><td>11:30 AM</td><td><strong>Kevin Tran</strong></td><td>Urgent</td><td>Dr. Roberts</td><td><span class="tag tag-info">In Room</span></td></tr>
+            <tr class="row-waiting"><td>1:00 PM</td><td><strong>Nancy White</strong></td><td>New Patient</td><td>Dr. Kim</td><td><span class="tag tag-warning">Checked In</span></td></tr>
+            <tr class="row-waiting"><td>1:30 PM</td><td><strong>Tom Johnson</strong></td><td>Follow-up</td><td>Dr. Roberts</td><td><span class="tag tag-warning">Checked In</span></td></tr>
+            <tr><td>2:00 PM</td><td><strong>Helen Davis</strong></td><td>Telehealth</td><td>Dr. Kim</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+            <tr><td>2:30 PM</td><td><strong>Chris Wilson</strong></td><td>Follow-up</td><td>Dr. Roberts</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+          </tbody>
+        </table>
       </div>
-    </nav>
+    </div>
 
-    <!-- Main Content -->
-    <div class="main">
-      <!-- Header -->
-      <div class="flex items-center justify-between mb-20">
-        <div>
-          <h2 style="font-size:24px;font-weight:700;">Dr. Emily Chen</h2>
-          <p class="text-sm text-secondary mt-4">Cardiology &middot; Outpatient Clinic A</p>
-        </div>
-        <span class="tag tag-info">Provider View</span>
-      </div>
-
-      <!-- Today's Schedule -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Today's Schedule &mdash; Apr 7, 2026</span>
-          <div class="flex gap-8">
-            <span class="text-sm text-secondary" style="line-height:30px;">5 of 7 slots filled</span>
-            <button class="btn btn-blue btn-sm">Add Walk-in</button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Patient</th>
-                <th>Type</th>
-                <th>Intake</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="white-space:nowrap;">8:00 AM</td>
-                <td><span class="fw-600">James Morton</span><br><span class="text-xs text-secondary">DOB: 05/12/1958</span></td>
-                <td>Follow-up</td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Complete</span></td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Completed</span></td>
-                <td><button class="btn btn-outline btn-sm">Chart</button></td>
-              </tr>
-              <tr>
-                <td style="white-space:nowrap;">8:30 AM</td>
-                <td><span class="fw-600">Maria Santos</span><br><span class="text-xs text-secondary">DOB: 11/03/1975</span></td>
-                <td>New Patient</td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Complete</span></td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Completed</span></td>
-                <td><button class="btn btn-outline btn-sm">Chart</button></td>
-              </tr>
-              <tr>
-                <td style="white-space:nowrap;">9:15 AM</td>
-                <td><span class="fw-600">Robert Kim</span><br><span class="text-xs text-secondary">DOB: 02/28/1962</span></td>
-                <td>Video Visit</td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Complete</span></td>
-                <td><span class="tag tag-info"><span class="dot dot-blue"></span> In Progress</span></td>
-                <td><button class="btn btn-blue btn-sm">Join</button></td>
-              </tr>
-              <tr>
-                <td style="white-space:nowrap;">10:00 AM</td>
-                <td><span class="fw-600">Sarah Connors</span><br><span class="text-xs text-secondary">DOB: 07/19/1988</span></td>
-                <td>Follow-up</td>
-                <td><span class="tag tag-warning"><span class="dot dot-yellow"></span> Partial</span></td>
-                <td><span class="tag tag-warning"><span class="dot dot-yellow"></span> Waiting</span></td>
-                <td><button class="btn btn-outline btn-sm">Check-in</button></td>
-              </tr>
-              <tr>
-                <td style="white-space:nowrap;">10:30 AM</td>
-                <td><span class="fw-600">David Park</span><br><span class="text-xs text-secondary">DOB: 09/05/1970</span></td>
-                <td>Consultation</td>
-                <td><span class="tag tag-neutral"><span class="dot dot-grey"></span> Pending</span></td>
-                <td><span class="tag tag-neutral"><span class="dot dot-grey"></span> Scheduled</span></td>
-                <td><button class="btn btn-outline btn-sm">View</button></td>
-              </tr>
-              <tr>
-                <td style="white-space:nowrap;">11:00 AM</td>
-                <td><span class="fw-600">Linda Tran</span><br><span class="text-xs text-secondary">DOB: 04/22/1983</span></td>
-                <td>Pre-op Eval</td>
-                <td><span class="tag tag-success"><span class="dot dot-green"></span> Complete</span></td>
-                <td><span class="tag tag-neutral"><span class="dot dot-grey"></span> Scheduled</span></td>
-                <td><button class="btn btn-outline btn-sm">View</button></td>
-              </tr>
-              <tr style="opacity:0.55;">
-                <td style="white-space:nowrap;">11:30 AM</td>
-                <td><span class="text-secondary" style="font-style:italic;">Open Slot</span></td>
-                <td>&mdash;</td>
-                <td>&mdash;</td>
-                <td><span class="tag tag-neutral">Open</span></td>
-                <td><button class="btn btn-outline btn-sm">Book</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="grid-2">
+    <!-- Two Column: Waiting Room + Checkout -->
+    <div class="two-col">
+      <div>
         <!-- Waiting Room -->
-        <div class="card card-featured-blue" style="border-radius:var(--r-lg);">
-          <div style="padding:20px 24px 8px;display:flex;align-items:center;justify-content:space-between;">
-            <span style="font-size:16px;font-weight:700;">Waiting Room</span>
-            <span style="font-size:13px;opacity:0.8;">3 patients</span>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Waiting Room <span class="card-count">3</span></div>
           </div>
-          <div style="padding:0 8px 12px;">
-            <div class="wait-item">
-              <div class="wait-avatar">SC</div>
-              <div class="wait-info">
-                <div class="wait-name">Sarah Connors</div>
-                <div class="wait-detail">Follow-up &middot; Intake: Partial &middot; Insurance: Verified</div>
+          <div class="queue-list">
+            <div class="queue-item">
+              <div class="queue-num">KT</div>
+              <div class="queue-info">
+                <div class="queue-name">Kevin Tran</div>
+                <div class="queue-detail">Urgent &middot; Room 3</div>
               </div>
-              <div class="wait-time">4m<small>waiting</small></div>
+              <div class="queue-meta">
+                <span class="tag tag-info">In Room</span>
+                <span class="text-sm text-tertiary">12 min</span>
+              </div>
             </div>
-            <div class="wait-item">
-              <div class="wait-avatar">DP</div>
-              <div class="wait-info">
-                <div class="wait-name">David Park</div>
-                <div class="wait-detail">Consultation &middot; Intake: Pending &middot; Insurance: Pending</div>
+            <div class="queue-item">
+              <div class="queue-num" style="background:var(--warning-dark)">NW</div>
+              <div class="queue-info">
+                <div class="queue-name">Nancy White</div>
+                <div class="queue-detail">New Patient</div>
               </div>
-              <div class="wait-time">12m<small>waiting</small></div>
+              <div class="queue-meta">
+                <span class="tag tag-warning">Waiting</span>
+                <span class="text-sm text-tertiary">8 min</span>
+              </div>
             </div>
-            <div class="wait-item">
-              <div class="wait-avatar">LT</div>
-              <div class="wait-info">
-                <div class="wait-name">Linda Tran</div>
-                <div class="wait-detail">Pre-op Eval &middot; Intake: Complete &middot; Insurance: Verified</div>
+            <div class="queue-item">
+              <div class="queue-num" style="background:var(--warning-dark)">TJ</div>
+              <div class="queue-info">
+                <div class="queue-name">Tom Johnson</div>
+                <div class="queue-detail">Follow-up</div>
               </div>
-              <div class="wait-time">1m<small>waiting</small></div>
+              <div class="queue-meta">
+                <span class="tag tag-warning">Checked In</span>
+                <span class="text-sm text-tertiary">3 min</span>
+              </div>
             </div>
           </div>
         </div>
-
+      </div>
+      <div>
         <!-- Checkout Queue -->
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Checkout Queue</span>
-            <span class="text-sm text-secondary">2 patients</span>
+            <div class="card-title">Checkout Queue</div>
           </div>
-          <div class="card-body" style="padding:8px 20px 16px;">
-            <div class="checkout-item">
-              <div class="list-icon" style="background:var(--success-light);color:var(--success);">JM</div>
-              <div class="list-content">
-                <div class="list-title">James Morton</div>
-                <div class="list-sub">Follow-up completed &middot; Superbill ready</div>
+          <div class="queue-list">
+            <div class="queue-item">
+              <div class="queue-num" style="background:var(--accent)">HP</div>
+              <div class="queue-info">
+                <div class="queue-name">Helen Park</div>
+                <div class="queue-detail">Needs: Follow-up scheduling, Lab orders</div>
               </div>
-              <div class="list-right">
-                <div class="text-sm fw-600" style="color:var(--text-primary);">$30 copay</div>
-                <button class="btn btn-outline btn-sm mt-4">Process</button>
-              </div>
+              <span class="tag tag-accent">Processing</span>
             </div>
-            <div class="checkout-item">
-              <div class="list-icon" style="background:var(--success-light);color:var(--success);">MS</div>
-              <div class="list-content">
-                <div class="list-title">Maria Santos</div>
-                <div class="list-sub">New patient visit &middot; Superbill pending</div>
+            <div class="queue-item">
+              <div class="queue-num" style="background:var(--success)">DB</div>
+              <div class="queue-info">
+                <div class="queue-name">David Brown</div>
+                <div class="queue-detail">Needs: Referral, Prescription</div>
               </div>
-              <div class="list-right">
-                <div class="text-sm fw-600" style="color:var(--text-primary);">$50 copay</div>
-                <button class="btn btn-outline btn-sm mt-4">Process</button>
-              </div>
+              <span class="tag tag-success">Ready</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Workflow Strip -->
-  <div class="workflow-strip">
-    <div class="wf-step done">
-      <span class="wf-dot">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </span>
-      Schedule
+    <!-- Workflow Strip -->
+    <div class="workflow-strip" style="border-radius:var(--r-lg);border:1px solid var(--border)">
+      <div class="wf-step done"><div class="wf-dot">&check;</div> Check-in</div>
+      <span class="wf-arrow">&rarr;</span>
+      <div class="wf-step done"><div class="wf-dot">&check;</div> Vitals</div>
+      <span class="wf-arrow">&rarr;</span>
+      <div class="wf-step current"><div class="wf-dot">3</div> Provider</div>
+      <span class="wf-arrow">&rarr;</span>
+      <div class="wf-step pending"><div class="wf-dot">4</div> Checkout</div>
+      <span class="wf-arrow">&rarr;</span>
+      <div class="wf-step pending"><div class="wf-dot">5</div> Follow-up</div>
     </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step done">
-      <span class="wf-dot">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </span>
-      Insurance
+
+    <!-- Quick Actions -->
+    <div class="quick-bar" style="border-radius:var(--r-lg);border:1px solid var(--border);margin-top:var(--sp-5)">
+      <button class="quick-btn quick-btn--primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Start Visit
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+        eRx
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        AI Scribe
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Message Patient
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </button>
     </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step done">
-      <span class="wf-dot">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </span>
-      Online Intake
-    </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step current">
-      <span class="wf-dot">4</span>
-      Check-in
-    </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step pending">
-      <span class="wf-dot">5</span>
-      Waiting Room
-    </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step pending">
-      <span class="wf-dot">6</span>
-      Visit
-    </div>
-    <span class="wf-arrow">&rarr;</span>
-    <div class="wf-step pending">
-      <span class="wf-dot">7</span>
-      Checkout
-    </div>
-  </div>
+
+  </main>
 </div>
 
-<script>
-function switchView(view) {
-  const patientView = document.getElementById('viewPatient');
-  const providerView = document.getElementById('viewProvider');
-  const tabPatient = document.getElementById('tabPatient');
-  const tabProvider = document.getElementById('tabProvider');
-  const topAvatar = document.getElementById('topAvatar');
-
-  if (view === 'patient') {
-    patientView.classList.remove('hidden');
-    providerView.classList.add('hidden');
-    tabPatient.className = 'view-tab active-patient';
-    tabProvider.className = 'view-tab';
-    topAvatar.style.background = 'var(--purple)';
-    topAvatar.textContent = 'SC';
-  } else {
-    patientView.classList.add('hidden');
-    providerView.classList.remove('hidden');
-    tabPatient.className = 'view-tab';
-    tabProvider.className = 'view-tab active-provider';
-    topAvatar.style.background = 'var(--blue)';
-    topAvatar.textContent = 'EC';
-  }
-}
-</script>
 </body>
 </html>

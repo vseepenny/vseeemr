@@ -3,1065 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSee Mission EMR - Field Mission Dashboard</title>
+<title>VSee Mission EMR — Field Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontdoor-shared.css">
 <style>
-  :root {
-    /* Brand & Primary */
-    --brand-green: #0D875C;
-    --brand-green-hover: #0B7550;
-    --brand-green-light: #E6F5EE;
-    --brand-green-50: #F0FAF5;
-    --accent-green: #10B981;
-
-    /* Text */
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --text-tertiary: #6F7787;
-
-    /* Borders */
-    --border: #E5E7EB;
-    --border-strong: #D1D5DB;
-
-    /* Backgrounds */
-    --white: #FFFFFF;
-    --grey-200: #F8F9FA;
-    --grey-300: #F1F2F4;
-
-    /* Status Colors */
-    --success: #0D875C;
-    --success-light: #E6F5EE;
-    --success-dark: #065F46;
-    --info: #196CD2;
-    --info-light: #E0F2FE;
-    --info-dark: #075985;
-    --warning: #FFCB5A;
-    --warning-light: #FEF3C7;
-    --warning-dark: #92400E;
-    --danger: #DC2626;
-    --danger-light: #FEE2E2;
-    --danger-dark: #991B1B;
-
-    /* Extended palette */
-    --purple: #7C3AED;
-    --purple-light: #EDE9FE;
-    --orange: #F97316;
-    --orange-light: #FFF7ED;
-    --pink: #EC4899;
-    --pink-light: #FDF2F8;
-
-    /* Typography */
-    --font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-    --body: 14px;
-    --caption: 13px;
-    --h5: 16px;
-    --h4: 20px;
-    --h3: 24px;
-
-    /* Spacing */
-    --sp-1: 4px;
-    --sp-2: 8px;
-    --sp-3: 12px;
-    --sp-4: 16px;
-    --sp-5: 20px;
-    --sp-6: 24px;
-    --sp-8: 32px;
-
-    /* Radius */
-    --r-sm: 6px;
-    --r-md: 8px;
-    --r-lg: 12px;
-
-    /* Layout */
-    --nav-width: 240px;
-    --header-height: 56px;
-    --fd-nav-h: 41px;
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: var(--font);
-    font-size: var(--body);
-    color: var(--text-primary);
-    background: var(--grey-200);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ===== HEADER ===== */
-  .header {
-    position: fixed;
-    top: var(--fd-nav-h);
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--sp-6);
-    z-index: 100;
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-  }
-
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    font-size: var(--h5);
-    font-weight: 700;
-    color: var(--brand-green);
-  }
-
-  .header-logo svg {
-    flex-shrink: 0;
-  }
-
-  .header-center {
-    font-size: var(--body);
-    font-weight: 500;
-    color: var(--text-secondary);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-  }
-
-  .header-center strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-  }
-
-  .badge-day {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-1);
-    padding: var(--sp-1) var(--sp-3);
-    background: var(--brand-green-light);
-    color: var(--success-dark);
-    font-size: var(--caption);
-    font-weight: 600;
-    border-radius: 999px;
-  }
-
-  .connectivity {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--caption);
-    color: var(--text-secondary);
-  }
-
-  .connectivity-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-  }
-
-  /* ===== SIDEBAR ===== */
-  .sidebar {
-    position: fixed;
-    top: calc(var(--header-height) + var(--fd-nav-h));
-    left: 0;
-    bottom: 0;
-    width: var(--nav-width);
-    background: var(--white);
-    border-right: 1px solid var(--border);
-    padding: var(--sp-4) 0;
-    overflow-y: auto;
-    z-index: 50;
-  }
-
-  .nav-section {
-    margin-bottom: var(--sp-4);
-  }
-
-  .nav-section-label {
-    padding: var(--sp-2) var(--sp-5);
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-tertiary);
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-    padding: var(--sp-2) var(--sp-5);
-    margin: 1px var(--sp-2);
-    border-radius: var(--r-sm);
-    font-size: var(--body);
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    text-decoration: none;
-  }
-
-  .nav-item:hover {
-    background: var(--grey-200);
-    color: var(--text-primary);
-  }
-
-  .nav-item.active {
-    background: var(--brand-green-light);
-    color: var(--brand-green);
-    font-weight: 600;
-  }
-
-  .nav-item svg {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-  }
-
-  .nav-item .nav-badge {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 22px;
-    height: 20px;
-    padding: 0 6px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    background: var(--brand-green);
-    color: var(--white);
-  }
-
-  .nav-item .nav-label {
-    flex: 1;
-  }
-
-  /* ===== MAIN ===== */
-  .main {
+  :root { --accent: #10B981; --accent-light: #ECFDF5; --accent-hover: #059669; }
+  .header--fixed { position: fixed; top: var(--fd-nav-h); left: 0; right: 0; }
+  .sidebar--fixed { top: calc(var(--header-height) + var(--fd-nav-h)); }
+  .main-content--offset {
     margin-left: var(--nav-width);
     margin-top: calc(var(--header-height) + var(--fd-nav-h));
     padding: var(--sp-6);
     min-height: calc(100vh - var(--header-height) - var(--fd-nav-h));
   }
-
-  /* ===== STAT CARDS ===== */
-  .stat-cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--sp-4);
-    margin-bottom: var(--sp-6);
-  }
-
-  .stat-card {
-    background: var(--white);
-    border-radius: var(--r-lg);
-    padding: var(--sp-5);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-1);
-    transition: box-shadow 0.15s ease;
-  }
-
-  .stat-card:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  }
-
-  .stat-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .stat-card-label {
-    font-size: var(--caption);
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  .stat-card-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--r-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .stat-card-icon svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .stat-card-value {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .stat-card-sub {
-    font-size: 12px;
-    color: var(--text-tertiary);
-  }
-
-  /* ===== TWO COLUMN ===== */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-6);
-    margin-bottom: var(--sp-6);
-  }
-
-  .card {
-    background: var(--white);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--sp-4) var(--sp-5);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .card-title {
-    font-size: var(--h5);
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .card-action {
-    font-size: var(--caption);
-    font-weight: 500;
-    color: var(--brand-green);
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .card-action:hover {
-    color: var(--brand-green-hover);
-  }
-
-  /* ===== QUEUE ===== */
-  .queue-list {
-    padding: var(--sp-2) 0;
-  }
-
-  .queue-item {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-3) var(--sp-5);
-    transition: background 0.12s ease;
-    cursor: pointer;
-    border-bottom: 1px solid var(--grey-300);
-  }
-
-  .queue-item:last-child {
-    border-bottom: none;
-  }
-
-  .queue-item:hover {
-    background: var(--grey-200);
-  }
-
-  .queue-item.faded {
-    opacity: 0.5;
-  }
-
-  .queue-num {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--r-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--h5);
-    font-weight: 700;
-    color: var(--white);
-    flex-shrink: 0;
-  }
-
-  .queue-num.green { background: var(--brand-green); }
-  .queue-num.blue { background: var(--info); }
-  .queue-num.purple { background: var(--purple); }
-  .queue-num.orange { background: var(--orange); }
-  .queue-num.grey { background: var(--border-strong); color: var(--text-secondary); }
-
-  .queue-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .queue-name {
-    font-weight: 600;
-    font-size: var(--body);
-    color: var(--text-primary);
-    margin-bottom: 2px;
-  }
-
-  .queue-cc {
-    font-size: var(--caption);
-    color: var(--text-tertiary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .status-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .status-tag.screening {
-    background: var(--info-light);
-    color: var(--info-dark);
-  }
-
-  .status-tag.vitals {
-    background: var(--warning-light);
-    color: var(--warning-dark);
-  }
-
-  .status-tag.registered {
-    background: var(--grey-300);
-    color: var(--text-secondary);
-  }
-
-  .status-tag.waiting {
-    background: var(--grey-300);
-    color: var(--text-tertiary);
-  }
-
-  /* ===== CONDITIONS CHART ===== */
-  .conditions-list {
-    padding: var(--sp-4) var(--sp-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-  }
-
-  .condition-row {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-1);
-  }
-
-  .condition-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: var(--caption);
-    font-weight: 500;
-  }
-
-  .condition-name {
-    color: var(--text-primary);
-  }
-
-  .condition-count {
-    font-weight: 700;
-    font-size: var(--body);
-  }
-
-  .condition-bar-bg {
-    height: 10px;
-    background: var(--grey-300);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  .condition-bar {
-    height: 100%;
-    border-radius: 999px;
-    transition: width 0.5s ease;
-  }
-
-  /* ===== PHARMACY ===== */
-  .pharmacy-card {
-    background: var(--brand-green-50);
-    border-color: #C6F0DC;
-  }
-
-  .pharmacy-card .card-header {
-    border-bottom-color: #C6F0DC;
-  }
-
-  .med-list {
-    padding: var(--sp-3) var(--sp-5);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .med-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--sp-3) 0;
-    border-bottom: 1px solid #D5EDDF;
-  }
-
-  .med-item:last-child {
-    border-bottom: none;
-  }
-
-  .med-name {
-    font-weight: 600;
-    font-size: var(--body);
-    color: var(--text-primary);
-  }
-
-  .med-stock {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    font-size: var(--caption);
-    font-weight: 600;
-  }
-
-  .med-stock.ok {
-    color: var(--success-dark);
-  }
-
-  .med-stock.low {
-    color: var(--warning-dark);
-  }
-
-  .med-stock.critical {
-    color: var(--danger-dark);
-  }
-
-  .stock-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  .stock-indicator.ok { background: var(--success); }
-  .stock-indicator.low { background: var(--orange); }
-  .stock-indicator.critical { background: var(--danger); }
-
-  .pharmacy-footer {
-    padding: var(--sp-3) var(--sp-5) var(--sp-4);
-  }
-
-  /* ===== BUTTONS ===== */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    padding: var(--sp-2) var(--sp-4);
-    border-radius: var(--r-sm);
-    font-family: var(--font);
-    font-size: var(--body);
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.15s ease;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .btn-primary {
-    background: var(--brand-green);
-    color: var(--white);
-    border-color: var(--brand-green);
-  }
-
-  .btn-primary:hover {
-    background: var(--brand-green-hover);
-    border-color: var(--brand-green-hover);
-  }
-
-  .btn-secondary {
-    background: var(--white);
-    color: var(--text-primary);
-    border-color: var(--border-strong);
-  }
-
-  .btn-secondary:hover {
-    background: var(--grey-200);
-    border-color: var(--text-tertiary);
-  }
-
-  .btn-sm {
-    padding: 5px 12px;
-    font-size: var(--caption);
-  }
-
-  /* ===== BOTTOM BAR ===== */
-  .bottom-bar {
-    background: var(--white);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--border);
-    padding: var(--sp-5);
-    margin-bottom: var(--sp-4);
-  }
-
-  .quick-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-    margin-bottom: var(--sp-5);
-    flex-wrap: wrap;
-  }
-
-  .quick-actions-label {
-    font-size: var(--caption);
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-right: var(--sp-2);
-  }
-
-  .workflow-strip {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: var(--sp-3) var(--sp-4);
-    background: var(--grey-200);
-    border-radius: var(--r-md);
-  }
-
-  .workflow-step {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    font-size: var(--caption);
-    font-weight: 500;
-    color: var(--text-tertiary);
-    padding: 4px 12px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-
-  .workflow-step.current {
-    background: var(--brand-green);
-    color: var(--white);
-    font-weight: 600;
-  }
-
-  .workflow-step.completed {
-    color: var(--brand-green);
-  }
-
-  .workflow-arrow {
-    color: var(--border-strong);
-    margin: 0 2px;
-    flex-shrink: 0;
-  }
-
-  .workflow-arrow svg {
-    display: block;
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 1400px) {
-    .stat-cards {
-      grid-template-columns: repeat(5, 1fr);
-    }
-    .stat-card-value {
-      font-size: 24px;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .two-col {
-      grid-template-columns: 1fr;
-    }
-    .stat-cards {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  /* ===== FRONT DOOR NAV ===== */
-  .fd-nav { display:flex; align-items:center; gap:2px; padding:0 24px; background:#fff; border-bottom:1px solid #E5E7EB; position:sticky; top:0; z-index:999; font-family:"Plus Jakarta Sans","Inter",system-ui,sans-serif; }
-  .fd-nav-logo { font-size:13px; font-weight:800; color:#0D875C; margin-right:20px; padding:10px 0; letter-spacing:-0.3px; white-space:nowrap; }
-  .fd-nav a { display:flex; align-items:center; gap:6px; padding:10px 16px; font-size:13px; font-weight:600; color:#6B7280; text-decoration:none; border-bottom:2px solid transparent; transition:all .12s; white-space:nowrap; }
-  .fd-nav a:hover { color:#111827; background:#F8F9FA; }
-  .fd-nav a.fd-active { color:#111827; border-bottom-color:#0D875C; background:#F0FAF5; }
-  .fd-nav-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 </style>
 </head>
 <body>
 
-<!-- ===== FRONT DOOR NAVIGATION ===== -->
+<!-- FD-Nav -->
 <nav class="fd-nav">
-  <span class="fd-nav-logo">VSee Front Door</span>
-  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital Inpatient</a>
-  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Hospital Outpatient</a>
-  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster Relief</a>
-  <a href="frontdoor-mission.html" class="fd-active"><span class="fd-nav-dot" style="background:#10B981"></span>Field Mission</a>
-  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual Clinic</a>
+  <span class="fd-nav-logo">VSee Platform</span>
+  <a href="frontdoor-patient.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
+  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Inpatient</a>
+  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Outpatient</a>
+  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
+  <a href="frontdoor-mission.html" class="fd-active"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
+  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
 </nav>
 
-<!-- ===== HEADER ===== -->
-<header class="header">
+<!-- Header -->
+<header class="header header--fixed">
   <div class="header-left">
     <div class="header-logo">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#0D875C"/>
-        <path d="M8 14h12M14 8v12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       VSee Mission EMR
     </div>
+    <div class="header-divider"></div>
+    <span class="header-subtitle">Field Mission Dashboard</span>
   </div>
-  <div class="header-center">
-    <strong>Remote Area Medical</strong> &middot; Leyte, Philippines &middot; Day 3 of 5
+  <div style="font-size:var(--fs-body);font-weight:500;color:var(--text-secondary);position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap">
+    <strong style="color:var(--text-primary)">Remote Clinic Alpha</strong> &middot; Guatemala &middot; Apr 7–18, 2026
   </div>
   <div class="header-right">
     <span class="badge-day">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 4v4l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/></svg>
-      Day 3/5
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Day 4 of 12
     </span>
-    <span class="connectivity">
-      <span class="connectivity-dot"></span>
-      Online (3G)
-    </span>
+    <div style="display:flex;align-items:center;gap:6px;font-size:var(--fs-caption);color:var(--text-secondary)">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(16,185,129,0.2)"></span>
+      Online
+    </div>
+    <div class="user-avatar" style="background:var(--accent)">JM</div>
   </div>
 </header>
 
-<!-- ===== SIDEBAR ===== -->
-<nav class="sidebar">
+<!-- Sidebar -->
+<aside class="sidebar sidebar--fixed">
   <div class="nav-section">
-    <div class="nav-section-label">Mission</div>
-    <a class="nav-item active" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span class="nav-label">Dashboard</span>
+    <div class="nav-section-label">Clinic</div>
+    <a class="nav-item active">
+      <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M4 6h12M4 10h12M4 14h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span class="nav-label">Patient Queue</span>
-      <span class="nav-badge">18</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Walk-in Queue
+      <span class="nav-badge nav-badge-accent">6</span>
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M14 6V5a3 3 0 10-6 0v1M4 8a2 2 0 012-2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="1.5"/><path d="M10 11v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span class="nav-label">Registration</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Patient Records
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M5 4h10a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M8 8h4M8 11h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span class="nav-label">Encounter</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
+      Referrals
+      <span class="nav-badge nav-badge-accent">3</span>
     </a>
   </div>
-
   <div class="nav-section">
     <div class="nav-section-label">Pharmacy</div>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M6 3h8l1 4H5l1-4zM5 7h10v8a2 2 0 01-2 2H7a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.5"/><path d="M10 10v4M8 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span class="nav-label">Dispense</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+      Dispense
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M3 10h3l2-5 3 10 2-5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="nav-label">Inventory</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Inventory
     </a>
   </div>
-
   <div class="nav-section">
-    <div class="nav-section-label">Reports</div>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M5 16V9M10 16V4M15 16v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <span class="nav-label">Mission Stats</span>
+    <div class="nav-section-label">Tools</div>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+      AI Scribe
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><path d="M6 14l3-3 2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span class="nav-label">Export Report</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
     </a>
-    <a class="nav-item" href="#">
-      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span class="nav-label">AI Scribe</span>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export Data
+    </a>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83"/></svg>
+      Settings
     </a>
   </div>
-</nav>
+</aside>
 
-<!-- ===== MAIN CONTENT ===== -->
-<main class="main">
+<!-- Main Content -->
+<main class="main-content--offset">
 
   <!-- Stat Cards -->
   <div class="stat-cards">
-    <div class="stat-card">
+    <div class="stat-card stat-card--vertical">
       <div class="stat-card-header">
-        <span class="stat-card-label">Total This Mission</span>
-        <div class="stat-card-icon" style="background: var(--brand-green-light);">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="var(--brand-green)" stroke-width="2" stroke-linecap="round"/></svg>
-        </div>
+        <span class="stat-label">Total Mission</span>
+        <div class="stat-icon accent" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       </div>
-      <div class="stat-card-value" style="color: var(--brand-green);">347</div>
-      <div class="stat-card-sub">patients seen</div>
+      <div class="stat-value accent">187</div>
+      <div class="stat-sub">patients seen</div>
     </div>
-
-    <div class="stat-card">
+    <div class="stat-card stat-card--vertical">
       <div class="stat-card-header">
-        <span class="stat-card-label">Today</span>
-        <div class="stat-card-icon" style="background: var(--info-light);">
-          <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="var(--info)" stroke-width="1.5"/><path d="M2 7h12M5 2v2M11 2v2" stroke="var(--info)" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
+        <span class="stat-label">Today</span>
+        <div class="stat-icon info" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
       </div>
-      <div class="stat-card-value" style="color: var(--info);">142</div>
-      <div class="stat-card-sub">patients today</div>
+      <div class="stat-value info">34</div>
+      <div class="stat-sub">encounters</div>
     </div>
-
-    <div class="stat-card">
+    <div class="stat-card stat-card--vertical">
       <div class="stat-card-header">
-        <span class="stat-card-label">In Queue</span>
-        <div class="stat-card-icon" style="background: var(--purple-light);">
-          <svg viewBox="0 0 16 16" fill="none"><circle cx="5" cy="5" r="2.5" stroke="var(--purple)" stroke-width="1.3"/><circle cx="11" cy="5" r="2.5" stroke="var(--purple)" stroke-width="1.3"/><path d="M1 13c0-2.2 1.8-4 4-4s4 1.8 4 4M7 13c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="var(--purple)" stroke-width="1.3"/></svg>
-        </div>
+        <span class="stat-label">In Queue</span>
+        <div class="stat-icon warning" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       </div>
-      <div class="stat-card-value" style="color: var(--purple);">18</div>
-      <div class="stat-card-sub">waiting now</div>
+      <div class="stat-value warning">6</div>
+      <div class="stat-sub">waiting</div>
     </div>
-
-    <div class="stat-card">
+    <div class="stat-card stat-card--vertical">
       <div class="stat-card-header">
-        <span class="stat-card-label">Referrals Made</span>
-        <div class="stat-card-icon" style="background: var(--orange-light);">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
+        <span class="stat-label">Referrals</span>
+        <div class="stat-icon danger" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg></div>
       </div>
-      <div class="stat-card-value" style="color: var(--orange);">23</div>
-      <div class="stat-card-sub">specialist referrals</div>
+      <div class="stat-value danger">3</div>
+      <div class="stat-sub">pending</div>
     </div>
-
-    <div class="stat-card">
+    <div class="stat-card stat-card--vertical">
       <div class="stat-card-header">
-        <span class="stat-card-label">Meds Dispensed</span>
-        <div class="stat-card-icon" style="background: var(--pink-light);">
-          <svg viewBox="0 0 16 16" fill="none"><rect x="4" y="2" width="8" height="12" rx="4" stroke="var(--pink)" stroke-width="1.3"/><path d="M4 8h8" stroke="var(--pink)" stroke-width="1.3"/></svg>
-        </div>
+        <span class="stat-label">Meds Dispensed</span>
+        <div class="stat-icon brand" style="width:32px;height:32px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>
       </div>
-      <div class="stat-card-value" style="color: var(--pink);">512</div>
-      <div class="stat-card-sub">doses dispensed</div>
+      <div class="stat-value brand">412</div>
+      <div class="stat-sub">total mission</div>
     </div>
   </div>
 
-  <!-- Two Column Layout -->
-  <div class="two-col">
-
+  <!-- Two Column -->
+  <div class="two-col-even row">
     <!-- Walk-in Queue -->
     <div class="card">
       <div class="card-header">
-        <span class="card-title">Walk-in Queue</span>
-        <a class="card-action" href="#">View All</a>
+        <div class="card-title">Walk-in Queue <span class="card-count">6</span></div>
+        <span class="card-action">View All</span>
       </div>
       <div class="queue-list">
         <div class="queue-item">
-          <div class="queue-num green">143</div>
+          <div class="queue-num" style="background:var(--accent)">1</div>
           <div class="queue-info">
-            <div class="queue-name">Maria Santos &middot; F/34</div>
-            <div class="queue-cc">CC: Cough 2 weeks, fever</div>
+            <div class="queue-name">Maria L. &middot; F, 42</div>
+            <div class="queue-detail">Persistent cough, 2 weeks</div>
           </div>
-          <span class="status-tag screening">Screening</span>
+          <div class="queue-meta">
+            <span class="tag tag-warning">Waiting</span>
+            <span class="text-sm text-tertiary">22 min</span>
+          </div>
         </div>
         <div class="queue-item">
-          <div class="queue-num blue">144</div>
+          <div class="queue-num" style="background:var(--accent)">2</div>
           <div class="queue-info">
-            <div class="queue-name">Jose Reyes &middot; M/58</div>
-            <div class="queue-cc">CC: Chest pain, shortness of breath</div>
+            <div class="queue-name">Juan C. &middot; M, 8</div>
+            <div class="queue-detail">Fever, vomiting since yesterday</div>
           </div>
-          <span class="status-tag vitals">Vitals</span>
+          <div class="queue-meta">
+            <span class="tag tag-warning">Waiting</span>
+            <span class="text-sm text-tertiary">18 min</span>
+          </div>
         </div>
         <div class="queue-item">
-          <div class="queue-num purple">145</div>
+          <div class="queue-num" style="background:var(--info)">3</div>
           <div class="queue-info">
-            <div class="queue-name">Ana Cruz &middot; F/7</div>
-            <div class="queue-cc">CC: Skin rash, itching 3 days</div>
+            <div class="queue-name">Rosa M. &middot; F, 65</div>
+            <div class="queue-detail">Diabetes follow-up, wound check</div>
           </div>
-          <span class="status-tag screening">Screening</span>
+          <div class="queue-meta">
+            <span class="tag tag-info">In Exam</span>
+            <span class="text-sm text-tertiary">8 min</span>
+          </div>
         </div>
         <div class="queue-item">
-          <div class="queue-num orange">146</div>
+          <div class="queue-num" style="background:var(--accent)">4</div>
           <div class="queue-info">
-            <div class="queue-name">Ricardo Lim &middot; M/42</div>
-            <div class="queue-cc">CC: Lower back pain, chronic</div>
+            <div class="queue-name">Carlos R. &middot; M, 31</div>
+            <div class="queue-detail">Back pain, lifting injury</div>
           </div>
-          <span class="status-tag registered">Registered</span>
+          <div class="queue-meta">
+            <span class="tag tag-warning">Waiting</span>
+            <span class="text-sm text-tertiary">5 min</span>
+          </div>
         </div>
         <div class="queue-item faded">
-          <div class="queue-num grey">147</div>
+          <div class="queue-num" style="background:var(--success)">5</div>
           <div class="queue-info">
-            <div class="queue-name">Elena Villanueva &middot; F/65</div>
-            <div class="queue-cc">CC: Blurry vision, headache</div>
+            <div class="queue-name">Ana P. &middot; F, 24</div>
+            <div class="queue-detail">Prenatal checkup</div>
           </div>
-          <span class="status-tag waiting">Waiting</span>
+          <div class="queue-meta">
+            <span class="tag tag-success">Done</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Right Column -->
-    <div style="display: flex; flex-direction: column; gap: var(--sp-6);">
-
-      <!-- Top Conditions Today -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Top Conditions Today</span>
-          <a class="card-action" href="#">Full Report</a>
+    <!-- Top Conditions -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Top Conditions (Mission)</div>
+      </div>
+      <div class="conditions-chart">
+        <div class="condition-bar">
+          <span class="condition-label">Respiratory</span>
+          <div class="condition-track"><div class="condition-fill" style="width:78%">42</div></div>
+          <span class="condition-count">42</span>
         </div>
-        <div class="conditions-list">
-          <div class="condition-row">
-            <div class="condition-label">
-              <span class="condition-name">Upper Respiratory Infection</span>
-              <span class="condition-count" style="color: var(--brand-green);">38</span>
-            </div>
-            <div class="condition-bar-bg">
-              <div class="condition-bar" style="width: 72%; background: var(--brand-green);"></div>
-            </div>
-          </div>
-          <div class="condition-row">
-            <div class="condition-label">
-              <span class="condition-name">Skin Infection / Dermatitis</span>
-              <span class="condition-count" style="color: var(--info);">27</span>
-            </div>
-            <div class="condition-bar-bg">
-              <div class="condition-bar" style="width: 52%; background: var(--info);"></div>
-            </div>
-          </div>
-          <div class="condition-row">
-            <div class="condition-label">
-              <span class="condition-name">Hypertension</span>
-              <span class="condition-count" style="color: var(--purple);">20</span>
-            </div>
-            <div class="condition-bar-bg">
-              <div class="condition-bar" style="width: 38%; background: var(--purple);"></div>
-            </div>
-          </div>
-          <div class="condition-row">
-            <div class="condition-label">
-              <span class="condition-name">Musculoskeletal Pain</span>
-              <span class="condition-count" style="color: var(--orange);">17</span>
-            </div>
-            <div class="condition-bar-bg">
-              <div class="condition-bar" style="width: 32%; background: var(--orange);"></div>
-            </div>
-          </div>
-          <div class="condition-row">
-            <div class="condition-label">
-              <span class="condition-name">Dental / Oral</span>
-              <span class="condition-count" style="color: var(--pink);">13</span>
-            </div>
-            <div class="condition-bar-bg">
-              <div class="condition-bar" style="width: 24%; background: var(--pink);"></div>
-            </div>
-          </div>
+        <div class="condition-bar">
+          <span class="condition-label">GI / Diarrheal</span>
+          <div class="condition-track"><div class="condition-fill" style="width:65%">35</div></div>
+          <span class="condition-count">35</span>
+        </div>
+        <div class="condition-bar">
+          <span class="condition-label">Dermatological</span>
+          <div class="condition-track"><div class="condition-fill" style="width:52%">28</div></div>
+          <span class="condition-count">28</span>
+        </div>
+        <div class="condition-bar">
+          <span class="condition-label">Musculoskeletal</span>
+          <div class="condition-track"><div class="condition-fill" style="width:44%">24</div></div>
+          <span class="condition-count">24</span>
+        </div>
+        <div class="condition-bar">
+          <span class="condition-label">Dental</span>
+          <div class="condition-track"><div class="condition-fill" style="width:33%">18</div></div>
+          <span class="condition-count">18</span>
+        </div>
+        <div class="condition-bar">
+          <span class="condition-label">Prenatal</span>
+          <div class="condition-track"><div class="condition-fill" style="width:28%">15</div></div>
+          <span class="condition-count">15</span>
+        </div>
+        <div class="condition-bar">
+          <span class="condition-label">Diabetes</span>
+          <div class="condition-track"><div class="condition-fill" style="width:22%">12</div></div>
+          <span class="condition-count">12</span>
         </div>
       </div>
-
-      <!-- Pharmacy Quick Dispense -->
-      <div class="card pharmacy-card">
-        <div class="card-header">
-          <span class="card-title">Pharmacy -- Quick Dispense</span>
-          <a class="card-action" href="#">Inventory</a>
-        </div>
-        <div class="med-list">
-          <div class="med-item">
-            <div>
-              <div class="med-name">Amoxicillin 500mg</div>
-            </div>
-            <div class="med-stock ok">
-              <span class="stock-indicator ok"></span>
-              240 caps
-            </div>
-          </div>
-          <div class="med-item">
-            <div>
-              <div class="med-name">Ibuprofen 400mg</div>
-            </div>
-            <div class="med-stock ok">
-              <span class="stock-indicator ok"></span>
-              380 tabs
-            </div>
-          </div>
-          <div class="med-item">
-            <div>
-              <div class="med-name">Amlodipine 5mg</div>
-            </div>
-            <div class="med-stock low">
-              <span class="stock-indicator low"></span>
-              45 tabs
-            </div>
-          </div>
-          <div class="med-item">
-            <div>
-              <div class="med-name">Hydrocortisone cream</div>
-            </div>
-            <div class="med-stock critical">
-              <span class="stock-indicator critical"></span>
-              8 tubes
-            </div>
-          </div>
-        </div>
-        <div class="pharmacy-footer">
-          <button class="btn btn-primary btn-sm">Open Dispense Window</button>
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <!-- Bottom Bar -->
-  <div class="bottom-bar">
-    <div class="quick-actions">
-      <span class="quick-actions-label">Quick Actions</span>
-      <button class="btn btn-primary">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        New Registration
-      </button>
-      <button class="btn btn-secondary">Start Encounter</button>
-      <button class="btn btn-secondary">Dispense</button>
-      <button class="btn btn-secondary">AI Scribe</button>
-      <button class="btn btn-secondary">Export Day Report</button>
+  <!-- Pharmacy Dispense -->
+  <div class="card row">
+    <div class="card-header">
+      <div class="card-title">Recent Pharmacy Dispense</div>
+      <span class="card-action">View All</span>
     </div>
-    <div class="workflow-strip">
-      <span class="workflow-step completed">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Walk-in
-      </span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step completed">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Register
-      </span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step current">Screening</span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step">Vitals</span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step">Encounter</span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step">Pharmacy</span>
-      <span class="workflow-arrow"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="workflow-step">Exit</span>
+    <div>
+      <div class="dispense-row">
+        <div class="queue-num" style="background:var(--accent);width:36px;height:36px;font-size:13px;border-radius:var(--r-sm)">Rx</div>
+        <div class="queue-info">
+          <div class="queue-name">Rosa M. — Metformin 500mg</div>
+          <div class="queue-detail">30 tablets &middot; Dispensed by Dr. Martinez</div>
+        </div>
+        <span class="tag tag-success">Dispensed</span>
+      </div>
+      <div class="dispense-row">
+        <div class="queue-num" style="background:var(--accent);width:36px;height:36px;font-size:13px;border-radius:var(--r-sm)">Rx</div>
+        <div class="queue-info">
+          <div class="queue-name">Juan C. — Amoxicillin 250mg</div>
+          <div class="queue-detail">21 capsules &middot; Dispensed by Dr. Martinez</div>
+        </div>
+        <span class="tag tag-success">Dispensed</span>
+      </div>
+      <div class="dispense-row">
+        <div class="queue-num" style="background:var(--warning-dark);width:36px;height:36px;font-size:13px;border-radius:var(--r-sm);color:var(--white)">Rx</div>
+        <div class="queue-info">
+          <div class="queue-name">Maria L. — Pending evaluation</div>
+          <div class="queue-detail">Awaiting diagnosis</div>
+        </div>
+        <span class="tag tag-warning">Pending</span>
+      </div>
     </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-bar" style="border-radius:var(--r-lg);border:1px solid var(--border)">
+    <button class="quick-btn quick-btn--primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Registration
+    </button>
+    <button class="quick-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Start Encounter
+    </button>
+    <button class="quick-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+      Dispense Med
+    </button>
+    <button class="quick-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+      AI Scribe
+    </button>
+    <button class="quick-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export Data
+    </button>
   </div>
 
 </main>

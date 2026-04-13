@@ -3,1289 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSee Virtual Clinic Dashboard</title>
+<title>VSee Virtual Clinic — Provider Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontdoor-shared.css">
 <style>
-:root {
-  --font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
-  --brand: #0D875C;
-  --brand-hover: #0B7550;
-  --brand-light: #E6F5EE;
-  --brand-50: #F0FAF5;
-  --text-primary: #111827;
-  --text-secondary: #6B7280;
-  --text-tertiary: #6F7787;
-  --border: #E5E7EB;
-  --border-strong: #D1D5DB;
-  --white: #FFFFFF;
-  --grey-200: #F8F9FA;
-  --grey-300: #F1F2F4;
-  --success: #0D875C;
-  --success-light: #E6F5EE;
-  --success-dark: #065F46;
-  --info: #196CD2;
-  --info-light: #E0F2FE;
-  --info-dark: #075985;
-  --warning: #FFCB5A;
-  --warning-light: #FEF3C7;
-  --warning-dark: #92400E;
-  --danger: #DC2626;
-  --danger-light: #FEE2E2;
-  --danger-dark: #991B1B;
-  --pink: #EC4899;
-  --pink-hover: #DB2777;
-  --pink-light: #FDF2F8;
-  --pink-50: #FCE7F3;
-  --blue: #3B82F6;
-  --blue-hover: #2563EB;
-  --blue-light: #EFF6FF;
-  --blue-50: #DBEAFE;
-  --r-sm: 6px;
-  --r-md: 8px;
-  --r-lg: 12px;
-  --nav-width: 240px;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: var(--font);
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--grey-200);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── Tabs ── */
-.tab-bar {
-  display: flex;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  position: sticky;
-  top: 41px;
-  z-index: 100;
-}
-.tab-btn {
-  padding: 14px 24px;
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: none;
-  border: none;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tab-btn:hover { color: var(--text-primary); }
-.tab-btn.active-patient { color: var(--pink); border-bottom-color: var(--pink); }
-.tab-btn.active-provider { color: var(--info); border-bottom-color: var(--info); }
-.tab-btn .tab-icon {
-  width: 18px; height: 18px;
-}
-
-.tab-panel { display: none; }
-.tab-panel.active { display: flex; min-height: calc(100vh - 49px); }
-
-/* ── Layout Shell ── */
-.layout {
-  display: flex;
-  width: 100%;
-}
-.sidebar {
-  width: var(--nav-width);
-  min-width: var(--nav-width);
-  background: var(--white);
-  border-right: 1px solid var(--border);
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-}
-.main-area {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Header ── */
-.page-header {
-  padding: 20px 28px;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.page-header h1 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-.header-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  margin-left: 12px;
-}
-.badge-patient { background: var(--pink-50); color: var(--pink); }
-.badge-provider { background: var(--blue-50); color: var(--info); }
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.header-avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--white);
-}
-
-/* ── Sidebar Nav ── */
-.nav-section {
-  padding: 0 12px;
-  margin-bottom: 20px;
-}
-.nav-section-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-tertiary);
-  padding: 0 12px 8px;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--r-sm);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.12s ease;
-  text-decoration: none;
-  position: relative;
-}
-.nav-item:hover { background: var(--grey-200); color: var(--text-primary); }
-.nav-item.active-pink { background: var(--pink-light); color: var(--pink); font-weight: 600; }
-.nav-item.active-blue { background: var(--blue-light); color: var(--info); font-weight: 600; }
-.nav-item .nav-icon {
-  width: 18px; height: 18px; flex-shrink: 0;
-}
-.nav-badge {
-  margin-left: auto;
-  font-size: 11px;
-  font-weight: 700;
-  min-width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 0 6px;
-}
-.nav-badge-pink { background: var(--pink); color: var(--white); }
-.nav-badge-blue { background: var(--info); color: var(--white); }
-.nav-badge-orange { background: #F59E0B; color: var(--white); }
-.nav-badge-warning { background: var(--pink-50); color: var(--pink); }
-
-/* ── Content ── */
-.content {
-  padding: 24px 28px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-/* ── Cards ── */
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.card-header {
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
-.card-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-}
-.card-body { padding: 20px; }
-
-/* ── Grid Layout ── */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-.row { margin-bottom: 20px; }
-
-/* ── Buttons ── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--r-sm);
-  font-family: var(--font);
-  font-size: 13px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-.btn-pink { background: var(--pink); color: var(--white); }
-.btn-pink:hover { background: var(--pink-hover); }
-.btn-blue { background: var(--info); color: var(--white); }
-.btn-blue:hover { background: var(--info-dark); }
-.btn-brand { background: var(--brand); color: var(--white); }
-.btn-brand:hover { background: var(--brand-hover); }
-.btn-outline {
-  background: var(--white);
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-}
-.btn-outline:hover { background: var(--grey-200); color: var(--text-primary); }
-.btn-danger-outline {
-  background: var(--white);
-  color: var(--danger);
-  border: 1px solid var(--danger-light);
-}
-.btn-danger-outline:hover { background: var(--danger-light); }
-.btn-lg { padding: 12px 24px; font-size: 14px; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-
-/* ── Tags ── */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-}
-.tag-success { background: var(--success-light); color: var(--success-dark); }
-.tag-info { background: var(--info-light); color: var(--info-dark); }
-.tag-warning { background: var(--warning-light); color: var(--warning-dark); }
-.tag-danger { background: var(--danger-light); color: var(--danger-dark); }
-.tag-pink { background: var(--pink-50); color: var(--pink); }
-.tag-blue { background: var(--blue-50); color: var(--info); }
-.tag-neutral { background: var(--grey-300); color: var(--text-secondary); }
-
-/* ── Table ── */
-.table-wrap { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-th {
-  text-align: left;
-  padding: 10px 16px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  border-bottom: 1px solid var(--border);
-  background: var(--grey-200);
-}
-td {
-  padding: 12px 16px;
-  font-size: 14px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
-tr:last-child td { border-bottom: none; }
-tr.row-completed { background: var(--success-light); }
-tr.row-active { background: var(--info-light); }
-tr.row-waiting { background: var(--warning-light); }
-
-/* ── Visit Card (Pink) ── */
-.visit-card-pink {
-  background: linear-gradient(135deg, var(--pink-light) 0%, var(--white) 100%);
-  border: 1px solid #F9A8D4;
-}
-.visit-card-pink .visit-time {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--pink);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-.visit-card-pink .visit-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin: 4px 0 2px;
-}
-.visit-card-pink .visit-sub {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-/* ── Active Visit Card (Blue) ── */
-.visit-card-blue {
-  background: linear-gradient(135deg, var(--blue-light) 0%, var(--white) 100%);
-  border: 1px solid #93C5FD;
-}
-
-/* ── RPM Reading ── */
-.rpm-reading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-}
-.rpm-reading:last-child { border-bottom: none; }
-.rpm-label { font-size: 13px; color: var(--text-secondary); }
-.rpm-value { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.rpm-arrow { font-size: 16px; }
-.rpm-arrow.up-bad { color: #F59E0B; }
-.rpm-arrow.down-good { color: var(--success); }
-.rpm-arrow.ok { color: var(--success); }
-
-/* ── Sparkline Placeholder ── */
-.sparkline-placeholder {
-  height: 48px;
-  background: linear-gradient(90deg, var(--grey-300) 0%, var(--border) 50%, var(--grey-300) 100%);
-  border-radius: var(--r-sm);
-  margin-top: 12px;
-  position: relative;
-  overflow: hidden;
-}
-.sparkline-placeholder::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: shimmer 2s infinite;
-}
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-.sparkline-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 11px;
-  color: var(--text-tertiary);
-  z-index: 1;
-}
-
-/* ── Video Placeholder ── */
-.video-area {
-  background: #1F2937;
-  border-radius: var(--r-md);
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.video-area::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, #374151 0%, #1F2937 70%);
-}
-.video-icon {
-  position: relative;
-  z-index: 1;
-  width: 48px;
-  height: 48px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.video-label {
-  position: relative;
-  z-index: 1;
-  color: rgba(255,255,255,0.7);
-  font-size: 13px;
-  margin-top: 10px;
-  font-weight: 500;
-}
-.video-recording {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(220, 38, 38, 0.85);
-  color: var(--white);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-.rec-dot {
-  width: 6px; height: 6px;
-  background: var(--white);
-  border-radius: 50%;
-  animation: pulse 1.5s ease infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-.video-controls {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-.vid-btn {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.12s ease;
-}
-.vid-btn-default { background: rgba(255,255,255,0.15); color: var(--white); }
-.vid-btn-default:hover { background: rgba(255,255,255,0.25); }
-.vid-btn-end { background: var(--danger); color: var(--white); }
-.vid-btn-end:hover { background: var(--danger-dark); }
-
-/* ── Medication Row ── */
-.med-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.med-row:last-child { border-bottom: none; }
-.med-name { font-weight: 600; font-size: 14px; }
-.med-detail { font-size: 13px; color: var(--text-secondary); }
-
-/* ── Care Plan Checklist ── */
-.care-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-}
-.care-check {
-  width: 20px; height: 20px;
-  border-radius: 4px;
-  border: 2px solid var(--border-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.care-check.done {
-  background: var(--success);
-  border-color: var(--success);
-}
-
-/* ── Message Thread ── */
-.msg-thread {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.msg-thread:last-child { border-bottom: none; }
-.msg-avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--white);
-  flex-shrink: 0;
-}
-.msg-sender { font-weight: 600; font-size: 14px; }
-.msg-preview { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.msg-time { font-size: 12px; color: var(--text-tertiary); margin-left: auto; white-space: nowrap; }
-
-/* ── RPM Alert Row ── */
-.alert-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.alert-row:last-child { border-bottom: none; }
-.alert-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* ── Quick Actions ── */
-.quick-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-/* ── Workflow Strip ── */
-.workflow-strip {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 16px 20px;
-  background: var(--grey-200);
-  border-top: 1px solid var(--border);
-  overflow-x: auto;
-}
-.wf-step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-.wf-step.wf-done { color: var(--success-dark); background: var(--success-light); }
-.wf-step.wf-current { color: var(--info-dark); background: var(--info-light); font-weight: 700; }
-.wf-step.wf-pending { color: var(--text-tertiary); }
-.wf-arrow {
-  color: var(--border-strong);
-  margin: 0 4px;
-  flex-shrink: 0;
-}
-
-/* ── Provider Two-Col ── */
-.provider-grid {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: 20px;
-}
-
-/* ── SVG Icons ── */
-.icon { width: 16px; height: 16px; flex-shrink: 0; }
-.icon-sm { width: 14px; height: 14px; }
-
-/* ── Status dot ── */
-.status-dot {
-  width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-}
-
-/* ── Logo ── */
-.logo {
-  padding: 0 24px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 700;
-}
-.logo-mark {
-  width: 28px; height: 28px;
-  border-radius: var(--r-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Misc ── */
-.divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
-.text-sm { font-size: 13px; }
-.text-xs { font-size: 12px; }
-.text-muted { color: var(--text-secondary); }
-.text-success { color: var(--success); }
-.text-danger { color: var(--danger); }
-.text-warning { color: #F59E0B; }
-.fw-600 { font-weight: 600; }
-.mt-12 { margin-top: 12px; }
-.mt-16 { margin-top: 16px; }
-.mb-8 { margin-bottom: 8px; }
-.gap-8 { gap: 8px; }
-.flex { display: flex; }
-.flex-wrap { flex-wrap: wrap; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-12 { gap: 12px; }
-
-  /* ===== FRONT DOOR NAV ===== */
-  .fd-nav { display:flex; align-items:center; gap:2px; padding:0 24px; background:#fff; border-bottom:1px solid #E5E7EB; position:sticky; top:0; z-index:999; font-family:"Plus Jakarta Sans","Inter",system-ui,sans-serif; }
-  .fd-nav-logo { font-size:13px; font-weight:800; color:#0D875C; margin-right:20px; padding:10px 0; letter-spacing:-0.3px; white-space:nowrap; }
-  .fd-nav a { display:flex; align-items:center; gap:6px; padding:10px 16px; font-size:13px; font-weight:600; color:#6B7280; text-decoration:none; border-bottom:2px solid transparent; transition:all .12s; white-space:nowrap; }
-  .fd-nav a:hover { color:#111827; background:#F8F9FA; }
-  .fd-nav a.fd-active { color:#111827; border-bottom-color:#0D875C; background:#F0FAF5; }
-  .fd-nav-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  :root { --accent: #EC4899; --accent-light: #FDF2F8; --accent-hover: #DB2777; }
+  .video-pip {
+    position: absolute; bottom: 12px; right: 12px;
+    width: 140px; height: 100px; border-radius: 8px;
+    background: #2a2a4a; border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: rgba(255,255,255,0.5);
+  }
 </style>
 </head>
 <body>
 
-<!-- ===== FRONT DOOR NAVIGATION ===== -->
+<!-- FD-Nav -->
 <nav class="fd-nav">
-  <span class="fd-nav-logo">VSee Front Door</span>
-  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital Inpatient</a>
-  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Hospital Outpatient</a>
-  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster Relief</a>
-  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Field Mission</a>
-  <a href="frontdoor-virtual.html" class="fd-active"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual Clinic</a>
+  <span class="fd-nav-logo">VSee Platform</span>
+  <a href="frontdoor-patient.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
+  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Inpatient</a>
+  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Outpatient</a>
+  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
+  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
+  <a href="frontdoor-virtual.html" class="fd-active"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
 </nav>
 
-<!-- ═══════════════════ TAB BAR ═══════════════════ -->
-<div class="tab-bar">
-  <button class="tab-btn active-patient" id="tab-patient-btn" onclick="switchTab('patient')">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Patient Experience
-  </button>
-  <button class="tab-btn" id="tab-provider-btn" onclick="switchTab('provider')">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    Provider Experience
-  </button>
-</div>
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      VSee Health
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-subtitle">Virtual Clinic</span>
+  </div>
+  <div class="header-right">
+    <span class="text-sm text-secondary">Apr 7, 2026</span>
+    <div class="online-status"><span class="online-dot"></span> Online</div>
+    <div class="user-avatar" style="background:var(--accent)">SK</div>
+  </div>
+</header>
 
-<!-- ═══════════════════ PATIENT TAB ═══════════════════ -->
-<div class="tab-panel active" id="panel-patient">
-  <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-mark" style="background: var(--pink-50);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EC4899" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+<!-- App Body -->
+<div class="app-body">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="nav-section">
+      <div class="nav-section-label">Schedule</div>
+      <a class="nav-item active">
+        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Today's Schedule
+        <span class="nav-badge nav-badge-accent">8</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Video Visits
+        <span class="nav-badge nav-badge-accent">1</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        RPM Alerts
+        <span class="nav-badge nav-badge-danger">2</span>
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Clinical</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Patient Charts
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+        eRx
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+        Orders
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        AI Scribe
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+        <span class="nav-badge nav-badge-accent">3</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06"/></svg>
+        Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content scroll-y">
+
+    <!-- Schedule Table -->
+    <div class="card row">
+      <div class="card-header">
+        <div class="card-title">Today's Schedule <span class="card-count">8</span></div>
+        <button class="btn btn-outline btn-sm">Print</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="schedule-table">
+          <thead>
+            <tr><th>Time</th><th>Patient</th><th>Type</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>9:00 AM</td><td><strong>Sarah Chen</strong></td><td>Follow-up</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>9:30 AM</td><td><strong>James Miller</strong></td><td>New Patient</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr><td>10:00 AM</td><td><strong>Maria Garcia</strong></td><td>RPM Review</td><td><span class="tag tag-success">Completed</span></td></tr>
+            <tr class="row-active"><td>10:30 AM</td><td><strong>Robert Lee</strong></td><td>Follow-up</td><td><span class="tag tag-info">In Visit</span></td></tr>
+            <tr><td>11:00 AM</td><td><strong>Amy Wong</strong></td><td>Follow-up</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+            <tr><td>11:30 AM</td><td><strong>David Brown</strong></td><td>Urgent</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+            <tr><td>1:00 PM</td><td><strong>Lisa Park</strong></td><td>New Patient</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+            <tr><td>1:30 PM</td><td><strong>Kevin Tran</strong></td><td>RPM Review</td><td><span class="tag tag-neutral">Scheduled</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Two Column: Video + RPM -->
+    <div class="grid-2">
+      <!-- Active Video Visit -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            Active Visit — Robert Lee
+          </div>
+          <span class="tag tag-info">10:30 AM &middot; Follow-up</span>
         </div>
-        <span>VSee Health</span>
+        <div class="card-body" style="padding:0">
+          <div class="video-area">
+            <div style="text-align:center">
+              <div style="font-size:48px;margin-bottom:8px">👤</div>
+              <div>Robert Lee</div>
+              <div class="video-label">Video Connected &middot; 12:34</div>
+            </div>
+            <div class="video-pip">You</div>
+          </div>
+          <div class="video-controls">
+            <button class="video-btn" title="Mute">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            </button>
+            <button class="video-btn" title="Camera">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </button>
+            <button class="video-btn" title="Screen Share">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="video-btn end-call" title="End Call">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="23" y1="1" x2="1" y2="23"/></svg>
+            </button>
+          </div>
+          <div style="padding:0 var(--sp-5) var(--sp-4);display:flex;gap:var(--sp-2)">
+            <button class="btn btn-accent btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+              AI Scribe SOAP
+            </button>
+            <button class="btn btn-outline btn-sm">New Rx</button>
+            <button class="btn btn-outline btn-sm">New Order</button>
+          </div>
+        </div>
       </div>
 
-      <nav class="nav-section">
-        <div class="nav-section-label">My Health</div>
-        <a class="nav-item active-pink" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Home
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Book Visit
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          My Visits
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          RPM
-          <span class="nav-badge nav-badge-warning">!</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          Medications
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          Records
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Messages
-          <span class="nav-badge nav-badge-pink">2</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Payments
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          Care Plan
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main -->
-    <div class="main-area">
-      <div class="page-header">
-        <div class="flex items-center">
-          <h1>Welcome back, James!</h1>
-          <span class="header-badge badge-patient">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Patient
-          </span>
-        </div>
-        <div class="header-right">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <div class="header-avatar" style="background: var(--pink);">JT</div>
-        </div>
-      </div>
-
-      <div class="content">
-        <!-- Row 1 -->
-        <div class="grid-2 row">
-          <!-- Next Visit -->
-          <div class="card visit-card-pink">
-            <div class="card-body">
-              <div class="visit-time">YOUR NEXT VISIT</div>
-              <div class="visit-title">Apr 3, 10:00 AM</div>
-              <div class="visit-sub">Dr. Rachel Kim &mdash; Primary Care</div>
-              <div class="visit-sub mb-8">Video Visit &middot; 20 min &middot; Follow-up: BP management</div>
-              <div class="flex flex-wrap gap-8 mb-8" style="margin-top: 12px;">
-                <span class="tag tag-success">
-                  <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Intake Done
-                </span>
-                <span class="tag tag-success">
-                  <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Insurance Verified
-                </span>
-                <span class="tag tag-success">
-                  <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  Copay Paid
-                </span>
-              </div>
-              <div class="flex flex-wrap gap-8 mt-16">
-                <button class="btn btn-pink btn-lg">
-                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                  Join Video Visit
-                </button>
-                <button class="btn btn-outline">Update Intake</button>
-                <button class="btn btn-outline">Reschedule</button>
-              </div>
+      <!-- RPM Alerts -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              RPM Alerts
             </div>
+            <span class="card-count" style="background:var(--danger)">2</span>
           </div>
-
-          <!-- RPM Health Tracker -->
-          <div class="card">
-            <div class="card-header">
-              <h3>My Health Tracker (RPM)</h3>
-              <span class="tag tag-pink">Live</span>
+          <div>
+            <div class="alert-row">
+              <span class="alert-severity critical">High</span>
+              <span class="alert-patient">Amy Wong</span>
+              <span class="alert-detail">BP 158/96 — above threshold (3 days)</span>
+              <span class="alert-time">1h ago</span>
             </div>
-            <div class="card-body">
-              <div class="rpm-reading">
-                <div>
-                  <div class="rpm-label">Blood Pressure</div>
-                </div>
-                <div class="rpm-value">
-                  138/88 <span class="text-xs">mmHg</span>
-                  <svg class="rpm-arrow up-bad" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-                </div>
-              </div>
-              <div class="rpm-reading">
-                <div>
-                  <div class="rpm-label">Heart Rate</div>
-                </div>
-                <div class="rpm-value">
-                  72 <span class="text-xs">bpm</span>
-                  <svg class="rpm-arrow ok" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-              </div>
-              <div class="rpm-reading">
-                <div>
-                  <div class="rpm-label">Weight</div>
-                </div>
-                <div class="rpm-value">
-                  186 <span class="text-xs">lbs</span>
-                  <svg class="rpm-arrow down-good" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-                </div>
-              </div>
-              <div class="rpm-reading">
-                <div>
-                  <div class="rpm-label">SpO2</div>
-                </div>
-                <div class="rpm-value">
-                  97<span class="text-xs">%</span>
-                  <svg class="rpm-arrow ok" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-              </div>
-              <div class="sparkline-placeholder">
-                <span class="sparkline-label">7-day BP trend</span>
-              </div>
+            <div class="alert-row">
+              <span class="alert-severity warning">Elevated</span>
+              <span class="alert-patient">Kevin Tran</span>
+              <span class="alert-detail">Glucose 245 mg/dL — post-meal spike</span>
+              <span class="alert-time">3h ago</span>
             </div>
           </div>
         </div>
 
-        <!-- Row 2 -->
-        <div class="grid-3 row">
-          <!-- Medications -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Medications</h3>
-              <button class="btn btn-outline btn-sm">Request Refill</button>
+        <!-- Current Patient RPM -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Robert Lee — RPM Data</div>
+          </div>
+          <div class="rpm-list">
+            <div class="rpm-reading">
+              <span class="rpm-label">Blood Pressure</span>
+              <span class="rpm-value">132/84 <small>mmHg</small> <span class="rpm-arrow up-bad">&uarr;</span></span>
             </div>
-            <div class="card-body">
-              <div class="med-row">
-                <div>
-                  <div class="med-name">Losartan 50mg</div>
-                  <div class="med-detail">Once daily &middot; 6 refills left</div>
-                </div>
-                <span class="tag tag-success">Active</span>
-              </div>
-              <div class="med-row">
-                <div>
-                  <div class="med-name">Amlodipine 5mg</div>
-                  <div class="med-detail">Once daily &middot; 4 refills left</div>
-                </div>
-                <span class="tag tag-success">Active</span>
-              </div>
-              <div class="med-row">
-                <div>
-                  <div class="med-name">Atorvastatin 40mg</div>
-                  <div class="med-detail">Nightly &middot; 1 refill left</div>
-                </div>
-                <span class="tag tag-danger">Low Refills</span>
-              </div>
+            <div class="rpm-reading">
+              <span class="rpm-label">Heart Rate</span>
+              <span class="rpm-value">76 <small>bpm</small> <span class="rpm-arrow ok">&check;</span></span>
+            </div>
+            <div class="rpm-reading">
+              <span class="rpm-label">Weight</span>
+              <span class="rpm-value">182 <small>lbs</small> <span class="rpm-arrow up-bad">&uarr;</span></span>
+            </div>
+            <div class="rpm-reading">
+              <span class="rpm-label">Steps (7d avg)</span>
+              <span class="rpm-value">4,200 <small>/day</small> <span class="rpm-arrow down-good">&darr;</span></span>
             </div>
           </div>
+        </div>
 
-          <!-- Care Plan -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Care Plan</h3>
-              <span class="tag tag-success">67% on track</span>
-            </div>
-            <div class="card-body">
-              <div class="care-item">
-                <div class="care-check done">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span>Daily BP reading</span>
-              </div>
-              <div class="care-item">
-                <div class="care-check done">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span>Low-sodium diet</span>
-              </div>
-              <div class="care-item">
-                <div class="care-check"></div>
-                <span>30 min walk 5x/week</span>
-              </div>
-              <div class="care-item">
-                <div class="care-check"></div>
-                <span>Weekly weight check</span>
-              </div>
-            </div>
+        <!-- Messages -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Messages</div>
+            <span class="card-count">3</span>
           </div>
-
-          <!-- Messages -->
-          <div class="card">
-            <div class="card-header">
-              <h3>Messages</h3>
-              <span class="nav-badge nav-badge-pink">2</span>
+          <div class="msg-list">
+            <div class="msg-row">
+              <div class="msg-avatar" style="background:var(--accent)">AW</div>
+              <div class="msg-body">
+                <div class="msg-from">Amy Wong</div>
+                <div class="msg-preview">Dr. Kim, my blood pressure has been higher this week...</div>
+              </div>
+              <span class="msg-time">1h</span>
             </div>
-            <div class="card-body">
-              <div class="msg-thread">
-                <div class="msg-avatar" style="background: var(--pink);">RK</div>
-                <div style="min-width:0;">
-                  <div class="msg-sender">Dr. Kim</div>
-                  <div class="msg-preview">BP trending better &mdash; let's review at your next visit...</div>
-                </div>
-                <span class="msg-time">2h ago</span>
+            <div class="msg-row">
+              <div class="msg-avatar" style="background:#3B82F6">KT</div>
+              <div class="msg-body">
+                <div class="msg-from">Kevin Tran</div>
+                <div class="msg-preview">Should I adjust my insulin dose? My readings have been...</div>
               </div>
-              <div class="msg-thread">
-                <div class="msg-avatar" style="background: var(--info);">Rx</div>
-                <div style="min-width:0;">
-                  <div class="msg-sender">Pharmacy</div>
-                  <div class="msg-preview">Refill ready for pickup &mdash; Atorvastatin 40mg</div>
-                </div>
-                <span class="msg-time">1d ago</span>
+              <span class="msg-time">3h</span>
+            </div>
+            <div class="msg-row">
+              <div class="msg-avatar" style="background:var(--success)">LP</div>
+              <div class="msg-body">
+                <div class="msg-from">Lisa Park</div>
+                <div class="msg-preview">Thank you for the prescription, the pharmacy confirmed...</div>
               </div>
+              <span class="msg-time">5h</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ═══════════════════ PROVIDER TAB ═══════════════════ -->
-<div class="tab-panel" id="panel-provider">
-  <div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-mark" style="background: var(--blue-50);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#196CD2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        </div>
-        <span>VSee Provider</span>
-      </div>
-
-      <nav class="nav-section">
-        <div class="nav-section-label">Today</div>
-        <a class="nav-item active-blue" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Schedule
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          Waiting Room
-          <span class="nav-badge nav-badge-blue">2</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Patients
-        </a>
-      </nav>
-
-      <nav class="nav-section">
-        <div class="nav-section-label">Clinical</div>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 9 8 12 2 12"/></svg>
-          Inbox
-          <span class="nav-badge nav-badge-blue">6</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          eRx / Orders
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          RPM Alerts
-          <span class="nav-badge nav-badge-orange">3</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
-          AI Scribe
-        </a>
-        <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          Analytics
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main -->
-    <div class="main-area">
-      <div class="page-header">
-        <div class="flex items-center">
-          <h1>Dr. Rachel Kim</h1>
-          <span style="color: var(--text-secondary); margin-left: 8px; font-size: 14px;">Primary Care &middot; Virtual Clinic</span>
-          <span class="header-badge badge-provider">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            Provider
-          </span>
-        </div>
-        <div class="header-right">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <div class="header-avatar" style="background: var(--info);">RK</div>
-        </div>
-      </div>
-
-      <div class="content">
-        <div class="provider-grid">
-          <!-- Left Column: Schedule -->
-          <div>
-            <div class="card row">
-              <div class="card-header">
-                <h3>Today &mdash; Apr 1, 2026 (12 patients)</h3>
-                <div class="flex gap-8">
-                  <button class="btn btn-outline btn-sm">
-                    <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    Add Slot
-                  </button>
-                </div>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Time</th>
-                      <th>Patient</th>
-                      <th>Type</th>
-                      <th>Intake</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="row-completed">
-                      <td style="font-weight:600;">8:00 AM</td>
-                      <td>
-                        <div style="font-weight:600;">M. Rodriguez</div>
-                        <div class="text-xs text-muted">Diabetes follow-up</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          Video
-                        </span>
-                      </td>
-                      <td><span class="tag tag-success">Complete</span></td>
-                      <td><span class="tag tag-success">Completed</span></td>
-                    </tr>
-                    <tr class="row-completed">
-                      <td style="font-weight:600;">8:30 AM</td>
-                      <td>
-                        <div style="font-weight:600;">S. Patel</div>
-                        <div class="text-xs text-muted">Annual wellness</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          Video
-                        </span>
-                      </td>
-                      <td><span class="tag tag-success">Complete</span></td>
-                      <td><span class="tag tag-success">Completed</span></td>
-                    </tr>
-                    <tr class="row-active">
-                      <td style="font-weight:600;">9:00 AM</td>
-                      <td>
-                        <div style="font-weight:600;">J. Thompson</div>
-                        <div class="text-xs text-muted">BP management</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          Video
-                        </span>
-                      </td>
-                      <td><span class="tag tag-success">Complete</span></td>
-                      <td><span class="tag tag-info">In Visit</span></td>
-                    </tr>
-                    <tr class="row-waiting">
-                      <td style="font-weight:600;">9:30 AM</td>
-                      <td>
-                        <div style="font-weight:600;">A. Chen</div>
-                        <div class="text-xs text-muted">Anxiety consult</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--warning-dark)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          Video
-                        </span>
-                      </td>
-                      <td><span class="tag tag-success">Complete</span></td>
-                      <td><span class="tag tag-warning">Waiting</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight:600;">10:00 AM</td>
-                      <td>
-                        <div style="font-weight:600;">L. Williams</div>
-                        <div class="text-xs text-muted">Medication review</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91"/></svg>
-                          Phone
-                        </span>
-                      </td>
-                      <td><span class="tag tag-warning">Pending</span></td>
-                      <td><span class="tag tag-neutral">Pending</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-weight:600;">10:30 AM</td>
-                      <td>
-                        <div style="font-weight:600; color: var(--text-tertiary);">&mdash;</div>
-                        <div class="text-xs text-muted">Open slot &middot; Self-bookable</div>
-                      </td>
-                      <td>
-                        <span class="flex items-center gap-8 text-muted">
-                          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          Video
-                        </span>
-                      </td>
-                      <td><span class="tag tag-neutral">&mdash;</span></td>
-                      <td><span class="tag tag-neutral">Open</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Column -->
-          <div>
-            <!-- Active Visit -->
-            <div class="card visit-card-blue row">
-              <div class="card-header">
-                <h3>Active Visit</h3>
-                <span class="tag tag-info">
-                  <span class="status-dot" style="background: var(--info); margin-right: 4px;"></span>
-                  In Progress
-                </span>
-              </div>
-              <div class="card-body">
-                <div class="video-area">
-                  <div class="video-recording">
-                    <span class="rec-dot"></span>
-                    AI Scribe Recording
-                  </div>
-                  <div class="video-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                  </div>
-                  <div class="video-label">J. Thompson &middot; Video Visit</div>
-                  <div class="video-controls">
-                    <button class="vid-btn vid-btn-default" title="Mute">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-                    </button>
-                    <button class="vid-btn vid-btn-default" title="Chart">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    </button>
-                    <button class="vid-btn vid-btn-default" title="Share Screen">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    </button>
-                    <button class="vid-btn vid-btn-end" title="End Call">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.914.338 1.881.512 2.86.51a2 2 0 0 1 2 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.11 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="23" y1="1" x2="1" y2="23"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- RPM Alerts -->
-            <div class="card" style="border-color: #F59E0B;">
-              <div class="card-header" style="border-bottom-color: #FDE68A;">
-                <h3>RPM Alerts</h3>
-                <span class="nav-badge nav-badge-orange">3</span>
-              </div>
-              <div class="card-body">
-                <div class="alert-row">
-                  <span class="alert-dot" style="background: var(--danger);"></span>
-                  <div style="flex:1; min-width:0;">
-                    <div class="fw-600">D. Foster</div>
-                    <div class="text-xs text-muted">BP 162/98 mmHg</div>
-                  </div>
-                  <span class="tag tag-danger">High</span>
-                </div>
-                <div class="alert-row">
-                  <span class="alert-dot" style="background: #F59E0B;"></span>
-                  <div style="flex:1; min-width:0;">
-                    <div class="fw-600">R. Clark</div>
-                    <div class="text-xs text-muted">No readings &mdash; 5 days</div>
-                  </div>
-                  <span class="tag tag-warning">Missing</span>
-                </div>
-                <div class="alert-row">
-                  <span class="alert-dot" style="background: #F59E0B;"></span>
-                  <div style="flex:1; min-width:0;">
-                    <div class="fw-600">A. Nguyen</div>
-                    <div class="text-xs text-muted">Glucose 245 mg/dL</div>
-                  </div>
-                  <span class="tag tag-warning">Elevated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="quick-actions">
-        <span class="text-xs fw-600 text-muted" style="margin-right: 8px;">Quick Actions:</span>
-        <button class="btn btn-blue btn-sm">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/></svg>
-          AI Scribe &rarr; SOAP
-        </button>
-        <button class="btn btn-outline btn-sm">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          New Rx
-        </button>
-        <button class="btn btn-outline btn-sm">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          New Order
-        </button>
-        <button class="btn btn-outline btn-sm">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Message Patient
-        </button>
-        <button class="btn btn-outline btn-sm">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Schedule Follow-up
-        </button>
-      </div>
-
-      <!-- Workflow Strip -->
-      <div class="workflow-strip">
-        <span class="wf-step wf-done">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Patient Books
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-done">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Insurance
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-done">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Pre-Visit Intake
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-done">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Copay
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-done">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Waiting Room
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-current">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-          Video + AI Scribe
-        </span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-pending">Post-Visit (Rx, Orders)</span>
-        <span class="wf-arrow">&rarr;</span>
-        <span class="wf-step wf-pending">Follow-up</span>
-      </div>
+    <!-- Quick Actions -->
+    <div class="quick-bar" style="border-radius:var(--r-lg);border:1px solid var(--border)">
+      <button class="quick-btn quick-btn--primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        AI Scribe SOAP
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+        New Rx
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+        New Order
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Message
+      </button>
+      <button class="quick-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Follow-up
+      </button>
     </div>
-  </div>
+
+  </main>
 </div>
 
-<script>
-function switchTab(tab) {
-  const patientBtn = document.getElementById('tab-patient-btn');
-  const providerBtn = document.getElementById('tab-provider-btn');
-  const patientPanel = document.getElementById('panel-patient');
-  const providerPanel = document.getElementById('panel-provider');
-
-  patientBtn.classList.remove('active-patient');
-  providerBtn.classList.remove('active-provider');
-  patientPanel.classList.remove('active');
-  providerPanel.classList.remove('active');
-
-  if (tab === 'patient') {
-    patientBtn.classList.add('active-patient');
-    patientPanel.classList.add('active');
-  } else {
-    providerBtn.classList.add('active-provider');
-    providerPanel.classList.add('active');
-  }
-}
-</script>
 </body>
 </html>
