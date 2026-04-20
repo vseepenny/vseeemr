@@ -30,6 +30,7 @@
   <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
   <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
   <a href="frontdoor-virtual.html" class="fd-active"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
+  <a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
 </nav>
 
 <!-- Header -->
@@ -87,15 +88,26 @@
       </a>
     </div>
     <div class="nav-section">
-      <div class="nav-section-label">Tools</div>
-      <a class="nav-item">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-        AI Scribe
-      </a>
+      <div class="nav-section-label">VSee Messenger</div>
       <a class="nav-item">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Messages
         <span class="nav-badge nav-badge-accent">3</span>
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Video Call
+      </a>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Channels
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">Tools</div>
+      <a class="nav-item">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        AI Scribe
       </a>
       <a class="nav-item">
         <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
@@ -110,6 +122,7 @@
 
   <!-- Main Content -->
   <main class="main-content scroll-y">
+    <div id="dashboard-view">
 
     <!-- Schedule Table -->
     <div class="card row">
@@ -235,7 +248,7 @@
         <!-- Messages -->
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Recent Messages</div>
+            <div class="card-title">VSee Messenger</div>
             <span class="card-count">3</span>
           </div>
           <div class="msg-list">
@@ -264,6 +277,20 @@
               <span class="msg-time">5h</span>
             </div>
           </div>
+          <div style="padding:0 var(--sp-4) var(--sp-4);display:flex;gap:var(--sp-2)">
+            <button class="btn btn-accent btn-sm" style="--accent:#EC4899">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Message
+            </button>
+            <button class="btn btn-outline btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              Video Call
+            </button>
+            <button class="btn btn-outline btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Channels
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -284,7 +311,7 @@
       </button>
       <button class="quick-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Message
+        Messenger
       </button>
       <button class="quick-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -292,8 +319,119 @@
       </button>
     </div>
 
+    </div>
+    <div id="messenger-view" class="msngr-embedded" style="display:none">
+      <div class="msngr-list">
+        <div class="msngr-list-header">
+          <div class="msngr-list-title">Messages <button title="New chat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
+          <div class="msngr-list-tabs">
+            <button class="msngr-list-tab active">All</button>
+            <button class="msngr-list-tab">Unread</button>
+            <button class="msngr-list-tab">Staff</button>
+            <button class="msngr-list-tab">Patients</button>
+          </div>
+        </div>
+        <div class="msngr-search"><input type="text" placeholder="Search conversations..."></div>
+        <div class="msngr-contacts">
+          <div class="msngr-contact active">
+            <div class="msngr-contact-avatar" style="background:#EC4899">LP<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Lisa Park (Patient) <span class="msngr-contact-time">5m</span></div>
+              <div class="msngr-contact-preview">Thank you for the prescription refill</div>
+            </div>
+            <div class="msngr-contact-badge">1</div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#0EA5E9">KT<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Kevin Tran (Patient) <span class="msngr-contact-time">20m</span></div>
+              <div class="msngr-contact-preview">My glucose was 185 this morning, is that ok?</div>
+            </div>
+            <div class="msngr-contact-badge">1</div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#7C3AED">MA<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">MA — Sarah <span class="msngr-contact-time">1h</span></div>
+              <div class="msngr-contact-preview">Pre-visit intake done for next telehealth</div>
+            </div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#10B981">DK<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Dr. Kim <span class="msngr-contact-time">2h</span></div>
+              <div class="msngr-contact-preview">Can you cover my 3 PM telehealth?</div>
+            </div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#F97316">RX<span class="msngr-contact-status offline"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Pharmacy <span class="msngr-contact-time">3h</span></div>
+              <div class="msngr-contact-preview">Refill approved for Park, ready for pickup</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="msngr-chat">
+        <div class="msngr-chat-header">
+          <div class="msngr-chat-header-avatar" style="background:#EC4899">LP</div>
+          <div class="msngr-chat-header-info">
+            <div class="msngr-chat-header-name">Lisa Park</div>
+            <div class="msngr-chat-header-status"><span class="dot dot-green"></span> Online</div>
+          </div>
+          <span class="hipaa-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> HIPAA</span>
+          <div class="msngr-chat-actions">
+            <button class="msngr-chat-action" title="Video Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button>
+            <button class="msngr-chat-action" title="Expand" onclick="location.href='frontdoor-messenger.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+          </div>
+        </div>
+        <div class="msngr-messages scroll-y">
+          <div class="msngr-msg-date">Today</div>
+          <div class="msngr-bubble-wrap received">
+            <div class="msngr-bubble-avatar" style="background:#EC4899">LP</div>
+            <div><div class="msngr-bubble">Hi Dr. Roberts, I wanted to let you know my pharmacy confirmed the prescription refill. Thank you for sending it so quickly!</div><div class="msngr-bubble-time">2:10 PM · Lisa Park</div></div>
+          </div>
+          <div class="msngr-bubble-wrap sent">
+            <div><div class="msngr-bubble">Glad it went through! Remember to take it with food. How have your symptoms been this week?</div><div class="msngr-bubble-time">2:15 PM <span class="msngr-bubble-check">✓✓</span></div></div>
+          </div>
+          <div class="msngr-bubble-wrap received">
+            <div class="msngr-bubble-avatar" style="background:#EC4899">LP</div>
+            <div><div class="msngr-bubble">Much better actually. The headaches have mostly gone away and my energy levels are improving. I've been keeping my food journal like you suggested.</div><div class="msngr-bubble-time">2:18 PM · Lisa Park</div></div>
+          </div>
+          <div class="msngr-bubble-wrap sent">
+            <div><div class="msngr-bubble">That's great to hear. Bring the food journal to our next telehealth visit on Thursday so we can review it together.</div><div class="msngr-bubble-time">2:22 PM <span class="msngr-bubble-check">✓✓</span></div></div>
+          </div>
+        </div>
+        <div class="msngr-input-bar">
+          <button class="msngr-input-attach" title="Attach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <input type="text" placeholder="Type a message...">
+          <button class="msngr-input-send" title="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
+
+
+<script>
+function showView(view) {
+  var dv = document.getElementById('dashboard-view');
+  var mv = document.getElementById('messenger-view');
+  if (view === 'messenger') { dv.style.display = 'none'; mv.style.display = 'flex'; document.querySelector('.main-content').classList.remove('scroll-y'); }
+  else { dv.style.display = ''; mv.style.display = 'none'; document.querySelector('.main-content').classList.add('scroll-y'); }
+  document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); });
+  if (view === 'messenger') { document.querySelectorAll('.nav-item').forEach(function(el) { if (el.textContent.trim().startsWith('Messages')) el.classList.add('active'); }); }
+  else { document.querySelector('.nav-item').classList.add('active'); }
+}
+document.querySelectorAll('.nav-item').forEach(function(el) {
+  var t = el.textContent.trim();
+  if (t.startsWith('Messages') || t.startsWith('Video Call') || t.startsWith('Channels')) el.addEventListener('click', function() { showView('messenger'); });
+  else el.addEventListener('click', function() { showView('dashboard'); });
+});
+document.querySelectorAll('.quick-btn').forEach(function(el) {
+  if (el.textContent.trim().includes('Messenger')) el.addEventListener('click', function() { showView('messenger'); });
+});
+</script>
 
 </body>
 </html>

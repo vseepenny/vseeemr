@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSee Messenger — HIPAA-Compliant Communication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontdoor-shared.css">
+<style>
+  :root { --accent: #0D875C; --accent-light: #E6F5EE; --accent-hover: #0B7550; }
+  html, body { height: 100%; overflow: hidden; }
+
+  /* Full-page messenger layout */
+  .msngr-app {
+    display: flex;
+    height: calc(100vh - var(--fd-nav-h));
+  }
+
+  /* Icon rail — far left vertical bar */
+  .msngr-rail {
+    width: 56px;
+    background: #1a2332;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .msngr-rail-logo {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .msngr-rail-logo svg { width: 20px; height: 20px; color: #fff; }
+
+  .msngr-rail-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .msngr-rail-btn:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+  .msngr-rail-btn.active { background: rgba(255,255,255,0.15); color: #fff; }
+
+  .msngr-rail-btn svg { width: 20px; height: 20px; }
+
+  .msngr-rail-badge {
+    position: absolute; top: 4px; right: 4px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: #fff;
+    font-size: 9px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .msngr-rail-spacer { flex: 1; }
+
+  .msngr-rail-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  /* Chat list panel */
+  .msngr-list--full {
+    width: 320px;
+    min-width: 320px;
+  }
+
+  .msngr-list-header {
+    padding: 16px 16px 8px;
+    flex-shrink: 0;
+  }
+
+  .msngr-list-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .msngr-list-title button {
+    width: 32px; height: 32px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  .msngr-list-title button:hover { background: var(--grey-200); }
+
+  .msngr-list-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .msngr-list-tab {
+    padding: 6px 14px;
+    border-radius: var(--r-full);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .msngr-list-tab:hover { background: var(--grey-200); }
+  .msngr-list-tab.active {
+    background: var(--brand);
+    color: var(--white);
+    border-color: var(--brand);
+  }
+
+  /* Contact item enhancements for full page */
+  .msngr-contact--full {
+    padding: 12px 16px;
+  }
+
+  .msngr-contact--full .msngr-contact-avatar {
+    width: 46px; height: 46px;
+    font-size: 14px;
+  }
+
+  /* Full-page chat area */
+  .msngr-chat--full {
+    background: #f0f2f5;
+  }
+
+  .msngr-chat-header--full {
+    height: 62px;
+    padding: 0 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .msngr-chat-header--full .msngr-chat-header-avatar {
+    width: 40px; height: 40px;
+    font-size: 14px;
+  }
+
+  .msngr-chat-header--full .msngr-chat-header-name {
+    font-size: 15px;
+  }
+
+  .msngr-messages--full {
+    padding: 24px 32px;
+  }
+
+  .msngr-bubble--lg {
+    padding: 12px 16px;
+    font-size: 14px;
+    max-width: 520px;
+  }
+
+  .msngr-input-bar--full {
+    padding: 12px 24px;
+    gap: 12px;
+  }
+
+  .msngr-input-bar--full input {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  /* Chat info panel (right sidebar) */
+  .msngr-info {
+    width: 280px;
+    min-width: 280px;
+    background: var(--white);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .msngr-info-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .msngr-info-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700;
+    color: #fff;
+  }
+
+  .msngr-info-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .msngr-info-status {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  .msngr-info-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .msngr-info-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+
+  .msngr-info-action-btn:hover { color: var(--brand); }
+
+  .msngr-info-action-btn .msngr-info-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--grey-200);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .msngr-info-action-btn:hover .msngr-info-icon { background: var(--brand-light); }
+
+  .msngr-info-action-btn svg { width: 18px; height: 18px; }
+
+  .msngr-info-section {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .msngr-info-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    margin-bottom: 10px;
+  }
+
+  .msngr-info-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+  }
+
+  .msngr-info-member-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    color: #fff; flex-shrink: 0;
+  }
+
+  .msngr-info-member-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .msngr-info-member-role {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  .hipaa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--r-full);
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 11px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- FD-Nav -->
+<nav class="fd-nav">
+  <span class="fd-nav-logo">VSee Platform</span>
+  <a href="frontdoor-patient.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
+  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Inpatient</a>
+  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Outpatient</a>
+  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
+  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
+  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
+  <a href="frontdoor-messenger.html" class="fd-active"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
+</nav>
+
+<!-- Full-page Messenger App -->
+<div class="msngr-app">
+
+  <!-- Icon Rail -->
+  <div class="msngr-rail">
+    <div class="msngr-rail-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <button class="msngr-rail-btn active" title="Chats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="msngr-rail-badge">5</span>
+    </button>
+    <button class="msngr-rail-btn" title="Contacts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    </button>
+    <button class="msngr-rail-btn" title="Video Calls">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+    </button>
+    <button class="msngr-rail-btn" title="Channels">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="msngr-rail-badge">2</span>
+    </button>
+    <button class="msngr-rail-btn" title="Broadcast">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+    <button class="msngr-rail-btn" title="Files">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </button>
+    <div class="msngr-rail-spacer"></div>
+    <button class="msngr-rail-btn" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>
+    </button>
+    <div class="msngr-rail-avatar">DR</div>
+  </div>
+
+  <!-- Chat List -->
+  <div class="msngr-list msngr-list--full">
+    <div class="msngr-list-header">
+      <div class="msngr-list-title">
+        Chats
+        <button title="New chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="msngr-list-tabs">
+        <button class="msngr-list-tab active">All</button>
+        <button class="msngr-list-tab">Unread</button>
+        <button class="msngr-list-tab">Teams</button>
+        <button class="msngr-list-tab">Patients</button>
+      </div>
+    </div>
+    <div class="msngr-search"><input type="text" placeholder="Search conversations..."></div>
+    <div class="msngr-contacts">
+      <div class="msngr-contact msngr-contact--full active">
+        <div class="msngr-contact-avatar" style="background:#3B82F6">NT<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">3W Nursing Team <span class="msngr-contact-time">5m</span></div>
+          <div class="msngr-contact-preview">Bed 301B vitals update — BP stabilizing after intervention</div>
+        </div>
+        <div class="msngr-contact-badge">2</div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#7C3AED">SP<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Dr. Patel (Cardiology) <span class="msngr-contact-time">18m</span></div>
+          <div class="msngr-contact-preview">Echo results for Bed 304B reviewed — no acute findings</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#EC4899">AW<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Amy Wong (Patient) <span class="msngr-contact-time">1h</span></div>
+          <div class="msngr-contact-preview">My blood pressure has been higher this week...</div>
+        </div>
+        <div class="msngr-contact-badge">1</div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#10B981">PT<span class="msngr-contact-status away"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">PT / Rehab Team <span class="msngr-contact-time">45m</span></div>
+          <div class="msngr-contact-preview">Garcia 303B cleared for ambulation, PT 2x daily</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#F97316">PH<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Pharmacy <span class="msngr-contact-time">1h</span></div>
+          <div class="msngr-contact-preview">Insulin drip order confirmed for Patel 302A</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#6366F1">DK<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Dr. Kim <span class="msngr-contact-time">2h</span></div>
+          <div class="msngr-contact-preview">Can you cover my 2 PM telehealth slot today?</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#EF4444">SW<span class="msngr-contact-status offline"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Social Work — Maria <span class="msngr-contact-time">3h</span></div>
+          <div class="msngr-contact-preview">Discharge planning complete for K. Wong</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#0EA5E9">KT<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Kevin Tran (Patient) <span class="msngr-contact-time">3h</span></div>
+          <div class="msngr-contact-preview">Should I adjust my insulin dose? My readings have been...</div>
+        </div>
+        <div class="msngr-contact-badge">1</div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#8B5CF6">NS<span class="msngr-contact-status offline"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Night Shift Handoff <span class="msngr-contact-time">6h</span></div>
+          <div class="msngr-contact-preview">Shift report: 3 new admits overnight, 1 transfer to ICU</div>
+        </div>
+      </div>
+      <div class="msngr-contact msngr-contact--full">
+        <div class="msngr-contact-avatar" style="background:#14B8A6">LP<span class="msngr-contact-status online"></span></div>
+        <div class="msngr-contact-info">
+          <div class="msngr-contact-name">Lisa Park (Patient) <span class="msngr-contact-time">1d</span></div>
+          <div class="msngr-contact-preview">Thank you for the prescription, pharmacy confirmed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conversation -->
+  <div class="msngr-chat msngr-chat--full" style="flex:1">
+    <div class="msngr-chat-header msngr-chat-header--full">
+      <div class="msngr-chat-header-avatar" style="background:#3B82F6">NT</div>
+      <div class="msngr-chat-header-info">
+        <div class="msngr-chat-header-name">3W Nursing Team</div>
+        <div class="msngr-chat-header-status"><span class="dot dot-green"></span> 4 members online</div>
+      </div>
+      <span class="hipaa-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        HIPAA Encrypted
+      </span>
+      <div class="msngr-chat-actions" style="margin-left:12px">
+        <button class="msngr-chat-action" title="Voice Call">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </button>
+        <button class="msngr-chat-action" title="Video Call" style="background:var(--brand-light);border-color:var(--brand);color:var(--brand)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </button>
+        <button class="msngr-chat-action" title="Screen Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </button>
+        <button class="msngr-chat-action" title="More">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="msngr-messages msngr-messages--full scroll-y">
+      <div class="msngr-msg-date">Today</div>
+
+      <div class="msngr-bubble-wrap received">
+        <div class="msngr-bubble-avatar" style="background:#3B82F6">RN</div>
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Good morning Dr. Roberts. Starting rounds on 3 West. Current census: 24 patients, 3 critical, 5 pending discharge.</div>
+          <div class="msngr-bubble-time">8:02 AM &middot; Nurse Reyes</div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap sent">
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Thanks. Let's prioritize the criticals. What's the latest on Bed 301B?</div>
+          <div class="msngr-bubble-time">8:05 AM <span class="msngr-bubble-check">✓✓</span></div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap received">
+        <div class="msngr-bubble-avatar" style="background:#3B82F6">RN</div>
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">301B (M. Lee) — Rapid response was called at 07:45. Vitals were deteriorating: BP 88/54, HR 112. We started a fluid bolus and vasopressors. Currently stabilizing — BP 102/68, HR 96.</div>
+          <div class="msngr-bubble-time">8:08 AM &middot; Nurse Reyes</div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap sent">
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Good response to fluids. Keep monitoring q15min. I want a repeat lactate and BMP in 2 hours. Also page cardiology for Bed 304B — I want an echo today.</div>
+          <div class="msngr-bubble-time">8:12 AM <span class="msngr-bubble-check">✓✓</span></div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap received">
+        <div class="msngr-bubble-avatar" style="background:#3B82F6">CN</div>
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Charge nurse here. Cardiology paged — Dr. Patel will come by at 10 AM for 304B. Also flagging: bed alarm triggered for that patient 8 min ago. He's restless and pulling at lines. May need a sitter.</div>
+          <div class="msngr-bubble-time">8:15 AM &middot; Charge Nurse Davis</div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap sent">
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Put in the sitter order now. I don't want another fall incident. What about the discharges — where are we with Wong and Martinez?</div>
+          <div class="msngr-bubble-time">8:18 AM <span class="msngr-bubble-check">✓✓</span></div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap received">
+        <div class="msngr-bubble-avatar" style="background:#3B82F6">RN</div>
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Wong (303A): Med reconciliation done, follow-up scheduled, just awaiting transport. ETA 30 min. Martinez (306A): Discharge summary signed, pharmacy working on take-home meds.</div>
+          <div class="msngr-bubble-time">8:22 AM &middot; Nurse Reyes</div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap sent">
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Perfect. Also — Bed 302A glucose came back at 68 earlier. Was hypo protocol started?</div>
+          <div class="msngr-bubble-time">8:25 AM <span class="msngr-bubble-check">✓✓</span></div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap received">
+        <div class="msngr-bubble-avatar" style="background:#3B82F6">RN</div>
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Yes, hypo protocol was initiated per standing orders. Gave D50 push and juice. Repeat glucose in 15 min came back at 98. Patient asymptomatic now. Insulin drip rate adjusted.</div>
+          <div class="msngr-bubble-time">8:28 AM &middot; Nurse Reyes</div>
+        </div>
+      </div>
+
+      <div class="msngr-bubble-wrap sent">
+        <div>
+          <div class="msngr-bubble msngr-bubble--lg">Great catch and response. Let's keep q1h glucose checks for the next 4 hours. I'll update the orders after rounds. Heading up to the floor now.</div>
+          <div class="msngr-bubble-time">8:30 AM <span class="msngr-bubble-check">✓✓</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="msngr-input-bar msngr-input-bar--full">
+      <button class="msngr-input-attach" title="Attach file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <input type="text" placeholder="Type a message...">
+      <button style="width:38px;height:38px;border-radius:50%;border:none;background:var(--grey-200);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Emoji">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      </button>
+      <button class="msngr-input-send" title="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Right Info Panel -->
+  <div class="msngr-info">
+    <div class="msngr-info-header">
+      <div class="msngr-info-avatar" style="background:#3B82F6">NT</div>
+      <div class="msngr-info-name">3W Nursing Team</div>
+      <div class="msngr-info-status"><span class="dot dot-green"></span> 4 of 6 online</div>
+    </div>
+    <div class="msngr-info-actions">
+      <button class="msngr-info-action-btn">
+        <div class="msngr-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        Video
+      </button>
+      <button class="msngr-info-action-btn">
+        <div class="msngr-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/></svg></div>
+        Call
+      </button>
+      <button class="msngr-info-action-btn">
+        <div class="msngr-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        Share
+      </button>
+      <button class="msngr-info-action-btn">
+        <div class="msngr-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+        Scribe
+      </button>
+    </div>
+    <div class="msngr-info-section">
+      <div class="msngr-info-section-title">Members (6)</div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#3B82F6">RR</div>
+        <div class="msngr-info-member-name">Nurse Reyes</div>
+        <div class="msngr-info-member-role"><span class="dot dot-green" style="width:6px;height:6px"></span></div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#3B82F6">CD</div>
+        <div class="msngr-info-member-name">Charge Nurse Davis</div>
+        <div class="msngr-info-member-role"><span class="dot dot-green" style="width:6px;height:6px"></span></div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#3B82F6">JM</div>
+        <div class="msngr-info-member-name">Nurse Martinez</div>
+        <div class="msngr-info-member-role"><span class="dot dot-green" style="width:6px;height:6px"></span></div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#3B82F6">TL</div>
+        <div class="msngr-info-member-name">Nurse Thompson</div>
+        <div class="msngr-info-member-role"><span class="dot dot-green" style="width:6px;height:6px"></span></div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#94A3B8">AK</div>
+        <div class="msngr-info-member-name">Nurse Kim</div>
+        <div class="msngr-info-member-role"><span class="dot dot-grey" style="width:6px;height:6px"></span></div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:#94A3B8">PW</div>
+        <div class="msngr-info-member-name">Nurse Williams</div>
+        <div class="msngr-info-member-role"><span class="dot dot-grey" style="width:6px;height:6px"></span></div>
+      </div>
+    </div>
+    <div class="msngr-info-section">
+      <div class="msngr-info-section-title">Shared Files</div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:var(--info-light);color:var(--info)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="msngr-info-member-name" style="font-size:12px">301B_vitals_chart.pdf</div>
+      </div>
+      <div class="msngr-info-member">
+        <div class="msngr-info-member-avatar" style="background:var(--info-light);color:var(--info)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="msngr-info-member-name" style="font-size:12px">shift_handoff_notes.pdf</div>
+      </div>
+    </div>
+    <div class="msngr-info-section">
+      <div class="msngr-info-section-title">Security</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span class="hipaa-badge" style="align-self:flex-start">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          HIPAA Compliant
+        </span>
+        <span style="font-size:12px;color:var(--text-tertiary)">End-to-end encrypted<br>Messages auto-expire per policy</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

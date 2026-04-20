@@ -39,6 +39,7 @@
   <a href="frontdoor-disaster.html" class="fd-active"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
   <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
   <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
+  <a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
 </nav>
 
 <!-- Dark Header -->
@@ -92,6 +93,26 @@
     </a>
   </div>
   <div class="nav-section">
+    <div class="nav-section-label">VSee Messenger</div>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Messages
+      <span class="nav-badge nav-badge-accent">6</span>
+    </a>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      Video Call
+    </a>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Command Channel
+    </a>
+    <a class="nav-item">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Broadcast
+    </a>
+  </div>
+  <div class="nav-section">
     <div class="nav-section-label">Tools</div>
     <a class="nav-item">
       <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg>
@@ -106,6 +127,7 @@
 
 <!-- Main Content -->
 <main class="main-content--offset scroll-y">
+  <div id="dashboard-view">
 
   <!-- Triage Zone Cards -->
   <div class="triage-grid">
@@ -258,7 +280,144 @@
     </div>
   </div>
 
-</main>
+  <!-- VSee Messenger -->
+  <div class="card" style="margin-top:var(--sp-5)">
+    <div class="card-header">
+      <div class="card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        VSee Messenger
+      </div>
+      <span class="card-count">6</span>
+    </div>
+    <div class="msg-list">
+      <div class="msg-row">
+        <div class="msg-avatar" style="background:#F97316">FC</div>
+        <div class="msg-body">
+          <div class="msg-from">FEMA Command Channel</div>
+          <div class="msg-preview">Sector 7 resupply ETA 14:00 — prioritize chest tube kits</div>
+        </div>
+        <span class="msg-time">8m</span>
+      </div>
+      <div class="msg-row">
+        <div class="msg-avatar" style="background:#EF4444">BC</div>
+        <div class="msg-body">
+          <div class="msg-from">Broadcast — All Staff</div>
+          <div class="msg-preview">Aftershock reported 4.2 magnitude — structural check in progress</div>
+        </div>
+        <span class="msg-time">22m</span>
+      </div>
+    </div>
+    <div style="padding:0 var(--sp-4) var(--sp-4);display:flex;gap:var(--sp-2)">
+      <button class="btn btn-accent btn-sm" style="--accent:#F97316">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Message
+      </button>
+      <button class="btn btn-outline btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Video Call
+      </button>
+      <button class="btn btn-outline btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Broadcast
+      </button>
+    </div>
+  </div>
+
+    </div>
+    <div id="messenger-view" class="msngr-embedded" style="display:none">
+      <div class="msngr-list">
+        <div class="msngr-list-header">
+          <div class="msngr-list-title">Messages <button title="New chat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
+          <div class="msngr-list-tabs">
+            <button class="msngr-list-tab active">All</button>
+            <button class="msngr-list-tab">Unread</button>
+            <button class="msngr-list-tab">Command</button>
+            <button class="msngr-list-tab">Broadcast</button>
+          </div>
+        </div>
+        <div class="msngr-search"><input type="text" placeholder="Search conversations..."></div>
+        <div class="msngr-contacts">
+          <div class="msngr-contact active">
+            <div class="msngr-contact-avatar" style="background:#F97316">FC<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">FEMA Command <span class="msngr-contact-time">2m</span></div>
+              <div class="msngr-contact-preview">Staging area Bravo confirmed operational</div>
+            </div>
+            <div class="msngr-contact-badge">3</div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#EF4444">BC<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Broadcast Channel <span class="msngr-contact-time">10m</span></div>
+              <div class="msngr-contact-preview">ALERT: Category 3 upgraded, mandatory evac Zone A</div>
+            </div>
+            <div class="msngr-contact-badge">1</div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#10B981">MT<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Medical Team Alpha <span class="msngr-contact-time">25m</span></div>
+              <div class="msngr-contact-preview">Triage tent set up, 12 patients processed</div>
+            </div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#3B82F6">LG<span class="msngr-contact-status online"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Logistics / Supply <span class="msngr-contact-time">45m</span></div>
+              <div class="msngr-contact-preview">Medical supplies shipment ETA 2 hours</div>
+            </div>
+          </div>
+          <div class="msngr-contact">
+            <div class="msngr-contact-avatar" style="background:#8B5CF6">RC<span class="msngr-contact-status offline"></span></div>
+            <div class="msngr-contact-info">
+              <div class="msngr-contact-name">Red Cross Liaison <span class="msngr-contact-time">2h</span></div>
+              <div class="msngr-contact-preview">Shelter capacity update: 340/500 occupied</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="msngr-chat">
+        <div class="msngr-chat-header">
+          <div class="msngr-chat-header-avatar" style="background:#F97316">FC</div>
+          <div class="msngr-chat-header-info">
+            <div class="msngr-chat-header-name">FEMA Command</div>
+            <div class="msngr-chat-header-status"><span class="dot dot-green"></span> 8 members online</div>
+          </div>
+          <span class="hipaa-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> HIPAA</span>
+          <div class="msngr-chat-actions">
+            <button class="msngr-chat-action" title="Video Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button>
+            <button class="msngr-chat-action" title="Expand" onclick="location.href='frontdoor-messenger.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+          </div>
+        </div>
+        <div class="msngr-messages scroll-y">
+          <div class="msngr-msg-date">Today</div>
+          <div class="msngr-bubble-wrap received">
+            <div class="msngr-bubble-avatar" style="background:#F97316">FC</div>
+            <div><div class="msngr-bubble">All teams: Hurricane upgraded to Category 3. Mandatory evacuation for Zone A effective immediately. Medical staging at Bravo is operational.</div><div class="msngr-bubble-time">06:15 AM · FEMA Ops</div></div>
+          </div>
+          <div class="msngr-bubble-wrap sent">
+            <div><div class="msngr-bubble">Copy. Medical Team Alpha is set up at Bravo. Triage tent operational, 12 patients triaged so far. Need additional oxygen supplies.</div><div class="msngr-bubble-time">06:22 AM <span class="msngr-bubble-check">✓✓</span></div></div>
+          </div>
+          <div class="msngr-bubble-wrap received">
+            <div class="msngr-bubble-avatar" style="background:#F97316">FC</div>
+            <div><div class="msngr-bubble">Logistics confirms oxygen supply shipment en route. ETA 2 hours. Red Cross shelter at 68% capacity — may need overflow plan.</div><div class="msngr-bubble-time">06:30 AM · FEMA Ops</div></div>
+          </div>
+          <div class="msngr-bubble-wrap sent">
+            <div><div class="msngr-bubble">Understood. We have 3 critical patients needing airlift to regional hospital. Can we get helicopter support?</div><div class="msngr-bubble-time">06:35 AM <span class="msngr-bubble-check">✓✓</span></div></div>
+          </div>
+          <div class="msngr-bubble-wrap received">
+            <div class="msngr-bubble-avatar" style="background:#F97316">FC</div>
+            <div><div class="msngr-bubble">Helicopter dispatched. ETA 40 minutes to Staging Bravo. Have patients prepped for transport. Wind conditions currently acceptable.</div><div class="msngr-bubble-time">06:42 AM · FEMA Ops</div></div>
+          </div>
+        </div>
+        <div class="msngr-input-bar">
+          <button class="msngr-input-attach" title="Attach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <input type="text" placeholder="Type a message...">
+          <button class="msngr-input-send" title="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </main>
 
 <!-- Bottom Quick Actions -->
 <div class="bottom-actions">
@@ -282,7 +441,32 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
     Transport
   </button>
+  <button class="quick-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Messenger
+  </button>
 </div>
+
+
+<script>
+function showView(view) {
+  var dv = document.getElementById('dashboard-view');
+  var mv = document.getElementById('messenger-view');
+  if (view === 'messenger') { dv.style.display = 'none'; mv.style.display = 'flex'; document.querySelector('.main-content--offset').classList.remove('scroll-y'); }
+  else { dv.style.display = ''; mv.style.display = 'none'; document.querySelector('.main-content--offset').classList.add('scroll-y'); }
+  document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); });
+  if (view === 'messenger') { document.querySelectorAll('.nav-item').forEach(function(el) { if (el.textContent.trim().startsWith('Messages')) el.classList.add('active'); }); }
+  else { document.querySelector('.nav-item').classList.add('active'); }
+}
+document.querySelectorAll('.nav-item').forEach(function(el) {
+  var t = el.textContent.trim();
+  if (t.startsWith('Messages') || t.startsWith('Video Call') || t.startsWith('Command Channel') || t.startsWith('Broadcast')) el.addEventListener('click', function(e) { e.preventDefault(); showView('messenger'); });
+  else el.addEventListener('click', function() { showView('dashboard'); });
+});
+document.querySelectorAll('.quick-btn').forEach(function(el) {
+  if (el.textContent.trim().includes('Messenger')) el.addEventListener('click', function(e) { e.preventDefault(); showView('messenger'); });
+});
+</script>
 
 </body>
 </html>
