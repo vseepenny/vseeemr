@@ -177,6 +177,217 @@
   .view-mobile { display: none; }
   body.mobile-active .view-desktop { display: none; }
   body.mobile-active .view-mobile { display: flex; }
+
+  /* === Desktop Sub-View Styles === */
+  .view-page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--sp-6);
+  }
+  .view-page-title {
+    font-size: var(--fs-h3); font-weight: 700; color: var(--text-primary);
+    display: flex; align-items: center; gap: var(--sp-3);
+  }
+  .view-page-subtitle {
+    font-size: var(--fs-caption); color: var(--text-secondary); margin-top: 2px;
+  }
+
+  /* Appointment row */
+  .appt-row {
+    display: flex; align-items: center; gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+  .appt-row:last-child { border-bottom: none; }
+  .appt-row:hover { background: var(--grey-200); }
+  .appt-date-block {
+    width: 52px; height: 56px; border-radius: var(--r-md);
+    background: var(--accent-light); color: var(--accent);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0; font-weight: 700;
+  }
+  .appt-date-block .appt-day { font-size: 20px; line-height: 1; }
+  .appt-date-block .appt-mon { font-size: 11px; text-transform: uppercase; font-weight: 600; }
+  .appt-info { flex: 1; }
+  .appt-provider { font-size: var(--fs-body); font-weight: 600; }
+  .appt-detail { font-size: var(--fs-caption); color: var(--text-secondary); margin-top: 2px; }
+  .appt-meta { display: flex; align-items: center; gap: var(--sp-3); flex-shrink: 0; }
+
+  /* Visit row */
+  .visit-row {
+    display: flex; align-items: flex-start; gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.12s;
+  }
+  .visit-row:last-child { border-bottom: none; }
+  .visit-row:hover { background: var(--grey-200); }
+
+  /* Result row expand */
+  .result-row {
+    padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.12s;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row:hover { background: var(--grey-200); }
+  .result-top { display: flex; align-items: center; gap: var(--sp-4); }
+  .result-detail {
+    display: none; margin-top: var(--sp-3); padding: var(--sp-4);
+    background: var(--grey-200); border-radius: var(--r-md); font-size: var(--fs-caption);
+  }
+  .result-row.expanded .result-detail { display: block; }
+
+  /* RPM device tiles */
+  .rpm-device-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+  .rpm-device-tile {
+    background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
+    padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-2);
+    transition: box-shadow 0.15s;
+  }
+  .rpm-device-tile:hover { box-shadow: var(--shadow-md); }
+  .rpm-device-header { display: flex; align-items: center; justify-content: space-between; }
+  .rpm-device-label { font-size: var(--fs-caption); color: var(--text-secondary); font-weight: 500; }
+  .rpm-device-value { font-size: var(--fs-h3); font-weight: 700; display: flex; align-items: center; gap: var(--sp-2); }
+  .rpm-device-unit { font-size: var(--fs-caption); color: var(--text-secondary); font-weight: 500; }
+  .rpm-device-sync { font-size: 11px; color: var(--text-tertiary); }
+  .rpm-trend-placeholder {
+    width: 100%; height: 200px; background: var(--grey-200); border-radius: var(--r-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-tertiary); font-size: var(--fs-caption); font-weight: 500;
+    border: 1px dashed var(--border-strong);
+  }
+
+  /* Medication full row */
+  .med-full-row {
+    display: flex; align-items: center; gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+  }
+  .med-full-row:last-child { border-bottom: none; }
+  .med-full-row:hover { background: var(--grey-200); }
+  .med-full-details { flex: 1; }
+  .med-full-name { font-weight: 600; font-size: var(--fs-body); }
+  .med-full-sub { font-size: var(--fs-caption); color: var(--text-secondary); margin-top: 2px; }
+  .med-full-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+
+  /* Records doc row */
+  .doc-row {
+    display: flex; align-items: center; gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-row:hover { background: var(--grey-200); }
+  .doc-icon {
+    width: 40px; height: 40px; border-radius: var(--r-md);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .doc-info { flex: 1; }
+  .doc-name { font-weight: 600; font-size: var(--fs-body); }
+  .doc-meta { font-size: var(--fs-caption); color: var(--text-secondary); margin-top: 2px; }
+
+  /* Records filter tabs */
+  .filter-tabs {
+    display: flex; gap: var(--sp-2); padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .filter-tab {
+    padding: 5px 14px; border-radius: var(--r-full); font-family: var(--font);
+    font-size: 12px; font-weight: 600; border: 1px solid var(--border);
+    background: var(--white); color: var(--text-secondary); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-tab:hover { background: var(--grey-200); }
+  .filter-tab.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+  /* Billing */
+  .billing-balance-card {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    border-radius: var(--r-lg); padding: var(--sp-6); color: var(--white); margin-bottom: var(--sp-5);
+  }
+  .billing-balance-amount { font-size: 36px; font-weight: 800; }
+  .billing-balance-label { font-size: var(--fs-caption); opacity: 0.85; margin-top: 2px; }
+  .charge-row {
+    display: flex; align-items: center; gap: var(--sp-4);
+    padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--border);
+  }
+  .charge-row:last-child { border-bottom: none; }
+  .charge-row:hover { background: var(--grey-200); }
+  .charge-date { font-size: var(--fs-caption); color: var(--text-secondary); width: 90px; flex-shrink: 0; }
+  .charge-service { flex: 1; font-weight: 500; }
+  .charge-amount { font-weight: 600; min-width: 80px; text-align: right; }
+
+  /* Care plan goals */
+  .goal-card {
+    border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--sp-5);
+    margin-bottom: var(--sp-4); background: var(--white);
+  }
+  .goal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-3); }
+  .goal-title { font-size: var(--fs-h5); font-weight: 700; }
+  .goal-progress-bar {
+    height: 8px; background: var(--grey-300); border-radius: var(--r-full); overflow: hidden; margin-bottom: var(--sp-3);
+  }
+  .goal-progress-fill { height: 100%; background: var(--accent); border-radius: var(--r-full); }
+  .goal-task {
+    display: flex; align-items: center; gap: var(--sp-3);
+    padding: var(--sp-2) 0; font-size: var(--fs-caption);
+  }
+  .goal-check {
+    width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 10px; color: transparent;
+  }
+  .goal-check.done { background: var(--success); border-color: var(--success); color: var(--white); }
+
+  /* Settings sections */
+  .settings-section {
+    padding: var(--sp-5); border-bottom: 1px solid var(--border);
+  }
+  .settings-section:last-child { border-bottom: none; }
+  .settings-section-title {
+    font-size: var(--fs-h5); font-weight: 700; margin-bottom: var(--sp-4);
+    display: flex; align-items: center; gap: var(--sp-2);
+  }
+  .settings-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--sp-3) 0; border-bottom: 1px solid var(--grey-300);
+  }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-label { font-size: var(--fs-body); font-weight: 500; }
+  .settings-value { font-size: var(--fs-body); color: var(--text-secondary); display: flex; align-items: center; gap: var(--sp-2); }
+  .settings-toggle {
+    width: 40px; height: 22px; border-radius: 11px; background: var(--border-strong);
+    position: relative; cursor: pointer; transition: background 0.2s; border: none;
+  }
+  .settings-toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px; border-radius: 50%; background: var(--white);
+    transition: transform 0.2s;
+  }
+  .settings-toggle.on { background: var(--accent); }
+  .settings-toggle.on::after { transform: translateX(18px); }
+
+  /* Insurance card */
+  .insurance-card {
+    background: var(--grey-200); border-radius: var(--r-lg); padding: var(--sp-5);
+    border: 1px solid var(--border);
+  }
+  .insurance-label { font-size: var(--fs-caption); color: var(--text-secondary); font-weight: 500; }
+  .insurance-value { font-size: var(--fs-body); font-weight: 600; margin-top: 2px; }
+
+  /* Care team member */
+  .team-member {
+    display: flex; align-items: center; gap: var(--sp-3);
+    padding: var(--sp-3) 0;
+  }
+  .team-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: var(--white); flex-shrink: 0;
+  }
+  .team-info { flex: 1; }
+  .team-name { font-weight: 600; font-size: var(--fs-body); }
+  .team-role { font-size: var(--fs-caption); color: var(--text-secondary); }
 </style>
 </head>
 <body>
@@ -185,11 +396,9 @@
 <nav class="fd-nav">
   <span class="fd-nav-logo">VSee Platform</span>
   <a href="frontdoor-patient.html" class="fd-active"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
-  <a href="frontdoor-inpatient.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Inpatient</a>
-  <a href="frontdoor-outpatient.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Outpatient</a>
-  <a href="frontdoor-disaster.html"><span class="fd-nav-dot" style="background:#F97316"></span>Disaster</a>
-  <a href="frontdoor-mission.html"><span class="fd-nav-dot" style="background:#10B981"></span>Mission</a>
-  <a href="frontdoor-virtual.html"><span class="fd-nav-dot" style="background:#EC4899"></span>Virtual</a>
+  <a href="frontdoor-clinic.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Clinic</a>
+  <a href="frontdoor-hospital.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital</a>
+  <a href="frontdoor-fieldops.html"><span class="fd-nav-dot" style="background:#F97316"></span>Field Ops</a>
   <a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
 </nav>
 
@@ -229,39 +438,39 @@
   <aside class="sidebar">
     <div class="nav-section">
       <div class="nav-section-label">My Health</div>
-      <a class="nav-item active">
+      <a class="nav-item active" onclick="showView('dashboard')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Home
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('appointments')">
         <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Appointments
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('visits')">
         <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         My Visits
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('results')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         Test Results
         <span class="nav-badge nav-badge-accent">2</span>
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('rpm')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
         RPM
       </a>
     </div>
     <div class="nav-section">
       <div class="nav-section-label">Records</div>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('medications')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
         Medications
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('records')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
         Medical Records
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('messenger')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         VSee Messenger
         <span class="nav-badge nav-badge-accent">1</span>
@@ -269,15 +478,15 @@
     </div>
     <div class="nav-section">
       <div class="nav-section-label">Account</div>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('billing')">
         <svg class="icon-svg" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         Billing &amp; Payments
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('careplan')">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         Care Plan
       </a>
-      <a class="nav-item">
+      <a class="nav-item" onclick="showView('settings')">
         <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Settings
       </a>
@@ -286,6 +495,8 @@
 
   <!-- Main Content -->
   <main class="main-content scroll-y">
+
+    <!-- ========== HOME / DASHBOARD ========== -->
     <div id="dashboard-view">
     <!-- Featured: Next Appointment -->
     <div class="card card-featured row">
@@ -318,7 +529,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               RPM Health Tracker
             </div>
-            <span class="card-action">View All</span>
+            <span class="card-action" onclick="showView('rpm')">View All</span>
           </div>
           <div class="rpm-list">
             <div class="rpm-reading"><span class="rpm-label">Blood Pressure</span><span class="rpm-value">128/82 <small>mmHg</small> <span class="rpm-arrow up-bad">&uarr;</span></span></div>
@@ -333,7 +544,7 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">Recent Test Results</div>
-            <span class="card-action">View All</span>
+            <span class="card-action" onclick="showView('results')">View All</span>
           </div>
           <div class="queue-list">
             <div class="queue-item">
@@ -358,23 +569,23 @@
       <div>
         <!-- Medications -->
         <div class="card">
-          <div class="card-header"><div class="card-title">Medications</div><span class="card-action">Manage</span></div>
+          <div class="card-header"><div class="card-title">Medications</div><span class="card-action" onclick="showView('medications')">Manage</span></div>
           <div class="med-list">
-            <div class="med-item"><div class="med-icon" style="background:var(--accent-light);color:var(--accent)">💊</div><div class="med-info"><div class="med-name">Metformin 500mg</div><div class="med-dose">Twice daily with meals</div></div><span class="med-refill">Refills: 3</span></div>
-            <div class="med-item"><div class="med-icon" style="background:var(--info-light);color:var(--info)">💊</div><div class="med-info"><div class="med-name">Lisinopril 10mg</div><div class="med-dose">Once daily</div></div><span class="med-refill">Refills: 5</span></div>
-            <div class="med-item"><div class="med-icon" style="background:var(--warning-light);color:var(--warning-dark)">💊</div><div class="med-info"><div class="med-name">Atorvastatin 20mg</div><div class="med-dose">Once at bedtime</div></div><span class="med-refill low">Refill: 1</span></div>
+            <div class="med-item"><div class="med-icon" style="background:var(--accent-light);color:var(--accent)">&#x1F48A;</div><div class="med-info"><div class="med-name">Metformin 500mg</div><div class="med-dose">Twice daily with meals</div></div><span class="med-refill">Refills: 3</span></div>
+            <div class="med-item"><div class="med-icon" style="background:var(--info-light);color:var(--info)">&#x1F48A;</div><div class="med-info"><div class="med-name">Lisinopril 10mg</div><div class="med-dose">Once daily</div></div><span class="med-refill">Refills: 5</span></div>
+            <div class="med-item"><div class="med-icon" style="background:var(--warning-light);color:var(--warning-dark)">&#x1F48A;</div><div class="med-info"><div class="med-name">Atorvastatin 20mg</div><div class="med-dose">Once at bedtime</div></div><span class="med-refill low">Refill: 1</span></div>
           </div>
         </div>
 
         <!-- Messages -->
         <div class="card">
-          <div class="card-header"><div class="card-title">VSee Messenger</div><span class="card-action">View All</span></div>
+          <div class="card-header"><div class="card-title">VSee Messenger</div><span class="card-action" onclick="showView('messenger')">View All</span></div>
           <div class="msg-list">
             <div class="msg-row"><div class="msg-avatar" style="background:#7C3AED">SK</div><div class="msg-body"><div class="msg-from">Dr. Kim</div><div class="msg-preview">Your lab results look good overall. Let's discuss the lipid panel at your next visit.</div></div><span class="msg-time">2h ago</span></div>
             <div class="msg-row"><div class="msg-avatar" style="background:#3B82F6">Rx</div><div class="msg-body"><div class="msg-from">Pharmacy</div><div class="msg-preview">Your prescription refill is ready for pickup at CVS Main St.</div></div><span class="msg-time">1d ago</span></div>
           </div>
           <div style="padding:0 var(--sp-4) var(--sp-4);display:flex;gap:var(--sp-2)">
-            <button class="btn btn-accent btn-sm">
+            <button class="btn btn-accent btn-sm" onclick="showView('messenger')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               Message Provider
             </button>
@@ -391,7 +602,7 @@
           <div class="card-body">
             <div class="balance-amount">$125.00</div>
             <div class="balance-label mb-12">Outstanding balance</div>
-            <div class="btn-group"><button class="btn btn-accent">Pay Now</button><button class="btn btn-outline">View Statements</button></div>
+            <div class="btn-group"><button class="btn btn-accent" onclick="showView('billing')">Pay Now</button><button class="btn btn-outline" onclick="showView('billing')">View Statements</button></div>
           </div>
         </div>
       </div>
@@ -401,7 +612,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Care Plan</div>
-        <span class="card-action">View Full Plan</span>
+        <span class="card-action" onclick="showView('careplan')">View Full Plan</span>
       </div>
       <div class="care-list">
         <div class="care-item"><div class="care-check done">&check;</div><div class="care-task">Annual physical completed</div><div class="care-progress">Done — Mar 2026</div></div>
@@ -412,6 +623,582 @@
       </div>
     </div>
     </div>
+
+    <!-- ========== APPOINTMENTS VIEW ========== -->
+    <div id="appointments-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Appointments
+          </div>
+          <div class="view-page-subtitle">Manage your upcoming and past appointments</div>
+        </div>
+        <button class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Book Appointment
+        </button>
+      </div>
+
+      <!-- Upcoming -->
+      <div class="card row">
+        <div class="card-header">
+          <div class="card-title">Upcoming Appointments</div>
+          <span class="card-count">3</span>
+        </div>
+        <div class="appt-row">
+          <div class="appt-date-block"><span class="appt-day">14</span><span class="appt-mon">Apr</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. Sarah Kim</div>
+            <div class="appt-detail">Follow-up Visit &middot; 2:30 PM &middot; 30 min</div>
+          </div>
+          <div class="appt-meta">
+            <span class="tag tag-info">Video</span>
+            <button class="btn btn-accent btn-sm">Join</button>
+          </div>
+        </div>
+        <div class="appt-row">
+          <div class="appt-date-block"><span class="appt-day">22</span><span class="appt-mon">Apr</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. James Patel</div>
+            <div class="appt-detail">Annual Eye Exam &middot; 10:00 AM &middot; 45 min</div>
+          </div>
+          <div class="appt-meta">
+            <span class="tag tag-neutral">In-Person</span>
+            <span class="text-sm text-secondary">Vision Center, Bldg B</span>
+          </div>
+        </div>
+        <div class="appt-row">
+          <div class="appt-date-block"><span class="appt-day">5</span><span class="appt-mon">May</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. Lisa Chen</div>
+            <div class="appt-detail">Dental Cleaning &middot; 9:00 AM &middot; 60 min</div>
+          </div>
+          <div class="appt-meta">
+            <span class="tag tag-neutral">In-Person</span>
+            <span class="text-sm text-secondary">Dental Office, Suite 200</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Past -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Past Appointments</div>
+        </div>
+        <div class="appt-row" style="opacity:0.7">
+          <div class="appt-date-block" style="background:var(--grey-300);color:var(--text-secondary)"><span class="appt-day">28</span><span class="appt-mon">Mar</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. Sarah Kim</div>
+            <div class="appt-detail">Annual Physical &middot; 11:00 AM &middot; In-Person</div>
+          </div>
+          <div class="appt-meta"><span class="tag tag-success">Completed</span></div>
+        </div>
+        <div class="appt-row" style="opacity:0.7">
+          <div class="appt-date-block" style="background:var(--grey-300);color:var(--text-secondary)"><span class="appt-day">10</span><span class="appt-mon">Mar</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. Robert Nguyen</div>
+            <div class="appt-detail">Cardiology Consult &middot; 3:00 PM &middot; Video</div>
+          </div>
+          <div class="appt-meta"><span class="tag tag-success">Completed</span></div>
+        </div>
+        <div class="appt-row" style="opacity:0.7">
+          <div class="appt-date-block" style="background:var(--grey-300);color:var(--text-secondary)"><span class="appt-day">15</span><span class="appt-mon">Feb</span></div>
+          <div class="appt-info">
+            <div class="appt-provider">Dr. Sarah Kim</div>
+            <div class="appt-detail">Lab Review &middot; 1:00 PM &middot; Video</div>
+          </div>
+          <div class="appt-meta"><span class="tag tag-success">Completed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MY VISITS VIEW ========== -->
+    <div id="visits-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            My Visits
+          </div>
+          <div class="view-page-subtitle">View details and notes from your past visits</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Visit History</div>
+        </div>
+        <div class="visit-row" onclick="this.querySelector('.result-detail').style.display=this.querySelector('.result-detail').style.display==='block'?'none':'block'">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div class="queue-name">Annual Physical</div>
+                <div class="queue-detail">Mar 28, 2026 &middot; Dr. Sarah Kim &middot; In-Person</div>
+              </div>
+              <span class="card-action">View Details</span>
+            </div>
+            <div class="result-detail" style="display:none">
+              <strong>Visit Notes:</strong> Patient presents for annual wellness exam. All vitals within normal range. BMI 24.8. Discussed diet and exercise goals.<br><br>
+              <strong>Diagnoses:</strong> Hypertension (controlled), Type 2 Diabetes (well-managed), Hyperlipidemia<br><br>
+              <strong>Follow-up:</strong> Follow-up in 2 weeks to review lipid panel. Continue current medications. Recommended eye exam within 3 months.
+            </div>
+          </div>
+        </div>
+        <div class="visit-row" onclick="this.querySelector('.result-detail').style.display=this.querySelector('.result-detail').style.display==='block'?'none':'block'">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div class="queue-name">Cardiology Consult</div>
+                <div class="queue-detail">Mar 10, 2026 &middot; Dr. Robert Nguyen &middot; Video</div>
+              </div>
+              <span class="card-action">View Details</span>
+            </div>
+            <div class="result-detail" style="display:none">
+              <strong>Visit Notes:</strong> Cardiac evaluation follow-up. EKG normal sinus rhythm. Blood pressure elevated but improved from last visit. Discussed lifestyle modifications.<br><br>
+              <strong>Diagnoses:</strong> Essential hypertension, Stage 1<br><br>
+              <strong>Follow-up:</strong> Continue Lisinopril 10mg. Monitor BP at home 2x daily. Return in 6 months or sooner if BP rises above 140/90.
+            </div>
+          </div>
+        </div>
+        <div class="visit-row" onclick="this.querySelector('.result-detail').style.display=this.querySelector('.result-detail').style.display==='block'?'none':'block'">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div class="queue-name">Lab Review</div>
+                <div class="queue-detail">Feb 15, 2026 &middot; Dr. Sarah Kim &middot; Video</div>
+              </div>
+              <span class="card-action">View Details</span>
+            </div>
+            <div class="result-detail" style="display:none">
+              <strong>Visit Notes:</strong> Reviewed recent lab work. A1C improved from 7.2 to 6.8. Lipid panel shows borderline LDL at 138. Kidney function normal.<br><br>
+              <strong>Diagnoses:</strong> Type 2 Diabetes (improving), Borderline hyperlipidemia<br><br>
+              <strong>Follow-up:</strong> Increase Atorvastatin to 40mg if LDL does not improve with diet in 3 months. Continue Metformin. Repeat labs in 6 weeks.
+            </div>
+          </div>
+        </div>
+        <div class="visit-row" onclick="this.querySelector('.result-detail').style.display=this.querySelector('.result-detail').style.display==='block'?'none':'block'">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--warning-light);color:var(--warning-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div class="queue-name">Urgent Care Visit</div>
+                <div class="queue-detail">Jan 8, 2026 &middot; Dr. Amy Tran &middot; In-Person</div>
+              </div>
+              <span class="card-action">View Details</span>
+            </div>
+            <div class="result-detail" style="display:none">
+              <strong>Visit Notes:</strong> Patient presented with acute upper respiratory symptoms: cough, congestion, mild fever (100.2F). Lungs clear. Rapid strep/flu negative.<br><br>
+              <strong>Diagnoses:</strong> Acute upper respiratory infection (viral)<br><br>
+              <strong>Follow-up:</strong> Rest, fluids, OTC decongestant as needed. Return if symptoms worsen or fever above 102F persists more than 3 days.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TEST RESULTS VIEW ========== -->
+    <div id="results-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Test Results
+            <span class="nav-badge nav-badge-accent" style="font-size:12px">2 New</span>
+          </div>
+          <div class="view-page-subtitle">View your lab work and diagnostic test results</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">All Results</div>
+        </div>
+        <div class="result-row" onclick="this.classList.toggle('expanded')">
+          <div class="result-top">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="queue-name">Comprehensive Metabolic Panel <span class="tag tag-info" style="margin-left:8px">New</span></div>
+              <div class="queue-detail">Apr 10, 2026 &middot; Ordered by Dr. Kim</div>
+            </div>
+            <span class="tag tag-success">Normal</span>
+          </div>
+          <div class="result-detail">
+            <table style="width:100%;font-size:13px;border-collapse:collapse">
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">Glucose</td><td>95 mg/dL</td><td style="color:var(--text-secondary)">70-100 mg/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">BUN</td><td>18 mg/dL</td><td style="color:var(--text-secondary)">7-20 mg/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">Creatinine</td><td>1.0 mg/dL</td><td style="color:var(--text-secondary)">0.7-1.3 mg/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr><td style="padding:6px 0;font-weight:600">Sodium</td><td>140 mEq/L</td><td style="color:var(--text-secondary)">136-145 mEq/L</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="result-row" onclick="this.classList.toggle('expanded')">
+          <div class="result-top">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="queue-name">CBC Panel <span class="tag tag-info" style="margin-left:8px">New</span></div>
+              <div class="queue-detail">Apr 2, 2026 &middot; Ordered by Dr. Kim</div>
+            </div>
+            <span class="tag tag-success">Normal</span>
+          </div>
+          <div class="result-detail">
+            <table style="width:100%;font-size:13px;border-collapse:collapse">
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">WBC</td><td>7.2 K/uL</td><td style="color:var(--text-secondary)">4.5-11.0 K/uL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">RBC</td><td>4.8 M/uL</td><td style="color:var(--text-secondary)">4.2-5.9 M/uL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">Hemoglobin</td><td>14.5 g/dL</td><td style="color:var(--text-secondary)">12.0-17.5 g/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr><td style="padding:6px 0;font-weight:600">Platelets</td><td>250 K/uL</td><td style="color:var(--text-secondary)">150-400 K/uL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="result-row" onclick="this.classList.toggle('expanded')">
+          <div class="result-top">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--warning-light);color:var(--warning-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="queue-name">Lipid Panel</div>
+              <div class="queue-detail">Mar 28, 2026 &middot; Ordered by Dr. Kim</div>
+            </div>
+            <span class="tag tag-warning">Review</span>
+          </div>
+          <div class="result-detail">
+            <table style="width:100%;font-size:13px;border-collapse:collapse">
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">Total Cholesterol</td><td>218 mg/dL</td><td style="color:var(--text-secondary)">&lt;200 mg/dL</td><td><span class="tag tag-warning" style="font-size:11px">High</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">LDL</td><td>138 mg/dL</td><td style="color:var(--text-secondary)">&lt;100 mg/dL</td><td><span class="tag tag-warning" style="font-size:11px">High</span></td></tr>
+              <tr style="border-bottom:1px solid var(--border)"><td style="padding:6px 0;font-weight:600">HDL</td><td>52 mg/dL</td><td style="color:var(--text-secondary)">&gt;40 mg/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+              <tr><td style="padding:6px 0;font-weight:600">Triglycerides</td><td>145 mg/dL</td><td style="color:var(--text-secondary)">&lt;150 mg/dL</td><td><span class="tag tag-success" style="font-size:11px">Normal</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="result-row" onclick="this.classList.toggle('expanded')">
+          <div class="result-top">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="queue-name">HbA1c</div>
+              <div class="queue-detail">Mar 15, 2026 &middot; Ordered by Dr. Kim</div>
+            </div>
+            <span class="tag tag-success">Normal</span>
+          </div>
+          <div class="result-detail">
+            <table style="width:100%;font-size:13px;border-collapse:collapse">
+              <tr><td style="padding:6px 0;font-weight:600">HbA1c</td><td>6.8%</td><td style="color:var(--text-secondary)">&lt;7.0% (diabetic target)</td><td><span class="tag tag-success" style="font-size:11px">At Target</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="result-row">
+          <div class="result-top">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--grey-300);color:var(--text-tertiary);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="flex:1">
+              <div class="queue-name">Thyroid Panel (TSH, T3, T4)</div>
+              <div class="queue-detail">Apr 10, 2026 &middot; Ordered by Dr. Kim</div>
+            </div>
+            <span class="tag tag-neutral">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== RPM VIEW ========== -->
+    <div id="rpm-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Remote Patient Monitoring
+          </div>
+          <div class="view-page-subtitle">Track your health vitals from connected devices</div>
+        </div>
+        <button class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Sync Now
+        </button>
+      </div>
+
+      <div class="rpm-device-grid">
+        <div class="rpm-device-tile">
+          <div class="rpm-device-header">
+            <div class="rpm-device-label">Blood Pressure</div>
+            <span class="tag tag-warning" style="font-size:11px">&uarr; Elevated</span>
+          </div>
+          <div class="rpm-device-value">128/82 <span class="rpm-device-unit">mmHg</span></div>
+          <div class="rpm-device-sync">Last synced: Today, 8:15 AM</div>
+        </div>
+        <div class="rpm-device-tile">
+          <div class="rpm-device-header">
+            <div class="rpm-device-label">Blood Glucose</div>
+            <span class="tag tag-success" style="font-size:11px">&darr; Improving</span>
+          </div>
+          <div class="rpm-device-value">108 <span class="rpm-device-unit">mg/dL</span></div>
+          <div class="rpm-device-sync">Last synced: Today, 7:30 AM</div>
+        </div>
+        <div class="rpm-device-tile">
+          <div class="rpm-device-header">
+            <div class="rpm-device-label">Weight</div>
+            <span class="tag tag-success" style="font-size:11px">&rarr; Stable</span>
+          </div>
+          <div class="rpm-device-value">165.2 <span class="rpm-device-unit">lbs</span></div>
+          <div class="rpm-device-sync">Last synced: Today, 7:00 AM</div>
+        </div>
+        <div class="rpm-device-tile">
+          <div class="rpm-device-header">
+            <div class="rpm-device-label">SpO2</div>
+            <span class="tag tag-success" style="font-size:11px">&check; Normal</span>
+          </div>
+          <div class="rpm-device-value">98<span class="rpm-device-unit">%</span></div>
+          <div class="rpm-device-sync">Last synced: Today, 8:15 AM</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Blood Pressure Trends (Last 30 Days)</div>
+        </div>
+        <div class="card-body">
+          <div class="rpm-trend-placeholder">
+            <div style="text-align:center">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--border-strong)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <div style="margin-top:8px">Blood Pressure Trend Chart</div>
+              <div style="font-size:11px;color:var(--text-tertiary);margin-top:4px">Systolic: 122-134 mmHg &middot; Diastolic: 78-86 mmHg</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <div class="card-title">Connected Devices</div>
+        </div>
+        <div class="queue-list">
+          <div class="queue-item">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">&#x2764;</div>
+            <div class="queue-info"><div class="queue-name">Omron BP Monitor</div><div class="queue-detail">Connected &middot; Battery: 85%</div></div>
+            <span class="tag tag-success">Active</span>
+          </div>
+          <div class="queue-item">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">&#x1F4A7;</div>
+            <div class="queue-info"><div class="queue-name">Accu-Chek Glucose Monitor</div><div class="queue-detail">Connected &middot; Battery: 72%</div></div>
+            <span class="tag tag-success">Active</span>
+          </div>
+          <div class="queue-item">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">&#x2696;</div>
+            <div class="queue-info"><div class="queue-name">Withings Body Scale</div><div class="queue-detail">Connected &middot; Battery: 90%</div></div>
+            <span class="tag tag-success">Active</span>
+          </div>
+          <div class="queue-item">
+            <div style="width:40px;height:40px;border-radius:8px;background:var(--warning-light);color:var(--warning-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">&#x1F4A8;</div>
+            <div class="queue-info"><div class="queue-name">Masimo Pulse Oximeter</div><div class="queue-detail">Connected &middot; Battery: 45%</div></div>
+            <span class="tag tag-warning">Low Battery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MEDICATIONS VIEW ========== -->
+    <div id="medications-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+            Medications
+          </div>
+          <div class="view-page-subtitle">Your current prescriptions and refill status</div>
+        </div>
+        <button class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Request Refill
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Current Medications</div>
+          <span class="card-count">4</span>
+        </div>
+        <div class="med-full-row">
+          <div class="med-icon" style="background:var(--accent-light);color:var(--accent);font-size:18px">&#x1F48A;</div>
+          <div class="med-full-details">
+            <div class="med-full-name">Metformin 500mg</div>
+            <div class="med-full-sub">Twice daily with meals &middot; Prescribed by Dr. Kim &middot; CVS Pharmacy, Main St</div>
+          </div>
+          <div class="med-full-right">
+            <span class="tag tag-success">Active</span>
+            <span class="text-sm text-secondary">Refills: 3</span>
+          </div>
+        </div>
+        <div class="med-full-row">
+          <div class="med-icon" style="background:var(--info-light);color:var(--info);font-size:18px">&#x1F48A;</div>
+          <div class="med-full-details">
+            <div class="med-full-name">Lisinopril 10mg</div>
+            <div class="med-full-sub">Once daily in the morning &middot; Prescribed by Dr. Nguyen &middot; CVS Pharmacy, Main St</div>
+          </div>
+          <div class="med-full-right">
+            <span class="tag tag-success">Active</span>
+            <span class="text-sm text-secondary">Refills: 5</span>
+          </div>
+        </div>
+        <div class="med-full-row">
+          <div class="med-icon" style="background:var(--warning-light);color:var(--warning-dark);font-size:18px">&#x1F48A;</div>
+          <div class="med-full-details">
+            <div class="med-full-name">Atorvastatin 20mg</div>
+            <div class="med-full-sub">Once daily at bedtime &middot; Prescribed by Dr. Kim &middot; CVS Pharmacy, Main St</div>
+          </div>
+          <div class="med-full-right">
+            <span class="tag tag-danger">Low Refills</span>
+            <span class="text-sm" style="color:var(--danger);font-weight:600">Refill: 1</span>
+          </div>
+        </div>
+        <div class="med-full-row">
+          <div class="med-icon" style="background:var(--grey-300);color:var(--text-secondary);font-size:18px">&#x1F48A;</div>
+          <div class="med-full-details">
+            <div class="med-full-name">Aspirin 81mg (Low-Dose)</div>
+            <div class="med-full-sub">Once daily with breakfast &middot; OTC &middot; Self-managed</div>
+          </div>
+          <div class="med-full-right">
+            <span class="tag tag-neutral">OTC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <div class="card-title">Pharmacy Information</div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:var(--sp-6)">
+            <div style="flex:1">
+              <div style="font-weight:600;margin-bottom:4px">CVS Pharmacy</div>
+              <div class="text-sm text-secondary">1234 Main Street, Suite 100<br>San Jose, CA 95112<br>(408) 555-0123</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:600;margin-bottom:4px">Hours</div>
+              <div class="text-sm text-secondary">Mon-Fri: 8:00 AM - 9:00 PM<br>Sat: 9:00 AM - 6:00 PM<br>Sun: 10:00 AM - 5:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MEDICAL RECORDS VIEW ========== -->
+    <div id="records-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+            Medical Records
+          </div>
+          <div class="view-page-subtitle">Access your health documents and reports</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-tabs">
+          <button class="filter-tab active">All Records</button>
+          <button class="filter-tab">Lab Reports</button>
+          <button class="filter-tab">Imaging</button>
+          <button class="filter-tab">Visit Notes</button>
+          <button class="filter-tab">Discharge Summaries</button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--info-light);color:var(--info)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Comprehensive Metabolic Panel</div>
+            <div class="doc-meta">Lab Report &middot; Apr 10, 2026 &middot; Dr. Kim</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--info-light);color:var(--info)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">CBC Panel Results</div>
+            <div class="doc-meta">Lab Report &middot; Apr 2, 2026 &middot; Dr. Kim</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--accent-light);color:var(--accent)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Annual Physical — Visit Notes</div>
+            <div class="doc-meta">Visit Notes &middot; Mar 28, 2026 &middot; Dr. Kim</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--warning-light);color:var(--warning-dark)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M2 12h4"/><path d="M18 12h4"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Chest X-Ray</div>
+            <div class="doc-meta">Imaging &middot; Mar 28, 2026 &middot; Radiology Dept</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--info-light);color:var(--info)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Lipid Panel Results</div>
+            <div class="doc-meta">Lab Report &middot; Mar 28, 2026 &middot; Dr. Kim</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+        <div class="doc-row">
+          <div class="doc-icon" style="background:var(--danger-light);color:var(--danger)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <div class="doc-info">
+            <div class="doc-name">Urgent Care Discharge Summary</div>
+            <div class="doc-meta">Discharge Summary &middot; Jan 8, 2026 &middot; Dr. Tran</div>
+          </div>
+          <button class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== MESSENGER VIEW ========== -->
     <div id="messenger-view" class="msngr-embedded" style="display:none">
       <div class="msngr-list">
         <div class="msngr-list-header">
@@ -472,21 +1259,21 @@
           <div class="msngr-msg-date">Today</div>
           <div class="msngr-bubble-wrap received">
             <div class="msngr-bubble-avatar" style="background:#0D875C">DR</div>
-            <div><div class="msngr-bubble">Hi! I've reviewed your latest lab results. Your A1C is at 6.8% which is within target range. Cholesterol panel looks good too.</div><div class="msngr-bubble-time">11:30 AM · Dr. Roberts</div></div>
+            <div><div class="msngr-bubble">Hi! I've reviewed your latest lab results. Your A1C is at 6.8% which is within target range. Cholesterol panel looks good too.</div><div class="msngr-bubble-time">11:30 AM &middot; Dr. Roberts</div></div>
           </div>
           <div class="msngr-bubble-wrap sent">
-            <div><div class="msngr-bubble">That's great news! I've been really trying to watch my diet. Should I keep the same medication dosage?</div><div class="msngr-bubble-time">11:35 AM <span class="msngr-bubble-check">✓✓</span></div></div>
+            <div><div class="msngr-bubble">That's great news! I've been really trying to watch my diet. Should I keep the same medication dosage?</div><div class="msngr-bubble-time">11:35 AM <span class="msngr-bubble-check">&#10003;&#10003;</span></div></div>
           </div>
           <div class="msngr-bubble-wrap received">
             <div class="msngr-bubble-avatar" style="background:#0D875C">DR</div>
-            <div><div class="msngr-bubble">Yes, let's keep the current dosage since it's working well. We can discuss any adjustments at your Thursday appointment. Keep up the great work with your diet!</div><div class="msngr-bubble-time">11:40 AM · Dr. Roberts</div></div>
+            <div><div class="msngr-bubble">Yes, let's keep the current dosage since it's working well. We can discuss any adjustments at your Thursday appointment. Keep up the great work with your diet!</div><div class="msngr-bubble-time">11:40 AM &middot; Dr. Roberts</div></div>
           </div>
           <div class="msngr-bubble-wrap sent">
-            <div><div class="msngr-bubble">Thank you! I'll be there Thursday at 2 PM. Should I bring my food journal?</div><div class="msngr-bubble-time">11:45 AM <span class="msngr-bubble-check">✓✓</span></div></div>
+            <div><div class="msngr-bubble">Thank you! I'll be there Thursday at 2 PM. Should I bring my food journal?</div><div class="msngr-bubble-time">11:45 AM <span class="msngr-bubble-check">&#10003;&#10003;</span></div></div>
           </div>
           <div class="msngr-bubble-wrap received">
             <div class="msngr-bubble-avatar" style="background:#0D875C">DR</div>
-            <div><div class="msngr-bubble">Absolutely, that would be very helpful. See you Thursday!</div><div class="msngr-bubble-time">11:48 AM · Dr. Roberts</div></div>
+            <div><div class="msngr-bubble">Absolutely, that would be very helpful. See you Thursday!</div><div class="msngr-bubble-time">11:48 AM &middot; Dr. Roberts</div></div>
           </div>
         </div>
         <div class="msngr-input-bar">
@@ -496,6 +1283,288 @@
         </div>
       </div>
     </div>
+
+    <!-- ========== BILLING VIEW ========== -->
+    <div id="billing-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Billing &amp; Payments
+          </div>
+          <div class="view-page-subtitle">Manage your account balance and payment history</div>
+        </div>
+        <button class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Make Payment
+        </button>
+      </div>
+
+      <div class="grid-2 row">
+        <div>
+          <div class="billing-balance-card">
+            <div class="billing-balance-label">Account Balance</div>
+            <div class="billing-balance-amount">$125.00</div>
+            <div style="margin-top:var(--sp-4)">
+              <button class="btn btn-solid-white">Pay Full Balance</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="insurance-card" style="margin-bottom:var(--sp-4)">
+            <div style="display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span style="font-weight:700">Insurance Information</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3)">
+              <div><div class="insurance-label">Provider</div><div class="insurance-value">Blue Cross Blue Shield</div></div>
+              <div><div class="insurance-label">Plan</div><div class="insurance-value">PPO Gold</div></div>
+              <div><div class="insurance-label">Member ID</div><div class="insurance-value">BCB-4892-7731</div></div>
+              <div><div class="insurance-label">Group Number</div><div class="insurance-value">GRP-10042</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Charges</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Apr 2, 2026</div>
+          <div class="charge-service">Lab Work — CBC Panel</div>
+          <span class="tag tag-success">Paid</span>
+          <div class="charge-amount">$45.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Mar 28, 2026</div>
+          <div class="charge-service">Office Visit — Annual Physical</div>
+          <span class="tag tag-warning">Pending</span>
+          <div class="charge-amount">$75.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Mar 28, 2026</div>
+          <div class="charge-service">Imaging — Chest X-Ray</div>
+          <span class="tag tag-warning">Pending</span>
+          <div class="charge-amount">$50.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Mar 10, 2026</div>
+          <div class="charge-service">Telehealth — Cardiology Consult</div>
+          <span class="tag tag-success">Paid</span>
+          <div class="charge-amount">$35.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Feb 15, 2026</div>
+          <div class="charge-service">Telehealth — Lab Review</div>
+          <span class="tag tag-success">Paid</span>
+          <div class="charge-amount">$25.00</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <div class="card-title">Payment History</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Apr 5, 2026</div>
+          <div class="charge-service">Online Payment — Visa ending 4821</div>
+          <span class="tag tag-success">Completed</span>
+          <div class="charge-amount" style="color:var(--success)">-$45.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Mar 15, 2026</div>
+          <div class="charge-service">Online Payment — Visa ending 4821</div>
+          <span class="tag tag-success">Completed</span>
+          <div class="charge-amount" style="color:var(--success)">-$60.00</div>
+        </div>
+        <div class="charge-row">
+          <div class="charge-date">Feb 20, 2026</div>
+          <div class="charge-service">Online Payment — Visa ending 4821</div>
+          <span class="tag tag-success">Completed</span>
+          <div class="charge-amount" style="color:var(--success)">-$25.00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CARE PLAN VIEW ========== -->
+    <div id="careplan-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Care Plan
+          </div>
+          <div class="view-page-subtitle">Your personalized health goals and progress</div>
+        </div>
+      </div>
+
+      <!-- Goal 1 -->
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-title">Manage Blood Pressure</div>
+          <span class="tag tag-warning">In Progress</span>
+        </div>
+        <div class="goal-progress-bar"><div class="goal-progress-fill" style="width:65%"></div></div>
+        <div style="font-size:var(--fs-caption);color:var(--text-secondary);margin-bottom:var(--sp-3)">Target: &lt;130/80 mmHg &middot; Current: 128/82 mmHg &middot; 65% to goal</div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Start Lisinopril 10mg daily</span></div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Reduce sodium intake to &lt;2300mg/day</span></div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Monitor BP at home 2x daily</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>30 min exercise, 5 days/week</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>Achieve target BP for 30 consecutive days</span></div>
+      </div>
+
+      <!-- Goal 2 -->
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-title">Improve A1C</div>
+          <span class="tag tag-success">On Track</span>
+        </div>
+        <div class="goal-progress-bar"><div class="goal-progress-fill" style="width:85%"></div></div>
+        <div style="font-size:var(--fs-caption);color:var(--text-secondary);margin-bottom:var(--sp-3)">Target: &lt;7.0% &middot; Current: 6.8% &middot; 85% to goal</div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Continue Metformin 500mg 2x daily</span></div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Follow low-glycemic diet plan</span></div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Monitor blood glucose daily</span></div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Attend diabetes education session</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>Maintain A1C below 7.0% for 6 months</span></div>
+      </div>
+
+      <!-- Goal 3 -->
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-title">Lower Cholesterol</div>
+          <span class="tag tag-warning">Needs Attention</span>
+        </div>
+        <div class="goal-progress-bar"><div class="goal-progress-fill" style="width:40%"></div></div>
+        <div style="font-size:var(--fs-caption);color:var(--text-secondary);margin-bottom:var(--sp-3)">Target: LDL &lt;100 mg/dL &middot; Current: 138 mg/dL &middot; 40% to goal</div>
+        <div class="goal-task"><div class="goal-check done">&check;</div><span>Start Atorvastatin 20mg daily</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>Reduce saturated fat intake</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>Add omega-3 rich foods to diet</span></div>
+        <div class="goal-task"><div class="goal-check"></div><span>Repeat lipid panel in 3 months</span></div>
+      </div>
+
+      <!-- Preventive Care -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Preventive Care Checklist</div>
+        </div>
+        <div class="care-list">
+          <div class="care-item"><div class="care-check done">&check;</div><div class="care-task">Annual physical completed</div><div class="care-progress">Done — Mar 2026</div></div>
+          <div class="care-item"><div class="care-check done">&check;</div><div class="care-task">Blood work completed</div><div class="care-progress">Done — Mar 2026</div></div>
+          <div class="care-item"><div class="care-check pending"></div><div class="care-task">Follow-up with Dr. Kim</div><div class="care-progress">Scheduled — Apr 14</div></div>
+          <div class="care-item"><div class="care-check"></div><div class="care-task">Eye exam</div><div class="care-progress">Due by Jun 2026</div></div>
+          <div class="care-item"><div class="care-check"></div><div class="care-task">Colonoscopy screening</div><div class="care-progress">Due by Dec 2026</div></div>
+          <div class="care-item"><div class="care-check"></div><div class="care-task">Flu vaccine</div><div class="care-progress">Due Oct 2026</div></div>
+        </div>
+      </div>
+
+      <!-- Care Team -->
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <div class="card-title">Your Care Team</div>
+        </div>
+        <div class="card-body">
+          <div class="team-member">
+            <div class="team-avatar" style="background:#0D875C">SK</div>
+            <div class="team-info"><div class="team-name">Dr. Sarah Kim</div><div class="team-role">Primary Care &middot; Internal Medicine</div></div>
+            <button class="btn btn-outline btn-sm" onclick="showView('messenger')">Message</button>
+          </div>
+          <div class="team-member">
+            <div class="team-avatar" style="background:#3B82F6">RN</div>
+            <div class="team-info"><div class="team-name">Dr. Robert Nguyen</div><div class="team-role">Cardiology</div></div>
+            <button class="btn btn-outline btn-sm" onclick="showView('messenger')">Message</button>
+          </div>
+          <div class="team-member">
+            <div class="team-avatar" style="background:#7C3AED">NR</div>
+            <div class="team-info"><div class="team-name">Nurse Maria Reyes</div><div class="team-role">Care Coordinator</div></div>
+            <button class="btn btn-outline btn-sm" onclick="showView('messenger')">Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SETTINGS VIEW ========== -->
+    <div id="settings-view" style="display:none">
+      <div class="view-page-header">
+        <div>
+          <div class="view-page-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </div>
+          <div class="view-page-subtitle">Manage your account and preferences</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <!-- Personal Info -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Personal Information
+          </div>
+          <div class="settings-row"><div class="settings-label">Full Name</div><div class="settings-value">Sarah Chen <span class="card-action">Edit</span></div></div>
+          <div class="settings-row"><div class="settings-label">Email</div><div class="settings-value">sarah.chen@email.com <span class="card-action">Edit</span></div></div>
+          <div class="settings-row"><div class="settings-label">Phone</div><div class="settings-value">(408) 555-0198 <span class="card-action">Edit</span></div></div>
+          <div class="settings-row"><div class="settings-label">Date of Birth</div><div class="settings-value">June 15, 1980</div></div>
+          <div class="settings-row"><div class="settings-label">Address</div><div class="settings-value">456 Oak Ave, San Jose, CA 95112 <span class="card-action">Edit</span></div></div>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notification Preferences
+          </div>
+          <div class="settings-row"><div class="settings-label">Appointment Reminders</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Test Results Ready</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Medication Reminders</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">New Messages</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Billing Alerts</div><div class="settings-value"><button class="settings-toggle"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Health Tips &amp; Newsletters</div><div class="settings-value"><button class="settings-toggle"></button></div></div>
+        </div>
+
+        <!-- Connected Devices -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Connected Devices
+          </div>
+          <div class="settings-row"><div class="settings-label">Omron BP Monitor</div><div class="settings-value"><span class="tag tag-success" style="font-size:11px">Connected</span></div></div>
+          <div class="settings-row"><div class="settings-label">Accu-Chek Glucose Monitor</div><div class="settings-value"><span class="tag tag-success" style="font-size:11px">Connected</span></div></div>
+          <div class="settings-row"><div class="settings-label">Withings Body Scale</div><div class="settings-value"><span class="tag tag-success" style="font-size:11px">Connected</span></div></div>
+          <div class="settings-row"><div class="settings-label">Masimo Pulse Oximeter</div><div class="settings-value"><span class="tag tag-success" style="font-size:11px">Connected</span></div></div>
+          <div style="margin-top:var(--sp-3)"><button class="btn btn-outline btn-sm">+ Add New Device</button></div>
+        </div>
+
+        <!-- Privacy & Sharing -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Privacy &amp; Sharing
+          </div>
+          <div class="settings-row"><div class="settings-label">Share records with care team</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Allow RPM data sharing</div><div class="settings-value"><button class="settings-toggle on"></button></div></div>
+          <div class="settings-row"><div class="settings-label">Research data participation</div><div class="settings-value"><button class="settings-toggle"></button></div></div>
+        </div>
+
+        <!-- Family/Proxy Access -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Family &amp; Proxy Access
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Michael Chen (Spouse)</div>
+              <div style="font-size:12px;color:var(--text-tertiary)">View appointments, billing &middot; Added Jan 2025</div>
+            </div>
+            <div class="settings-value"><span class="tag tag-accent">Active</span> <span class="card-action">Manage</span></div>
+          </div>
+          <div style="margin-top:var(--sp-3)"><button class="btn btn-outline btn-sm">+ Add Family Member</button></div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -586,15 +1655,15 @@
       <div class="m-section-label">Medications <span class="m-see-all">Manage</span></div>
       <div class="m-card">
         <div class="m-list-item">
-          <div class="m-list-icon" style="background:var(--accent-light)">💊</div>
+          <div class="m-list-icon" style="background:var(--accent-light)">&#x1F48A;</div>
           <div class="m-list-info"><div class="m-list-title">Metformin 500mg</div><div class="m-list-sub">Twice daily &middot; Refills: 3</div></div>
         </div>
         <div class="m-list-item">
-          <div class="m-list-icon" style="background:var(--info-light)">💊</div>
+          <div class="m-list-icon" style="background:var(--info-light)">&#x1F48A;</div>
           <div class="m-list-info"><div class="m-list-title">Lisinopril 10mg</div><div class="m-list-sub">Once daily &middot; Refills: 5</div></div>
         </div>
         <div class="m-list-item">
-          <div class="m-list-icon" style="background:var(--warning-light)">💊</div>
+          <div class="m-list-icon" style="background:var(--warning-light)">&#x1F48A;</div>
           <div class="m-list-info"><div class="m-list-title">Atorvastatin 20mg</div><div class="m-list-sub">Once at bedtime &middot; <span style="color:var(--danger);font-weight:600">Refill: 1</span></div></div>
         </div>
       </div>
@@ -653,34 +1722,92 @@
 </div>
 
 <script>
+/* View switching: desktop <-> mobile */
 function switchView(view) {
-  document.getElementById('desktop-view').style.display = view === 'desktop' ? '' : 'none';
-  document.getElementById('mobile-view').style.display = view === 'mobile' ? '' : 'none';
-  document.querySelectorAll('.view-toggle .btn').forEach(function(b) { b.classList.remove('btn-accent'); b.classList.add('btn-outline'); });
-  event.target.classList.remove('btn-outline');
-  event.target.classList.add('btn-accent');
+  var bd = document.body;
+  var btnD = document.getElementById('btnDesktop');
+  var btnM = document.getElementById('btnMobile');
+  if (view === 'mobile') {
+    bd.classList.add('mobile-active');
+    btnD.classList.remove('active');
+    btnM.classList.add('active');
+  } else {
+    bd.classList.remove('mobile-active');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
 }
+
+/* Desktop sub-view navigation */
+var allViews = [
+  'dashboard', 'appointments', 'visits', 'results', 'rpm',
+  'medications', 'records', 'messenger', 'billing', 'careplan', 'settings'
+];
+
+var viewToNavText = {
+  'dashboard': 'Home',
+  'appointments': 'Appointments',
+  'visits': 'My Visits',
+  'results': 'Test Results',
+  'rpm': 'RPM',
+  'medications': 'Medications',
+  'records': 'Medical Records',
+  'messenger': 'VSee Messenger',
+  'billing': 'Billing',
+  'careplan': 'Care Plan',
+  'settings': 'Settings'
+};
+
 function showView(view) {
-  var dv = document.getElementById('dashboard-view');
-  var mv = document.getElementById('messenger-view');
-  if (view === 'messenger') { dv.style.display = 'none'; mv.style.display = 'flex'; document.querySelector('.main-content').classList.remove('scroll-y'); }
-  else { dv.style.display = ''; mv.style.display = 'none'; document.querySelector('.main-content').classList.add('scroll-y'); }
-  document.querySelectorAll('.sidebar .nav-item').forEach(function(el) { el.classList.remove('active'); });
-  if (view === 'messenger') { document.querySelectorAll('.sidebar .nav-item').forEach(function(el) { if (el.textContent.trim().includes('VSee Messenger')) el.classList.add('active'); }); }
-  else { document.querySelector('.sidebar .nav-item').classList.add('active'); }
+  /* Hide all views */
+  allViews.forEach(function(v) {
+    var el = document.getElementById(v + '-view');
+    if (el) el.style.display = 'none';
+  });
+
+  /* Show target view */
+  var target = document.getElementById(view + '-view');
+  if (target) {
+    target.style.display = (view === 'messenger') ? 'flex' : '';
+  }
+
+  /* Scroll handling for messenger vs other views */
+  var mc = document.querySelector('.main-content');
+  if (view === 'messenger') {
+    mc.classList.remove('scroll-y');
+  } else {
+    mc.classList.add('scroll-y');
+    mc.scrollTop = 0;
+  }
+
+  /* Update sidebar active state */
+  var navText = viewToNavText[view] || '';
+  document.querySelectorAll('.sidebar .nav-item').forEach(function(el) {
+    var txt = el.textContent.trim().replace(/\d+$/, '').trim();
+    if (txt === navText || (navText === 'Billing' && txt.indexOf('Billing') === 0)) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
 }
-document.querySelectorAll('.sidebar .nav-item').forEach(function(el) {
-  if (el.textContent.trim().includes('VSee Messenger')) el.addEventListener('click', function() { showView('messenger'); });
-  else el.addEventListener('click', function() { showView('dashboard'); });
+
+/* Settings toggle interaction */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('settings-toggle')) {
+    e.target.classList.toggle('on');
+  }
 });
-document.querySelectorAll('.quick-btn').forEach(function(el) {
-  if (el.textContent.trim().includes('Message')) el.addEventListener('click', function() { showView('messenger'); });
-});
-document.querySelectorAll('.m-quick-btn').forEach(function(el) {
-  if (el.textContent.trim().includes('Message')) el.addEventListener('click', function() { showView('messenger'); });
-});
-document.querySelectorAll('.m-tab').forEach(function(el) {
-  if (el.textContent.trim().includes('Messenger')) el.addEventListener('click', function() { showView('messenger'); });
+
+/* Filter tab interaction */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('filter-tab')) {
+    var parent = e.target.closest('.filter-tabs');
+    if (parent) {
+      parent.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+      e.target.classList.add('active');
+    }
+  }
 });
 </script>
 

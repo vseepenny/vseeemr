@@ -18,7 +18,7 @@
   }
 
   .slide {
-    width: 1400px;
+    width: 1600px;
     margin: 0 auto;
     padding: 40px 48px 28px;
     position: relative;
@@ -31,7 +31,7 @@
     margin-bottom: 22px;
   }
   .header h1 {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.5px;
@@ -39,13 +39,13 @@
   }
   .header h1 span {
     display: block;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 400;
     color: #94a3b8;
     margin-top: 4px;
   }
   .logo {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 600;
     color: #38bdf8;
     letter-spacing: 1px;
@@ -66,11 +66,11 @@
     padding: 8px 16px;
     border-radius: 0 8px 8px 0;
     margin-bottom: 16px;
-    font-size: 11.5px;
+    font-size: 14px;
     color: #94a3b8;
     line-height: 1.55;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1100px;
   }
   .insight-callout strong { color: #34d399; }
 
@@ -80,7 +80,7 @@
     gap: 7px;
     padding: 4px 13px;
     border-radius: 20px;
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -109,24 +109,39 @@
   .deployment-card .icon {
     width: 36px; height: 36px; border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 8px; font-size: 18px;
+    margin: 0 auto 8px; font-size: 22px;
   }
-  .deployment-card h3 { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
-  .deployment-card p { font-size: 9.5px; line-height: 1.4; opacity: 0.8; }
+  .deployment-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .deployment-card p { font-size: 12px; line-height: 1.4; opacity: 0.8; }
 
-  .card-hospital { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #2563eb40; }
-  .card-hospital .icon { background: #2563eb25; } .card-hospital h3 { color: #60a5fa; }
-  .card-outpatient { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #8b5cf640; }
-  .card-outpatient .icon { background: #8b5cf625; } .card-outpatient h3 { color: #a78bfa; }
-  .card-disaster { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #f9731640; }
-  .card-disaster .icon { background: #f9731625; } .card-disaster h3 { color: #fb923c; }
-  .card-mission { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #10b98140; }
-  .card-mission .icon { background: #10b98125; } .card-mission h3 { color: #34d399; }
-  .card-clinic { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #ec489940; }
-  .card-clinic .icon { background: #ec489925; } .card-clinic h3 { color: #f472b6; }
+  .card-portal { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #0D875C40; }
+  .card-portal .icon { background: #0D875C25; } .card-portal h3 { color: #34d399; }
+  .card-clinic { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #7C3AED40; }
+  .card-clinic .icon { background: #7C3AED25; } .card-clinic h3 { color: #a78bfa; }
+  .card-hospital { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #3B82F640; }
+  .card-hospital .icon { background: #3B82F625; } .card-hospital h3 { color: #60a5fa; }
+  .card-fieldops { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #F9731640; }
+  .card-fieldops .icon { background: #F9731625; } .card-fieldops h3 { color: #fb923c; }
+
+  /* Virtual-Enabled annotation bar */
+  .virtual-overlay-bar {
+    width: 100%;
+    margin-top: 10px;
+    background: linear-gradient(90deg, #22d3ee08, #22d3ee12, #22d3ee08);
+    border: 1px solid #22d3ee25;
+    border-radius: 8px;
+    padding: 8px 20px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .virtual-overlay-bar .virtual-note {
+    font-size: 12px; font-weight: 500; color: #67e8f9; text-align: center; line-height: 1.5;
+  }
+  .virtual-overlay-bar .virtual-note strong {
+    font-weight: 700; color: #22d3ee;
+  }
 
   .modules { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 7px; justify-content: center; }
-  .pill { font-size: 7.5px; font-weight: 600; padding: 2px 5px; border-radius: 3px; letter-spacing: 0.2px; text-transform: uppercase; }
+  .pill { font-size: 10px; font-weight: 600; padding: 3px 7px; border-radius: 3px; letter-spacing: 0.2px; text-transform: uppercase; }
   .pill-on { background: #22c55e20; color: #4ade80; }
   .pill-off { background: #64748b15; color: #475569; text-decoration: line-through; }
 
@@ -139,7 +154,7 @@
 
   /* Gateway */
   .gateway-bar {
-    width: 1000px;
+    width: 1100px;
     background: linear-gradient(90deg, #1e1b4b, #312e81, #1e1b4b);
     border: 1px solid #6366f150;
     border-radius: 10px;
@@ -147,14 +162,14 @@
     display: flex; align-items: center; justify-content: center; gap: 24px;
     box-shadow: 0 0 40px #6366f115;
   }
-  .gateway-bar h3 { font-size: 12px; font-weight: 700; color: #c7d2fe; white-space: nowrap; }
+  .gateway-bar h3 { font-size: 15px; font-weight: 700; color: #c7d2fe; white-space: nowrap; }
   .gateway-features { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-  .gateway-chip { font-size: 8.5px; font-weight: 600; padding: 3px 8px; border-radius: 5px; background: #4f46e530; color: #a5b4fc; letter-spacing: 0.2px; }
+  .gateway-chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 5px; background: #4f46e530; color: #a5b4fc; letter-spacing: 0.2px; }
 
   /* ===== BACKEND SERVICES — 5-COLUMN LAYOUT ===== */
   .services-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
     width: 100%;
   }
@@ -164,12 +179,12 @@
     text-align: center;
     position: relative;
   }
-  .service-block h3 { font-size: 11.5px; font-weight: 700; margin-bottom: 4px; }
-  .service-sub { font-size: 8.5px; color: #64748b; font-weight: 500; margin-bottom: 7px; }
+  .service-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .service-sub { font-size: 11px; color: #64748b; font-weight: 500; margin-bottom: 7px; }
 
   /* EMR Patient Record DB — compound block */
   .emr-compound {
-    flex: 1.4; max-width: 300px;
+    flex: 1.2; max-width: 260px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -178,7 +193,7 @@
   .star-badge {
     position: absolute; top: -8px; right: -8px; z-index: 2;
     background: linear-gradient(135deg, #10b981, #059669);
-    color: #fff; font-size: 7.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+    color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 6px;
     letter-spacing: 0.4px; text-transform: uppercase; box-shadow: 0 2px 10px #10b98140;
   }
 
@@ -193,31 +208,31 @@
     text-align: center;
     position: relative;
   }
-  .emr-online h3 { color: #34d399; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .emr-online h3 { color: #34d399; font-size: 16px; font-weight: 700; margin-bottom: 2px; }
   .emr-mode-badge {
     display: inline-flex; align-items: center; gap: 4px;
-    font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
-    padding: 2px 8px; border-radius: 4px; margin-bottom: 6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 6px;
   }
   .badge-cloud { background: #10b98120; color: #6ee7b7; }
   .badge-offline { background: #f59e0b20; color: #fcd34d; }
 
   .emr-sections { display: flex; flex-direction: column; gap: 5px; }
   .emr-section-label {
-    font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
     padding: 2px 0 0; text-align: left;
   }
   .emr-section-label.clinical { color: #34d399; }
   .emr-section-label.financial { color: #fbbf24; }
   .emr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .emr-item {
-    font-size: 8px; font-weight: 500; padding: 3px 5px; border-radius: 4px;
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
     text-align: left; line-height: 1.3;
   }
   .emr-item.clinical { background: #10b98112; color: #a7f3d0; }
-  .emr-item.clinical::before { content: '●'; margin-right: 3px; font-size: 4px; vertical-align: middle; color: #34d399; }
+  .emr-item.clinical::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #34d399; }
   .emr-item.financial { background: #fbbf2410; color: #fde68a; }
-  .emr-item.financial::before { content: '●'; margin-right: 3px; font-size: 4px; vertical-align: middle; color: #fbbf24; }
+  .emr-item.financial::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #fbbf24; }
 
   /* Sync bridge between online ↔ offline */
   .sync-bridge {
@@ -232,13 +247,13 @@
   }
   .sync-arrow {
     display: flex; align-items: center; gap: 4px;
-    font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
     color: #22d3ee;
   }
   .sync-arrow svg { flex-shrink: 0; }
   .sync-label {
-    font-size: 8px; font-weight: 600; color: #67e8f9;
-    background: #22d3ee15; padding: 2px 8px; border-radius: 3px;
+    font-size: 11px; font-weight: 600; color: #67e8f9;
+    background: #22d3ee15; padding: 3px 10px; border-radius: 3px;
     border: 1px solid #22d3ee30;
   }
 
@@ -251,58 +266,78 @@
     padding: 9px 12px 10px;
     text-align: center;
   }
-  .emr-offline h4 { color: #fbbf24; font-size: 10.5px; font-weight: 700; margin-bottom: 3px; }
+  .emr-offline h4 { color: #fbbf24; font-size: 13px; font-weight: 700; margin-bottom: 3px; }
   .offline-desc {
-    font-size: 8px; color: #a1a1aa; line-height: 1.4; margin-bottom: 5px;
+    font-size: 11px; color: #a1a1aa; line-height: 1.4; margin-bottom: 5px;
   }
   .offline-features { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; }
   .offline-pill {
-    font-size: 7.5px; font-weight: 600; padding: 2px 6px; border-radius: 3px;
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 3px;
     background: #f59e0b15; color: #fcd34d; letter-spacing: 0.2px;
   }
 
-  /* Resource & Operations */
-  .resource-block {
-    flex: 1; max-width: 210px;
+  /* 2. Clinical Services (blue) — provider-facing tools */
+  .clinical-block {
+    flex: 1; max-width: 220px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid #3b82f640;
+  }
+  .clinical-block h3 { color: #60a5fa; }
+  .clinical-sections { display: flex; flex-direction: column; gap: 5px; }
+  .clinical-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 2px 0 0; text-align: left; color: #93c5fd;
+  }
+  .clinical-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .clinical-item {
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
+    background: #3b82f610; color: #93c5fd; text-align: left; line-height: 1.3;
+  }
+  .clinical-item::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #60a5fa; }
+
+  /* 3. Patient Experience (teal) — patient self-service */
+  .patient-block {
+    flex: 1.1; max-width: 240px;
+    background: linear-gradient(135deg, #042f2e, #0d1117);
+    border: 1px solid #14b8a640;
+    box-shadow: 0 4px 20px #14b8a608;
+  }
+  .patient-block h3 { color: #2dd4bf; }
+  .patient-sections { display: flex; flex-direction: column; gap: 5px; }
+  .patient-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 2px 0 0; text-align: left; color: #5eead4;
+  }
+  .patient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .patient-item {
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
+    background: #14b8a610; color: #99f6e4; text-align: left; line-height: 1.3;
+  }
+  .patient-item::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #2dd4bf; }
+
+  /* 4. Operations & Revenue (orange) */
+  .ops-block {
+    flex: 1.3; max-width: 260px;
     background: linear-gradient(135deg, #422006, #1c0a00);
     border: 1px solid #f9731650;
     box-shadow: 0 4px 20px #f9731610;
   }
-  .resource-block h3 { color: #fb923c; }
-  .resource-sections { display: flex; flex-direction: column; gap: 5px; }
-  .resource-section-label {
-    font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+  .ops-block h3 { color: #fb923c; }
+  .ops-sections { display: flex; flex-direction: column; gap: 5px; }
+  .ops-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
     padding: 2px 0 0; text-align: left; color: #fdba74;
   }
-  .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-  .resource-item {
-    font-size: 8px; font-weight: 500; padding: 3px 5px; border-radius: 4px;
+  .ops-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .ops-item {
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
     background: #f9731610; color: #fed7aa; text-align: left; line-height: 1.3;
   }
-  .resource-item::before { content: '●'; margin-right: 3px; font-size: 4px; vertical-align: middle; color: #fb923c; }
+  .ops-item::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #fb923c; }
 
-  /* Patient Engagement */
-  .engagement-block {
-    flex: 1; max-width: 210px;
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    border: 1px solid #3b82f640;
-  }
-  .engagement-block h3 { color: #60a5fa; }
-  .engagement-sections { display: flex; flex-direction: column; gap: 5px; }
-  .engagement-section-label {
-    font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
-    padding: 2px 0 0; text-align: left; color: #93c5fd;
-  }
-  .engagement-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-  .engagement-item {
-    font-size: 8px; font-weight: 500; padding: 3px 5px; border-radius: 4px;
-    background: #3b82f610; color: #93c5fd; text-align: left; line-height: 1.3;
-  }
-  .engagement-item::before { content: '●'; margin-right: 3px; font-size: 4px; vertical-align: middle; color: #60a5fa; }
-
-  /* Interoperability & Platform */
+  /* 5. Interoperability & Platform (cyan) */
   .interop-block {
-    flex: 1; max-width: 210px;
+    flex: 1; max-width: 220px;
     background: linear-gradient(135deg, #1a1a2e, #0d0d1a);
     border: 1px solid #22d3ee40;
     box-shadow: 0 4px 20px #22d3ee08;
@@ -310,42 +345,82 @@
   .interop-block h3 { color: #67e8f9; }
   .interop-sections { display: flex; flex-direction: column; gap: 5px; }
   .interop-section-label {
-    font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
     padding: 2px 0 0; text-align: left; color: #67e8f9;
   }
   .interop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .interop-item {
-    font-size: 8px; font-weight: 500; padding: 3px 5px; border-radius: 4px;
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
     background: #22d3ee10; color: #a5f3fc; text-align: left; line-height: 1.3;
   }
-  .interop-item::before { content: '●'; margin-right: 3px; font-size: 4px; vertical-align: middle; color: #22d3ee; }
+  .interop-item::before { content: '●'; margin-right: 3px; font-size: 5px; vertical-align: middle; color: #22d3ee; }
 
-  /* AI Services */
+  /* 6. AI & Analytics (purple) */
   .ai-block {
-    flex: 0.7; max-width: 160px;
+    flex: 1; max-width: 200px;
     background: linear-gradient(135deg, #2e1065, #1e1b4b);
     border: 1px solid #8b5cf640;
   }
   .ai-block h3 { color: #a78bfa; }
-  .ai-items { display: flex; flex-direction: column; gap: 2px; }
+  .ai-sections { display: flex; flex-direction: column; gap: 5px; }
+  .ai-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 2px 0 0; text-align: left; color: #a78bfa;
+  }
+  .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
   .ai-item {
-    font-size: 8px; font-weight: 500; padding: 3px 5px; border-radius: 4px;
+    font-size: 11px; font-weight: 500; padding: 4px 6px; border-radius: 4px;
     background: #8b5cf610; color: #c4b5fd; text-align: left; line-height: 1.3;
   }
-  .ai-item::before { content: '✦'; margin-right: 3px; font-size: 5px; color: #a78bfa; }
+  .ai-item::before { content: '✦'; margin-right: 3px; font-size: 7px; color: #a78bfa; }
+
+  /* Security & Compliance Foundation Bar */
+  .security-foundation-bar {
+    width: 100%;
+    margin-top: 12px;
+    background: linear-gradient(135deg, #0c1a2e, #0f172a, #0c1a2e);
+    border: 1px solid #3b82f640;
+    border-radius: 10px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 0 30px #3b82f610;
+  }
+  .security-bar-label {
+    font-size: 13px; font-weight: 700; color: #60a5fa; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .security-bar-items {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+  }
+  .security-badge {
+    font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 5px;
+    background: #3b82f615; color: #93c5fd; border: 1px solid #3b82f630;
+    letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .security-bar-meta {
+    display: flex; gap: 14px; align-items: center;
+  }
+  .platform-stat {
+    font-size: 10px; font-weight: 600; color: #94a3b8; white-space: nowrap;
+    display: flex; align-items: center; gap: 4px;
+  }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
   .deployments-row { animation: fadeUp 0.6s ease-out 0.1s both; }
   .gateway-bar { animation: fadeUp 0.6s ease-out 0.3s both; }
   .services-row { animation: fadeUp 0.6s ease-out 0.5s both; }
+  .security-foundation-bar { animation: fadeUp 0.6s ease-out 0.7s both; }
 
   /* ===== DIVIDER ===== */
-  .page-divider { width: 1400px; margin: 0 auto; padding: 0 48px; }
+  .page-divider { width: 1600px; margin: 0 auto; padding: 0 48px; }
   .page-divider hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, #334155, transparent); }
 
-  /* ===== PAGE 2: TEAM ROADMAP ===== */
+  /* ===== PAGE 4: TEAM ROADMAP ===== */
   .roadmap-slide {
-    width: 1400px;
+    width: 1600px;
     margin: 0 auto;
     padding: 36px 48px 44px;
   }
@@ -357,14 +432,14 @@
     margin-bottom: 24px;
   }
   .roadmap-header h2 {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.3px;
   }
   .roadmap-header h2 span {
     display: block;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     color: #94a3b8;
     margin-top: 4px;
@@ -392,10 +467,10 @@
   .team-icon {
     width: 26px; height: 26px; border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 12px; flex-shrink: 0;
+    font-size: 15px; flex-shrink: 0;
   }
-  .team-info h4 { font-size: 10px; font-weight: 700; line-height: 1.2; margin-bottom: 1px; }
-  .team-info p { font-size: 8px; color: #64748b; line-height: 1.3; }
+  .team-info h4 { font-size: 13px; font-weight: 700; line-height: 1.2; margin-bottom: 1px; }
+  .team-info p { font-size: 11px; color: #64748b; line-height: 1.3; }
 
   .swim-cell {
     padding: 8px 8px;
@@ -407,9 +482,9 @@
   }
 
   .task {
-    font-size: 8.5px;
+    font-size: 11px;
     font-weight: 500;
-    padding: 4px 7px;
+    padding: 5px 9px;
     border-radius: 5px;
     line-height: 1.35;
     position: relative;
@@ -421,18 +496,18 @@
 
   .task-critical::after {
     content: 'CRITICAL'; position: absolute; top: 2px; right: 3px;
-    font-size: 5.5px; font-weight: 800; color: #ef4444; letter-spacing: 0.4px;
-    background: #ef444420; padding: 1px 3px; border-radius: 2px;
+    font-size: 7px; font-weight: 800; color: #ef4444; letter-spacing: 0.4px;
+    background: #ef444420; padding: 2px 4px; border-radius: 2px;
   }
   .task-dep::after {
     content: 'BLOCKED'; position: absolute; top: 2px; right: 3px;
-    font-size: 5.5px; font-weight: 800; color: #f59e0b; letter-spacing: 0.4px;
-    background: #f59e0b20; padding: 1px 3px; border-radius: 2px;
+    font-size: 7px; font-weight: 800; color: #f59e0b; letter-spacing: 0.4px;
+    background: #f59e0b20; padding: 2px 4px; border-radius: 2px;
   }
   .task-parallel::after {
     content: 'PARALLEL'; position: absolute; top: 2px; right: 3px;
-    font-size: 5.5px; font-weight: 800; color: #22c55e; letter-spacing: 0.4px;
-    background: #22c55e20; padding: 1px 3px; border-radius: 2px;
+    font-size: 7px; font-weight: 800; color: #22c55e; letter-spacing: 0.4px;
+    background: #22c55e20; padding: 2px 4px; border-radius: 2px;
   }
 
   .team-product .team-icon { background: #f472b620; }  .team-product h4 { color: #f472b6; }
@@ -448,7 +523,7 @@
     text-align: center;
     border-bottom: 1px solid #1e293b;
     border-left: 1px solid #1e293b;
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.2px;
   }
@@ -461,7 +536,7 @@
     padding: 7px 11px;
     background: #131b2e;
     border-bottom: 1px solid #1e293b;
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 600;
     color: #475569;
     text-transform: uppercase;
@@ -475,11 +550,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9px;
+    font-size: 12px;
     color: #475569;
   }
   .legend { display: flex; gap: 14px; align-items: center; }
-  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 8px; color: #64748b; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #64748b; }
   .legend-dot { width: 7px; height: 7px; border-radius: 2px; }
 </style>
 </head>
@@ -497,93 +572,90 @@
 
   <div style="display:flex;justify-content:center;">
     <div class="insight-callout">
-      <strong>Core Concept:</strong> VSee EMR is the single source of truth for all patient records — clinical <em>and</em> financial. The EMR has an <strong>Online (cloud)</strong> and <strong>Offline (snapshot)</strong> mode that sync bidirectionally — enabling disaster/field deployments to capture data without connectivity and merge back later. Each deployment mode gets a <strong>configurable Digital Front Door</strong>.
+      <strong>Core Concept:</strong> VSee EMR is the single source of truth for all patient records — clinical <em>and</em> financial. The EMR has an <strong>Online (cloud)</strong> and <strong>Offline (snapshot)</strong> mode that sync bidirectionally — enabling disaster/field deployments to capture data without connectivity and merge back later. Each deployment mode gets a <strong>configurable Digital Front Door</strong>. Virtual capabilities (video, AI Scribe, RPM, Messenger) layer on top of any deployment type.
     </div>
   </div>
 
   <div class="architecture">
 
     <div class="layer-label label-frontdoor">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6"/></svg>
       Digital Front Door — Configurable per Deployment
     </div>
 
     <div class="deployments-row">
-      <div class="deployment-card card-hospital">
-        <div class="icon">🏥</div>
-        <h3>Hospital Inpatient</h3>
-        <p>Census board, bed mgmt, admission workflows, nursing notes</p>
-        <div class="modules">
-          <span class="pill pill-on">Orders</span>
-          <span class="pill pill-on">Meds</span>
-          <span class="pill pill-on">Beds</span>
-          <span class="pill pill-on">Vitals</span>
-          <span class="pill pill-off">Self-Sched</span>
-        </div>
-      </div>
-      <div class="deployment-card card-outpatient">
-        <div class="icon">🩺</div>
-        <h3>Hospital Outpatient</h3>
-        <p>Self-scheduling, insurance verify, waiting room, referrals</p>
+      <div class="deployment-card card-portal">
+        <div class="icon">👤</div>
+        <h3>Patient Portal</h3>
+        <p>Direct to consumer: scheduling, records, messaging, payments, RPM</p>
         <div class="modules">
           <span class="pill pill-on">Schedule</span>
-          <span class="pill pill-on">Insurance</span>
+          <span class="pill pill-on">Records</span>
+          <span class="pill pill-on">Messages</span>
           <span class="pill pill-on">Pay</span>
-          <span class="pill pill-on">Video</span>
-        </div>
-      </div>
-      <div class="deployment-card card-disaster">
-        <div class="icon">🚨</div>
-        <h3>Disaster Relief</h3>
-        <p>Triage dashboard, mass casualty, offline-first, supply tracking</p>
-        <div class="modules">
-          <span class="pill pill-on">Triage</span>
-          <span class="pill pill-on">Offline</span>
-          <span class="pill pill-on">Supplies</span>
-          <span class="pill pill-on">Devices</span>
-          <span class="pill pill-off">Pay</span>
-        </div>
-      </div>
-      <div class="deployment-card card-mission">
-        <div class="icon">🌍</div>
-        <h3>Field Mission</h3>
-        <p>Walk-in registration, screening, offline sync, mission analytics</p>
-        <div class="modules">
-          <span class="pill pill-on">Offline</span>
-          <span class="pill pill-on">Sync</span>
           <span class="pill pill-on">RPM</span>
-          <span class="pill pill-on">Pharmacy</span>
-          <span class="pill pill-off">Insurance</span>
         </div>
       </div>
       <div class="deployment-card card-clinic">
-        <div class="icon">💻</div>
-        <h3>Virtual Clinic</h3>
-        <p>Full telehealth: scheduling, intake, video, RPM, payments</p>
+        <div class="icon">🩺</div>
+        <h3>Clinic</h3>
+        <p>Outpatient &amp; virtual: scheduling, intake, video visits, billing, referrals</p>
         <div class="modules">
           <span class="pill pill-on">Schedule</span>
+          <span class="pill pill-on">Intake</span>
           <span class="pill pill-on">Video</span>
           <span class="pill pill-on">Pay</span>
-          <span class="pill pill-on">RPM</span>
+          <span class="pill pill-on">Insurance</span>
+          <span class="pill pill-on">Referrals</span>
         </div>
       </div>
+      <div class="deployment-card card-hospital">
+        <div class="icon">🏥</div>
+        <h3>Hospital</h3>
+        <p>Inpatient: census board, bed mgmt, MAR, orders, nursing, discharge</p>
+        <div class="modules">
+          <span class="pill pill-on">Census</span>
+          <span class="pill pill-on">Beds</span>
+          <span class="pill pill-on">MAR</span>
+          <span class="pill pill-on">Orders</span>
+          <span class="pill pill-on">Vitals</span>
+          <span class="pill pill-on">Discharge</span>
+        </div>
+      </div>
+      <div class="deployment-card card-fieldops">
+        <div class="icon">🌍</div>
+        <h3>Field Ops</h3>
+        <p>Disaster &amp; mission: offline-first, triage, rapid reg, supply tracking, pharmacy</p>
+        <div class="modules">
+          <span class="pill pill-on">Offline</span>
+          <span class="pill pill-on">Triage</span>
+          <span class="pill pill-on">Supplies</span>
+          <span class="pill pill-on">Pharmacy</span>
+          <span class="pill pill-on">Sync</span>
+          <span class="pill pill-on">Devices</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Virtual-Enabled annotation -->
+    <div class="virtual-overlay-bar">
+      <div class="virtual-note"><strong>Virtual-ready by default</strong> — Every deployment includes video, messaging, and telehealth capabilities. No separate "virtual" mode needed — these are platform services available across all four deployment types.</div>
     </div>
 
     <div class="connector-section">
       <div class="connector-lines">
         <svg viewBox="0 0 900 32" fill="none">
-          <line class="connector-line" x1="90" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="270" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="450" y1="0" x2="450" y2="28" stroke="#38bdf850" stroke-width="2"/>
-          <line class="connector-line" x1="630" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="810" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
+          <line class="connector-line" x1="135" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
+          <line class="connector-line" x1="335" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
+          <line class="connector-line" x1="565" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
+          <line class="connector-line" x1="765" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
           <polygon points="450,32 446,25 454,25" fill="#fbbf2460"/>
         </svg>
       </div>
     </div>
 
     <div class="layer-label label-gateway">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
       Unified API Gateway
     </div>
 
@@ -602,26 +674,28 @@
     <div class="connector-section" style="padding: 5px 0;">
       <div class="connector-lines">
         <svg viewBox="0 0 900 32" fill="none">
-          <line class="connector-line" x1="450" y1="0" x2="115" y2="28" stroke="#10b98140" stroke-width="2"/>
-          <line class="connector-line" x1="450" y1="0" x2="305" y2="28" stroke="#f9731640" stroke-width="1.5"/>
-          <line class="connector-line" x1="450" y1="0" x2="470" y2="28" stroke="#3b82f640" stroke-width="1.5"/>
-          <line class="connector-line" x1="450" y1="0" x2="635" y2="28" stroke="#22d3ee40" stroke-width="1.5"/>
+          <line class="connector-line" x1="450" y1="0" x2="90" y2="28" stroke="#10b98140" stroke-width="2"/>
+          <line class="connector-line" x1="450" y1="0" x2="245" y2="28" stroke="#3b82f640" stroke-width="1.5"/>
+          <line class="connector-line" x1="450" y1="0" x2="385" y2="28" stroke="#14b8a640" stroke-width="1.5"/>
+          <line class="connector-line" x1="450" y1="0" x2="530" y2="28" stroke="#f9731640" stroke-width="1.5"/>
+          <line class="connector-line" x1="450" y1="0" x2="670" y2="28" stroke="#22d3ee40" stroke-width="1.5"/>
           <line class="connector-line" x1="450" y1="0" x2="810" y2="28" stroke="#8b5cf640" stroke-width="1.5"/>
-          <polygon points="115,32 111,25 119,25" fill="#10b98160"/>
-          <polygon points="305,32 301,25 309,25" fill="#f9731660"/>
-          <polygon points="470,32 466,25 474,25" fill="#3b82f660"/>
-          <polygon points="635,32 631,25 639,25" fill="#22d3ee60"/>
+          <polygon points="90,32 86,25 94,25" fill="#10b98160"/>
+          <polygon points="245,32 241,25 249,25" fill="#3b82f660"/>
+          <polygon points="385,32 381,25 389,25" fill="#14b8a660"/>
+          <polygon points="530,32 526,25 534,25" fill="#f9731660"/>
+          <polygon points="670,32 666,25 674,25" fill="#22d3ee60"/>
           <polygon points="810,32 806,25 814,25" fill="#8b5cf660"/>
         </svg>
       </div>
     </div>
 
     <div class="layer-label label-services">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
       Backend Services
     </div>
 
-    <!-- ===== 5-COLUMN SERVICES ROW ===== -->
+    <!-- ===== 6-COLUMN SERVICES ROW ===== -->
     <div class="services-row">
 
       <!-- 1. EMR: Online + Offline compound block -->
@@ -632,7 +706,7 @@
         <div class="emr-online">
           <h3>VSee EMR</h3>
           <div class="emr-mode-badge badge-cloud">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
             Online — Cloud Database
           </div>
           <div class="emr-sections">
@@ -679,7 +753,7 @@
         <!-- OFFLINE (Snapshot) EMR -->
         <div class="emr-offline">
           <h4>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px;margin-right:3px;"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px;margin-right:3px;"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
             Offline EMR — Field Snapshot
           </h4>
           <div class="offline-desc">
@@ -697,65 +771,156 @@
 
       </div>
 
-      <!-- 2. Resource & Operations -->
-      <div class="service-block resource-block">
-        <h3>Resource &amp; Operations</h3>
-        <div class="service-sub">Facilities, Staff &amp; Supply</div>
-        <div class="resource-sections">
-          <div class="resource-section-label">Facilities</div>
-          <div class="resource-grid">
-            <div class="resource-item">Sites / Locations</div>
-            <div class="resource-item">Rooms / Beds</div>
-            <div class="resource-item">Medical Devices</div>
-            <div class="resource-item">Telemedicine Kits</div>
+      <!-- 2. Clinical Services (provider-facing) -->
+      <div class="service-block clinical-block">
+        <h3>Clinical Services</h3>
+        <div class="service-sub">Provider-Facing Tools</div>
+        <div class="clinical-sections">
+          <div class="clinical-section-label">Virtual Visit</div>
+          <div class="clinical-grid">
+            <div class="clinical-item">Video / Phone / Msg</div>
+            <div class="clinical-item">Waiting Room</div>
+            <div class="clinical-item">Blind Dialer</div>
+            <div class="clinical-item">Dispatch &amp; Routing</div>
+            <div class="clinical-item">Interpreter Services</div>
+            <div class="clinical-item">Screen Share</div>
           </div>
-          <div class="resource-section-label">Staff &amp; Scheduling</div>
-          <div class="resource-grid">
-            <div class="resource-item">Provider Roster</div>
-            <div class="resource-item">Shift / On-Call</div>
-            <div class="resource-item">Role Assignments</div>
-            <div class="resource-item">Capacity Planning</div>
+          <div class="clinical-section-label">Clinical Workflow</div>
+          <div class="clinical-grid">
+            <div class="clinical-item">Notes Templates</div>
+            <div class="clinical-item">Order Entry</div>
+            <div class="clinical-item">Labs &amp; Imaging</div>
+            <div class="clinical-item">Rx Management</div>
           </div>
-          <div class="resource-section-label">Pharmacy &amp; Supply</div>
-          <div class="resource-grid">
-            <div class="resource-item">Medication Stock</div>
-            <div class="resource-item">Supply Inventory</div>
-            <div class="resource-item">Order Catalogs</div>
-            <div class="resource-item">Dispensing Log</div>
+          <div class="clinical-section-label">RPM &amp; Devices</div>
+          <div class="clinical-grid">
+            <div class="clinical-item">Data Visualization</div>
+            <div class="clinical-item">Risk Alerts</div>
+            <div class="clinical-item">Device &amp; Cart</div>
+            <div class="clinical-item">ePRO / eCOA</div>
+            <div class="clinical-item">Apple Health</div>
+            <div class="clinical-item">Fitbit</div>
+            <div class="clinical-item">Welch Allyn</div>
+            <div class="clinical-item">Fora</div>
           </div>
-        </div>
-      </div>
-
-      <!-- 3. Patient Engagement (was Clinic Services — now sub-grouped) -->
-      <div class="service-block engagement-block">
-        <h3>Patient Engagement</h3>
-        <div class="service-sub">Patient-Facing Services</div>
-        <div class="engagement-sections">
-          <div class="engagement-section-label">Telehealth</div>
-          <div class="engagement-grid">
-            <div class="engagement-item">Video Engine</div>
-            <div class="engagement-item">Waiting Room</div>
-            <div class="engagement-item">RPM / Devices</div>
-            <div class="engagement-item">Screen Share</div>
-          </div>
-          <div class="engagement-section-label">Communication</div>
-          <div class="engagement-grid">
-            <div class="engagement-item">Chat / SMS</div>
-            <div class="engagement-item">Notifications</div>
-            <div class="engagement-item">Push Alerts</div>
-            <div class="engagement-item">Secure Messaging</div>
-          </div>
-          <div class="engagement-section-label">Workflow</div>
-          <div class="engagement-grid">
-            <div class="engagement-item">Scheduling</div>
-            <div class="engagement-item">Intake / Forms</div>
-            <div class="engagement-item">Check-in Flow</div>
-            <div class="engagement-item">Payments</div>
+          <div class="clinical-section-label">Care Coordination</div>
+          <div class="clinical-grid">
+            <div class="clinical-item">Queue Mgmt</div>
+            <div class="clinical-item">Patient Tagging</div>
+            <div class="clinical-item">Care Plans</div>
+            <div class="clinical-item">Referral Mgmt</div>
           </div>
         </div>
       </div>
 
-      <!-- 4. Interoperability & Platform (NEW) -->
+      <!-- 3. Patient Experience (patient self-service) -->
+      <div class="service-block patient-block">
+        <h3>Patient Experience</h3>
+        <div class="service-sub">Patient Self-Service</div>
+        <div class="patient-sections">
+          <div class="patient-section-label">Patient Portal</div>
+          <div class="patient-grid">
+            <div class="patient-item">Integrated PHR</div>
+            <div class="patient-item">Personalized Comms</div>
+            <div class="patient-item">Auto Reminders</div>
+            <div class="patient-item">Family / Proxy Access</div>
+          </div>
+          <div class="patient-section-label">Patient Scheduling</div>
+          <div class="patient-grid">
+            <div class="patient-item">Self-Scheduling</div>
+            <div class="patient-item">Provider Selection</div>
+            <div class="patient-item">Insurance Routing</div>
+            <div class="patient-item">Appt Reminders</div>
+            <div class="patient-item">Cancel / Reschedule</div>
+            <div class="patient-item">Online Booking</div>
+          </div>
+          <div class="patient-section-label">Forms &amp; Intake</div>
+          <div class="patient-grid">
+            <div class="patient-item">Custom Form Builder</div>
+            <div class="patient-item">Assessment Scoring</div>
+            <div class="patient-item">eSignature Consent</div>
+            <div class="patient-item">PHQ-9 / GAD-7</div>
+          </div>
+          <div class="patient-section-label">Communication</div>
+          <div class="patient-grid">
+            <div class="patient-item">VSee Messenger</div>
+            <div class="patient-item">Channels / Groups</div>
+            <div class="patient-item">Broadcast / SMS</div>
+            <div class="patient-item">Care Team Chat</div>
+          </div>
+          <div class="patient-section-label">Check-in &amp; Payment</div>
+          <div class="patient-grid">
+            <div class="patient-item">Self Check-in</div>
+            <div class="patient-item">Eligibility Check</div>
+            <div class="patient-item">Co-pay Collection</div>
+            <div class="patient-item">Payment Portal</div>
+          </div>
+          <div class="patient-section-label">Content &amp; Education</div>
+          <div class="patient-grid">
+            <div class="patient-item">Patient Education</div>
+            <div class="patient-item">Resource Library</div>
+            <div class="patient-item">Health Literacy</div>
+            <div class="patient-item">Program Enrollment</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Operations & Revenue (back-office) -->
+      <div class="service-block ops-block">
+        <h3>Operations &amp; Revenue</h3>
+        <div class="service-sub">Back-Office &amp; Finance</div>
+        <div class="ops-sections">
+          <div class="ops-section-label">Facilities</div>
+          <div class="ops-grid">
+            <div class="ops-item">Sites / Locations</div>
+            <div class="ops-item">Rooms / Beds</div>
+            <div class="ops-item">Medical Devices</div>
+            <div class="ops-item">Telemedicine Kits</div>
+          </div>
+          <div class="ops-section-label">Staffing</div>
+          <div class="ops-grid">
+            <div class="ops-item">Provider Roster</div>
+            <div class="ops-item">Shift / On-Call</div>
+            <div class="ops-item">Credential Tracking</div>
+            <div class="ops-item">Staff Availability</div>
+          </div>
+          <div class="ops-section-label">Enterprise Scheduling</div>
+          <div class="ops-grid">
+            <div class="ops-item">Master Scheduling</div>
+            <div class="ops-item">Multi-Location Sched</div>
+            <div class="ops-item">Resource / Room Book</div>
+            <div class="ops-item">Template Schedules</div>
+            <div class="ops-item">Block Scheduling</div>
+            <div class="ops-item">Recurring Appts</div>
+            <div class="ops-item">Group / Class Sched</div>
+            <div class="ops-item">Overbooking Rules</div>
+            <div class="ops-item">Waitlist Mgmt</div>
+            <div class="ops-item">Capacity Planning</div>
+            <div class="ops-item">Auto Matching</div>
+            <div class="ops-item">Schedule Optimizer</div>
+            <div class="ops-item">Call Center Workflow</div>
+            <div class="ops-item">Calendar Integrations</div>
+            <div class="ops-item">No-Show Mgmt</div>
+            <div class="ops-item">Walk-in Queue</div>
+          </div>
+          <div class="ops-section-label">Supply Chain</div>
+          <div class="ops-grid">
+            <div class="ops-item">Medication Stock</div>
+            <div class="ops-item">Supply Inventory</div>
+            <div class="ops-item">Order Catalogs</div>
+            <div class="ops-item">Dispensing Log</div>
+          </div>
+          <div class="ops-section-label">Revenue Cycle</div>
+          <div class="ops-grid">
+            <div class="ops-item">Billing &amp; Claims</div>
+            <div class="ops-item">Invoicing</div>
+            <div class="ops-item">Superbills</div>
+            <div class="ops-item">Collections</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Interop & Platform -->
       <div class="service-block interop-block">
         <h3>Interop &amp; Platform</h3>
         <div class="service-sub">Standards, Identity &amp; Infra</div>
@@ -767,6 +932,18 @@
             <div class="interop-item">SMART on FHIR</div>
             <div class="interop-item">HIE / CDA</div>
           </div>
+          <div class="interop-section-label">EMR Connectors</div>
+          <div class="interop-grid">
+            <div class="interop-item">Epic</div>
+            <div class="interop-item">Cerner</div>
+            <div class="interop-item">Athena Health</div>
+            <div class="interop-item">PointClickCare</div>
+          </div>
+          <div class="interop-section-label">Health Exchange</div>
+          <div class="interop-grid">
+            <div class="interop-item">CommonWell</div>
+            <div class="interop-item">CareQuality</div>
+          </div>
           <div class="interop-section-label">Identity &amp; Access</div>
           <div class="interop-grid">
             <div class="interop-item">Patient MPI</div>
@@ -776,29 +953,73 @@
           </div>
           <div class="interop-section-label">Infrastructure</div>
           <div class="interop-grid">
+            <div class="interop-item">Config Engine</div>
             <div class="interop-item">Event Bus</div>
             <div class="interop-item">Webhooks</div>
-            <div class="interop-item">Config Service</div>
-            <div class="interop-item">Analytics</div>
+            <div class="interop-item">Notifications</div>
+            <div class="interop-item">Multi-language</div>
+            <div class="interop-item">Tenant Config</div>
           </div>
         </div>
       </div>
 
-      <!-- 5. AI Services -->
+      <!-- 6. AI & Analytics -->
       <div class="service-block ai-block">
-        <h3>AI Services</h3>
-        <div class="service-sub">Clinical Intelligence</div>
-        <div class="ai-items">
-          <div class="ai-item">AI Sidebar</div>
-          <div class="ai-item">Virtual Scribe</div>
-          <div class="ai-item">SOAP Generation</div>
-          <div class="ai-item">CDS / Drug Checks</div>
-          <div class="ai-item">Triage AI</div>
-          <div class="ai-item">AI X-Ray Analysis</div>
-          <div class="ai-item">Predictive Analytics</div>
+        <h3>AI &amp; Analytics</h3>
+        <div class="service-sub">Intelligence &amp; Insights</div>
+        <div class="ai-sections">
+          <div class="ai-section-label">Clinical AI</div>
+          <div class="ai-grid">
+            <div class="ai-item">AI Sidebar</div>
+            <div class="ai-item">Virtual Scribe</div>
+            <div class="ai-item">SOAP Generation</div>
+            <div class="ai-item">CDS / Drug Checks</div>
+            <div class="ai-item">Triage AI</div>
+            <div class="ai-item">Telenursing AI</div>
+          </div>
+          <div class="ai-section-label">Diagnostics</div>
+          <div class="ai-grid">
+            <div class="ai-item">AI X-Ray Analysis</div>
+            <div class="ai-item">Outlier Detection</div>
+            <div class="ai-item">Predictive Analytics</div>
+            <div class="ai-item">Risk Stratification</div>
+          </div>
+          <div class="ai-section-label">Analytics &amp; Reporting</div>
+          <div class="ai-grid">
+            <div class="ai-item">Custom Reports</div>
+            <div class="ai-item">Real-time Dashboards</div>
+            <div class="ai-item">Population Health</div>
+            <div class="ai-item">Quality Measures</div>
+          </div>
         </div>
       </div>
 
+    </div>
+
+    <!-- Security & Compliance Foundation Bar -->
+    <div class="security-foundation-bar">
+      <div class="security-bar-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Security &amp; Compliance
+      </div>
+      <div class="security-bar-items">
+        <span class="security-badge">HIPAA</span>
+        <span class="security-badge">SOC 2</span>
+        <span class="security-badge">GDPR</span>
+        <span class="security-badge">FedRAMP High</span>
+        <span class="security-badge">SSO</span>
+        <span class="security-badge">MFA</span>
+      </div>
+      <div class="security-bar-meta">
+        <span class="platform-stat">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          Multi-Cloud: AWS · OCI · Azure
+        </span>
+        <span class="platform-stat">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-1px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          1.5M+ video encounters / month
+        </span>
+      </div>
     </div>
 
   </div>
@@ -807,243 +1028,596 @@
 <!-- ==================== DIVIDER ==================== -->
 <div class="page-divider"><hr></div>
 
-<!-- ==================== PAGE 2: TEAM ROADMAP ==================== -->
-<div class="roadmap-slide">
+<!-- ==================== PAGE 2: DEFAULT DIGITAL FRONT DOORS ==================== -->
+<div class="slide" style="padding-bottom: 44px;">
 
-  <div class="roadmap-header">
-    <h2>Team Action Items by Phase
-      <span>Who does what, and when — across all teams</span>
-    </h2>
-    <div class="logo">Cross-Team Roadmap</div>
+  <div class="header">
+    <h1>Default Digital Front Door — v1 per Deployment Type
+      <span>Default screen layout, modules, and workflows for each mode</span>
+    </h1>
+    <div class="logo">Front Door Designs</div>
   </div>
 
-  <div class="swimlane-grid">
+  <style>
+    .fd-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .fd-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
 
-    <!-- Column Headers -->
-    <div class="corner-label">Team</div>
-    <div class="phase-col-header ph1">Phase 1 — Foundation<br><span style="font-size:7.5px;font-weight:500;opacity:0.7;">Q2–Q3 2026</span></div>
-    <div class="phase-col-header ph2">Phase 2 — Digital Front Door<br><span style="font-size:7.5px;font-weight:500;opacity:0.7;">Q3–Q4 2026</span></div>
-    <div class="phase-col-header ph3">Phase 3 — Shared Services<br><span style="font-size:7.5px;font-weight:500;opacity:0.7;">Q1–Q2 2027</span></div>
-    <div class="phase-col-header ph4">Phase 4 — Self-Service<br><span style="font-size:7.5px;font-weight:500;opacity:0.7;">Q3 2027+</span></div>
+    .fd-card {
+      flex: 1;
+      max-width: 640px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    .fd-card-header {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .fd-card-header .fd-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .fd-card-header h3 { font-size: 16px; font-weight: 700; }
+    .fd-card-header p { font-size: 11px; opacity: 0.7; line-height: 1.3; margin-top: 1px; }
+    .fd-use-case {
+      font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 3px;
+      text-transform: uppercase; letter-spacing: 0.4px; margin-left: auto;
+    }
 
-    <!-- ROW: Product & Design -->
-    <div class="swim-team-label team-product">
-      <div class="team-icon">🎨</div>
-      <div class="team-info">
-        <h4>Product & Design</h4>
-        <p>UX, specs, profiles</p>
+    /* Wireframe area */
+    .fd-wireframe {
+      padding: 8px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fd-section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.7px; margin-bottom: 2px; opacity: 0.6;
+    }
+
+    /* Screen wireframe blocks */
+    .fd-screen-row {
+      display: flex;
+      gap: 5px;
+    }
+    .fd-screen {
+      border-radius: 6px;
+      padding: 6px 8px;
+      flex: 1;
+      min-height: 44px;
+    }
+    .fd-screen h4 {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .fd-screen h4 .screen-icon { font-size: 13px; }
+    .fd-screen p {
+      font-size: 10px;
+      line-height: 1.4;
+      opacity: 0.8;
+    }
+    .fd-screen .fd-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .fd-screen .fd-pill {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+    .fd-primary { flex: 1.5; }
+    .fd-narrow { flex: 0.7; min-width: 90px; }
+
+    /* Workflow bar */
+    .fd-workflow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 4px 8px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .fd-step {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      position: relative;
+    }
+    .fd-step::after {
+      content: '→';
+      margin-left: 8px;
+      opacity: 0.4;
+    }
+    .fd-step:last-child::after { content: ''; }
+
+    .fd-feature-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 3px;
+    }
+    .fd-feature {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Color themes per deployment */
+    .fd-inpatient { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #2563eb40; }
+    .fd-inpatient .fd-card-header { background: linear-gradient(90deg, #2563eb15, transparent); }
+    .fd-inpatient .fd-card-header h3 { color: #60a5fa; }
+    .fd-inpatient .fd-icon { background: #2563eb25; }
+    .fd-inpatient .fd-use-case { background: #2563eb20; color: #93c5fd; }
+    .fd-inpatient .fd-screen { background: #2563eb10; border: 1px solid #2563eb25; }
+    .fd-inpatient .fd-screen h4 { color: #93c5fd; }
+    .fd-inpatient .fd-pill { background: #2563eb15; color: #93c5fd; }
+    .fd-inpatient .fd-workflow { background: #2563eb08; border: 1px solid #2563eb20; }
+    .fd-inpatient .fd-step { color: #93c5fd; }
+    .fd-inpatient .fd-feature { background: #2563eb12; color: #93c5fd; border: 1px solid #2563eb20; }
+
+    .fd-outpatient { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #8b5cf640; }
+    .fd-outpatient .fd-card-header { background: linear-gradient(90deg, #8b5cf615, transparent); }
+    .fd-outpatient .fd-card-header h3 { color: #a78bfa; }
+    .fd-outpatient .fd-icon { background: #8b5cf625; }
+    .fd-outpatient .fd-use-case { background: #8b5cf620; color: #c4b5fd; }
+    .fd-outpatient .fd-screen { background: #8b5cf610; border: 1px solid #8b5cf625; }
+    .fd-outpatient .fd-screen h4 { color: #c4b5fd; }
+    .fd-outpatient .fd-pill { background: #8b5cf615; color: #c4b5fd; }
+    .fd-outpatient .fd-workflow { background: #8b5cf608; border: 1px solid #8b5cf620; }
+    .fd-outpatient .fd-step { color: #c4b5fd; }
+    .fd-outpatient .fd-feature { background: #8b5cf612; color: #c4b5fd; border: 1px solid #8b5cf620; }
+
+    .fd-disaster { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #f9731640; }
+    .fd-disaster .fd-card-header { background: linear-gradient(90deg, #f9731615, transparent); }
+    .fd-disaster .fd-card-header h3 { color: #fb923c; }
+    .fd-disaster .fd-icon { background: #f9731625; }
+    .fd-disaster .fd-use-case { background: #f9731620; color: #fed7aa; }
+    .fd-disaster .fd-screen { background: #f9731610; border: 1px solid #f9731625; }
+    .fd-disaster .fd-screen h4 { color: #fed7aa; }
+    .fd-disaster .fd-pill { background: #f9731615; color: #fed7aa; }
+    .fd-disaster .fd-workflow { background: #f9731608; border: 1px solid #f9731620; }
+    .fd-disaster .fd-step { color: #fed7aa; }
+    .fd-disaster .fd-feature { background: #f9731612; color: #fed7aa; border: 1px solid #f9731620; }
+
+    .fd-mission { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #10b98140; }
+    .fd-mission .fd-card-header { background: linear-gradient(90deg, #10b98115, transparent); }
+    .fd-mission .fd-card-header h3 { color: #34d399; }
+    .fd-mission .fd-icon { background: #10b98125; }
+    .fd-mission .fd-use-case { background: #10b98120; color: #a7f3d0; }
+    .fd-mission .fd-screen { background: #10b98110; border: 1px solid #10b98125; }
+    .fd-mission .fd-screen h4 { color: #a7f3d0; }
+    .fd-mission .fd-pill { background: #10b98115; color: #a7f3d0; }
+    .fd-mission .fd-workflow { background: #10b98108; border: 1px solid #10b98120; }
+    .fd-mission .fd-step { color: #a7f3d0; }
+    .fd-mission .fd-feature { background: #10b98112; color: #a7f3d0; border: 1px solid #10b98120; }
+
+    /* Clinic (purple) — merged Outpatient + Virtual */
+    .fd-clinic { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #7C3AED40; }
+    .fd-clinic .fd-card-header { background: linear-gradient(90deg, #7C3AED15, transparent); }
+    .fd-clinic .fd-card-header h3 { color: #a78bfa; }
+    .fd-clinic .fd-icon { background: #7C3AED25; }
+    .fd-clinic .fd-use-case { background: #7C3AED20; color: #c4b5fd; }
+    .fd-clinic .fd-screen { background: #7C3AED10; border: 1px solid #7C3AED25; }
+    .fd-clinic .fd-screen h4 { color: #c4b5fd; }
+    .fd-clinic .fd-pill { background: #7C3AED15; color: #c4b5fd; }
+    .fd-clinic .fd-workflow { background: #7C3AED08; border: 1px solid #7C3AED20; }
+    .fd-clinic .fd-step { color: #c4b5fd; }
+    .fd-clinic .fd-feature { background: #7C3AED12; color: #c4b5fd; border: 1px solid #7C3AED20; }
+
+    /* Patient Portal (green) */
+    .fd-portal { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #0D875C40; }
+    .fd-portal .fd-card-header { background: linear-gradient(90deg, #0D875C15, transparent); }
+    .fd-portal .fd-card-header h3 { color: #34d399; }
+    .fd-portal .fd-icon { background: #0D875C25; }
+    .fd-portal .fd-use-case { background: #0D875C20; color: #a7f3d0; }
+    .fd-portal .fd-screen { background: #0D875C10; border: 1px solid #0D875C25; }
+    .fd-portal .fd-screen h4 { color: #a7f3d0; }
+    .fd-portal .fd-pill { background: #0D875C15; color: #a7f3d0; }
+    .fd-portal .fd-workflow { background: #0D875C08; border: 1px solid #0D875C20; }
+    .fd-portal .fd-step { color: #a7f3d0; }
+    .fd-portal .fd-feature { background: #0D875C12; color: #a7f3d0; border: 1px solid #0D875C20; }
+
+    /* Field Ops (orange) — merged Disaster + Mission */
+    .fd-fieldops { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #F9731640; }
+    .fd-fieldops .fd-card-header { background: linear-gradient(90deg, #F9731615, transparent); }
+    .fd-fieldops .fd-card-header h3 { color: #fb923c; }
+    .fd-fieldops .fd-icon { background: #F9731625; }
+    .fd-fieldops .fd-use-case { background: #F9731620; color: #fed7aa; }
+    .fd-fieldops .fd-screen { background: #F9731610; border: 1px solid #F9731625; }
+    .fd-fieldops .fd-screen h4 { color: #fed7aa; }
+    .fd-fieldops .fd-pill { background: #F9731615; color: #fed7aa; }
+    .fd-fieldops .fd-workflow { background: #F9731608; border: 1px solid #F9731620; }
+    .fd-fieldops .fd-step { color: #fed7aa; }
+    .fd-fieldops .fd-feature { background: #F9731612; color: #fed7aa; border: 1px solid #F9731620; }
+
+    /* Virtual-Enabled overlay bar for Page 4 */
+    .fd-virtual-overlay {
+      margin-top: 12px;
+      background: linear-gradient(90deg, #22d3ee08, #22d3ee12, #22d3ee08);
+      border: 1px solid #22d3ee20;
+      border-radius: 8px;
+      padding: 8px 20px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fd-virtual-overlay .fd-virtual-note {
+      font-size: 12px; font-weight: 500; color: #67e8f9; text-align: center; line-height: 1.5;
+    }
+    .fd-virtual-overlay .fd-virtual-note strong {
+      font-weight: 700; color: #22d3ee;
+    }
+
+    .fd-offline-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px;
+      background: #f59e0b18; color: #fcd34d; border: 1px solid #f59e0b30;
+      text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .fd-online-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 3px;
+      background: #22c55e18; color: #4ade80; border: 1px solid #22c55e30;
+      text-transform: uppercase; letter-spacing: 0.3px;
+    }
+  </style>
+
+  <div class="fd-container">
+
+    <!-- ROW 1: Hospital + Clinic -->
+    <div class="fd-row">
+
+      <!-- HOSPITAL -->
+      <div class="fd-card fd-inpatient">
+        <div class="fd-card-header">
+          <div class="fd-icon">🏥</div>
+          <div>
+            <h3>Hospital</h3>
+            <p>Inpatient: census board, bed mgmt, MAR, orders, nursing, discharge</p>
+          </div>
+          <div class="fd-use-case">Provider-Facing</div>
+        </div>
+        <div class="fd-wireframe">
+          <div class="fd-section-label">Default Dashboard Layout</div>
+          <div class="fd-screen-row">
+            <div class="fd-screen fd-primary">
+              <h4><span class="screen-icon">📋</span> Census Board (Main View)</h4>
+              <p>Real-time bed grid showing patient name, room, acuity, attending, LOS, pending orders. Color-coded by unit. Click-through to patient chart.</p>
+              <div class="fd-pills">
+                <span class="fd-pill">Bed Grid</span>
+                <span class="fd-pill">Acuity Colors</span>
+                <span class="fd-pill">Pending Orders</span>
+                <span class="fd-pill">LOS Counter</span>
+              </div>
+            </div>
+            <div class="fd-screen fd-narrow">
+              <h4><span class="screen-icon">🔔</span> Alerts Panel</h4>
+              <p>Critical labs, overdue meds, pending discharges, code alerts</p>
+              <div class="fd-pills">
+                <span class="fd-pill">Critical</span>
+                <span class="fd-pill">STAT Orders</span>
+              </div>
+            </div>
+          </div>
+          <div class="fd-screen-row">
+            <div class="fd-screen">
+              <h4><span class="screen-icon">💊</span> MAR / Medication Admin</h4>
+              <p>Real-time medication administration record. Due/given/held status per patient. Barcode scan verification.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">📝</span> Order Entry</h4>
+              <p>Full order catalog — labs, imaging, medications, nursing orders. Order sets per condition. CPOE compliant.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">🔄</span> Discharge Planner</h4>
+              <p>Discharge checklist, pending items, follow-up scheduling, discharge summary generation.</p>
+            </div>
+          </div>
+          <div class="fd-section-label">Default Workflow</div>
+          <div class="fd-workflow">
+            <div class="fd-step">Admission</div>
+            <div class="fd-step">Assessment</div>
+            <div class="fd-step">Orders</div>
+            <div class="fd-step">Nursing Notes</div>
+            <div class="fd-step">Rounding</div>
+            <div class="fd-step">Discharge Plan</div>
+            <div class="fd-step">Discharge</div>
+          </div>
+          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
+          <div class="fd-feature-list">
+            <span class="fd-feature">Census Board</span>
+            <span class="fd-feature">Bed Management</span>
+            <span class="fd-feature">Full Orders (CPOE)</span>
+            <span class="fd-feature">MAR</span>
+            <span class="fd-feature">Vitals Flowsheet</span>
+            <span class="fd-feature">Nursing Notes</span>
+            <span class="fd-feature">Care Plans</span>
+            <span class="fd-feature">Discharge</span>
+            <span class="fd-feature">Shift Handoff</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1 task-critical">Unified patient identity schema (Clinic ↔ EMR mapping)</div>
-      <div class="task task-p1">EMR data model expansion: insurance, payments, claims records</div>
-      <div class="task task-p1">Resource management data model (sites, rooms, staff, supplies)</div>
-      <div class="task task-p1">RBAC model spanning Clinic + EMR roles</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2 task-critical">5 deployment profiles: default modules, dashboards, workflows per mode</div>
-      <div class="task task-p2">Patient portal UX (scheduling, records, payments, messaging)</div>
-      <div class="task task-p2">Configurable check-in flows per deployment type</div>
-      <div class="task task-p2">Provider calendar + resource scheduling UX</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Unified analytics dashboard specs per deployment type</div>
-      <div class="task task-p3">Cross-module notification & messaging UX</div>
-      <div class="task task-p3">Pharmacy & supply management workflows</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">No-code deployment configurator UX</div>
-      <div class="task task-p4">Visual workflow builder design</div>
-      <div class="task task-p4">Template marketplace design</div>
+
+      <!-- CLINIC (merged Outpatient + Virtual) -->
+      <div class="fd-card fd-clinic">
+        <div class="fd-card-header">
+          <div class="fd-icon">🩺</div>
+          <div>
+            <h3>Clinic</h3>
+            <p>Outpatient &amp; virtual: scheduling, intake, video visits, billing, referrals</p>
+          </div>
+          <div class="fd-use-case">Patient + Provider</div>
+        </div>
+        <div class="fd-wireframe">
+          <div style="display:flex;gap:14px;">
+            <div style="flex:1;">
+              <div class="fd-section-label">Patient-Facing</div>
+              <div class="fd-screen-row">
+                <div class="fd-screen fd-primary">
+                  <h4><span class="screen-icon">📅</span> Self-Schedule &amp; Portal</h4>
+                  <p>Provider search, availability picker, insurance verify, copay. Upcoming appointments, results, messages, Rx refills.</p>
+                  <div class="fd-pills">
+                    <span class="fd-pill">Calendar</span>
+                    <span class="fd-pill">Results</span>
+                    <span class="fd-pill">Messages</span>
+                    <span class="fd-pill">Copay</span>
+                  </div>
+                </div>
+                <div class="fd-screen">
+                  <h4><span class="screen-icon">📱</span> RPM Dashboard</h4>
+                  <p>Connected device readings (BP, glucose, weight, SpO2). Trends, alerts, daily check-in prompts.</p>
+                </div>
+              </div>
+            </div>
+            <div style="flex:1;">
+              <div class="fd-section-label">Provider-Facing</div>
+              <div class="fd-screen-row">
+                <div class="fd-screen">
+                  <h4><span class="screen-icon">📊</span> Provider Calendar</h4>
+                  <p>Day/week view, video/in-person types, walk-in queue, room assignments. One-click chart open.</p>
+                  <div class="fd-pills">
+                    <span class="fd-pill">Calendar</span>
+                    <span class="fd-pill">Queue</span>
+                    <span class="fd-pill">Intake</span>
+                  </div>
+                </div>
+                <div class="fd-screen">
+                  <h4><span class="screen-icon">🏪</span> Waiting Room</h4>
+                  <p>Real-time patient queue. Check-in status, intake completion, auto-sort by priority.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fd-screen-row">
+            <div class="fd-screen">
+              <h4><span class="screen-icon">🎥</span> Video Visit</h4>
+              <p>HD video + AI Scribe. Patient chart sidebar. Screen share. Multi-party (interpreter, specialist).</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">💳</span> Checkout / Billing</h4>
+              <p>Superbill generation, copay collection, insurance claim submit, follow-up scheduling.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">🔗</span> Referrals</h4>
+              <p>Internal/external referral workflow, specialist search, appointment coordination, status tracking.</p>
+            </div>
+          </div>
+          <div class="fd-section-label">Default Workflow</div>
+          <div class="fd-workflow">
+            <div class="fd-step">Schedule</div>
+            <div class="fd-step">Insurance Verify</div>
+            <div class="fd-step">Online Intake</div>
+            <div class="fd-step">Check-in</div>
+            <div class="fd-step">Waiting Room</div>
+            <div class="fd-step">Visit (Video/In-Person)</div>
+            <div class="fd-step">Checkout</div>
+          </div>
+          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
+          <div class="fd-feature-list">
+            <span class="fd-feature">Patient Portal</span>
+            <span class="fd-feature">Self-Scheduling</span>
+            <span class="fd-feature">Insurance Verify</span>
+            <span class="fd-feature">Dynamic Intake</span>
+            <span class="fd-feature">Waiting Room</span>
+            <span class="fd-feature">Video Visits</span>
+            <span class="fd-feature">Payments</span>
+            <span class="fd-feature">VSee Messenger</span>
+            <span class="fd-feature">Superbills</span>
+            <span class="fd-feature">RPM Dashboard</span>
+            <span class="fd-feature">Referrals</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- ROW: Backend -->
-    <div class="swim-team-label team-backend">
-      <div class="team-icon">⚙️</div>
-      <div class="team-info">
-        <h4>Backend / API</h4>
-        <p>EMR, Clinic, Gateway</p>
+    <!-- ROW 2: Field Ops + Patient Portal -->
+    <div class="fd-row">
+
+      <!-- FIELD OPS (merged Disaster + Mission) -->
+      <div class="fd-card fd-fieldops">
+        <div class="fd-card-header">
+          <div class="fd-icon">🌍</div>
+          <div>
+            <h3>Field Ops</h3>
+            <p>Disaster &amp; mission: offline-first, triage, rapid reg, supply tracking, pharmacy</p>
+          </div>
+          <div class="fd-use-case">Provider-Facing</div>
+          <div class="fd-offline-badge">Offline-First</div>
+          <div class="fd-offline-badge" style="background:#22c55e18;color:#4ade80;border-color:#22c55e30;">Hybrid Online/Offline</div>
+        </div>
+        <div class="fd-wireframe">
+          <div class="fd-section-label">Default Dashboard Layout</div>
+          <div class="fd-screen-row">
+            <div class="fd-screen fd-primary">
+              <h4><span class="screen-icon">🔴</span> MCI Triage Board (Main View)</h4>
+              <p>Color-coded patient cards (Immediate/Delayed/Minor/Expectant). Touch-friendly. Drag to re-triage. Count badges per category. Large fonts for field use.</p>
+              <div class="fd-pills">
+                <span class="fd-pill">START/SALT</span>
+                <span class="fd-pill">Color Zones</span>
+                <span class="fd-pill">Patient Count</span>
+                <span class="fd-pill">Touch UI</span>
+              </div>
+            </div>
+            <div class="fd-screen fd-narrow">
+              <h4><span class="screen-icon">📊</span> Mission Dashboard</h4>
+              <p>Daily patient count, provider stats, KPIs, screening rates, common conditions</p>
+              <div class="fd-pills">
+                <span class="fd-pill">Stats</span>
+                <span class="fd-pill">KPIs</span>
+              </div>
+            </div>
+          </div>
+          <div class="fd-screen-row">
+            <div class="fd-screen">
+              <h4><span class="screen-icon">📝</span> Walk-in Registration</h4>
+              <p>Minimal-field patient entry: name/age/sex/chief complaint. Wristband barcode. Photo capture. Multilingual. QR repeat-visit lookup.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">💊</span> Pharmacy</h4>
+              <p>Dispensing log, stock levels, expiry alerts, supply tracking, medication shortages, substitute suggestions.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">🔄</span> Offline Sync</h4>
+              <p>Connectivity status. Queue depth. Last sync time. Manual push/pull. Conflict alerts.</p>
+            </div>
+          </div>
+          <div class="fd-section-label">Default Workflow</div>
+          <div class="fd-workflow">
+            <div class="fd-step">Field Arrival</div>
+            <div class="fd-step">Rapid ID</div>
+            <div class="fd-step">Triage</div>
+            <div class="fd-step">Vitals</div>
+            <div class="fd-step">Treatment</div>
+            <div class="fd-step">Pharmacy</div>
+            <div class="fd-step">Disposition</div>
+          </div>
+          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
+          <div class="fd-feature-list">
+            <span class="fd-feature">MCI Triage</span>
+            <span class="fd-feature">Rapid Registration</span>
+            <span class="fd-feature">Offline Mode</span>
+            <span class="fd-feature">Vital Capture (Devices)</span>
+            <span class="fd-feature">Supply Tracking</span>
+            <span class="fd-feature">Pharmacy Dispensing</span>
+            <span class="fd-feature">Sync Engine</span>
+            <span class="fd-feature">Mission Analytics</span>
+            <span class="fd-feature">AI X-Ray</span>
+            <span class="fd-feature">Multilingual</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1 task-critical">Unified patient identity service (Clinic user ↔ EMR FHIR Patient)</div>
-      <div class="task task-p1 task-critical">Standardize EMR REST API (versioned, aligned w/ Clinic API v3)</div>
-      <div class="task task-p1">Add financial collections to EMR: insurance, payments, claims, invoices</div>
-      <div class="task task-p1">Build resource mgmt service: sites, rooms, beds, devices, supply inventory</div>
-      <div class="task task-p1 task-dep">Clinic → EMR data bridge (redirect clinical reads/writes)</div>
-      <div class="task task-p1">Stand up unified API gateway + single JWT auth</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2">Expose scheduling engine as shared service via gateway</div>
-      <div class="task task-p2">Deployment profile config system (JSON-driven feature flags)</div>
-      <div class="task task-p2">Patient portal auth (login, registration, SSO)</div>
-      <div class="task task-p2">Provider roster / shift mgmt APIs</div>
-      <div class="task task-p2">Configurable intake workflow engine for EMR deployments</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Abstract video service (auto-create EMR encounters)</div>
-      <div class="task task-p3">Unify messaging (patient ↔ provider, bulk SMS)</div>
-      <div class="task task-p3">Payments + insurance as shared services</div>
-      <div class="task task-p3">Pharmacy dispensing + supply tracking APIs</div>
-      <div class="task task-p3">RPM pipeline → EMR observations</div>
-      <div class="task task-p3">Event bus for cross-service comms</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">Full FHIR R4 server</div>
-      <div class="task task-p4">Multi-tenant enterprise mgmt APIs</div>
-      <div class="task task-p4">Template marketplace backend</div>
+
+      <!-- PATIENT PORTAL -->
+      <div class="fd-card fd-portal">
+        <div class="fd-card-header">
+          <div class="fd-icon">👤</div>
+          <div>
+            <h3>Patient Portal</h3>
+            <p>Direct to consumer: scheduling, records, messaging, payments, RPM</p>
+          </div>
+          <div class="fd-use-case">Patient-Facing</div>
+          <div class="fd-online-badge">Cloud-First</div>
+        </div>
+        <div class="fd-wireframe">
+          <div class="fd-section-label">Consumer Experience</div>
+          <div class="fd-screen-row">
+            <div class="fd-screen fd-primary">
+              <h4><span class="screen-icon">🏠</span> Patient Home</h4>
+              <p>Upcoming appointments, recent results, messages, action items. One-click to schedule, message provider, or join video visit. Care plan progress.</p>
+              <div class="fd-pills">
+                <span class="fd-pill">Appointments</span>
+                <span class="fd-pill">Results</span>
+                <span class="fd-pill">Messages</span>
+                <span class="fd-pill">Rx Refills</span>
+              </div>
+            </div>
+            <div class="fd-screen fd-narrow">
+              <h4><span class="screen-icon">📅</span> Self-Schedule</h4>
+              <p>Provider search, availability picker, specialty/symptom filter, copay estimate</p>
+              <div class="fd-pills">
+                <span class="fd-pill">Calendar</span>
+                <span class="fd-pill">Copay</span>
+              </div>
+            </div>
+          </div>
+          <div class="fd-screen-row">
+            <div class="fd-screen">
+              <h4><span class="screen-icon">📋</span> Health Records</h4>
+              <p>Lab results, visit summaries, imaging reports, immunizations, problem list. Download/share via FHIR.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">📱</span> RPM Dashboard</h4>
+              <p>Connected device readings (BP, glucose, weight, SpO2). Trends, alerts, provider-set goals. Daily check-in prompts.</p>
+            </div>
+            <div class="fd-screen">
+              <h4><span class="screen-icon">💳</span> Payments</h4>
+              <p>Outstanding balances, payment history, insurance claims status, copay receipts, payment plans.</p>
+            </div>
+          </div>
+          <div class="fd-section-label">Default Workflow</div>
+          <div class="fd-workflow">
+            <div class="fd-step">Browse/Search</div>
+            <div class="fd-step">Schedule</div>
+            <div class="fd-step">Pre-Visit Intake</div>
+            <div class="fd-step">Copay</div>
+            <div class="fd-step">Join Visit</div>
+            <div class="fd-step">View Results</div>
+            <div class="fd-step">Follow-up</div>
+          </div>
+          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
+          <div class="fd-feature-list">
+            <span class="fd-feature">Self-Scheduling</span>
+            <span class="fd-feature">Health Records</span>
+            <span class="fd-feature">VSee Messenger</span>
+            <span class="fd-feature">RPM Dashboard</span>
+            <span class="fd-feature">Payments</span>
+            <span class="fd-feature">Rx Refills</span>
+            <span class="fd-feature">Dynamic Intake</span>
+            <span class="fd-feature">Notifications</span>
+            <span class="fd-feature">Video Visits</span>
+            <span class="fd-feature">Care Plans</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- ROW: Frontend (Web) -->
-    <div class="swim-team-label team-frontend">
-      <div class="team-icon">🖥️</div>
-      <div class="team-info">
-        <h4>Frontend (Web)</h4>
-        <p>React, portal, dashboard</p>
-      </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1">Assess Clinic KnockoutJS → React migration state</div>
-      <div class="task task-p1 task-parallel">Shared React component library (React 19, Tailwind, shadcn/ui)</div>
-      <div class="task task-p1">Verify EMR frontend reads from new API bridge</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2 task-critical">Patient portal (login, records, appointments, payments, messaging)</div>
-      <div class="task task-p2">Patient self-scheduling UI (shared scheduling service)</div>
-      <div class="task task-p2">Configurable check-in / intake flow renderer</div>
-      <div class="task task-p2">Provider calendar + room/resource scheduling in EMR dashboard</div>
-      <div class="task task-p2">Deployment profile switcher (theme, modules, layout)</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Unified analytics dashboard</div>
-      <div class="task task-p3">Integrated messaging UI</div>
-      <div class="task task-p3">RPM health dashboard in Digital Front Door</div>
-      <div class="task task-p3">Resource / supply management views</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">No-code deployment configurator UI</div>
-      <div class="task task-p4">Visual drag-and-drop workflow builder</div>
-      <div class="task task-p4">Enterprise multi-site dashboard</div>
-    </div>
-
-    <!-- ROW: Mobile -->
-    <div class="swim-team-label team-mobile">
-      <div class="team-icon">📱</div>
-      <div class="team-info">
-        <h4>Mobile</h4>
-        <p>iOS, Android, ClinicKit</p>
-      </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1">Update ClinicKit SDK to call unified gateway</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2">Patient app: scheduling + records + payments via unified API</div>
-      <div class="task task-p2">Offline check-in & intake (IndexedDB + sync queue)</div>
-      <div class="task task-p2">Deployment-specific push notifications</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">BLE device data → EMR vitals pipeline</div>
-      <div class="task task-p3">Offline encounter capture + conflict resolution</div>
-      <div class="task task-p3">Mobile chat/messaging integration</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">White-label app generator with profile config</div>
-    </div>
-
-    <!-- ROW: DevOps / Infra -->
-    <div class="swim-team-label team-devops">
-      <div class="team-icon">🔧</div>
-      <div class="team-info">
-        <h4>DevOps / Infra</h4>
-        <p>Cloud, CI/CD, security</p>
-      </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1 task-dep">Deploy API gateway (Kong / AWS) + unified TLS</div>
-      <div class="task task-p1">CI/CD for unified API + shared component library</div>
-      <div class="task task-p1">Data migration tooling (Clinic MongoDB → EMR sync)</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2">Service Worker CDN for offline-capable front door</div>
-      <div class="task task-p2">Deployment profile provisioning automation</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Event bus infra (Kafka / EventBridge)</div>
-      <div class="task task-p3">Cross-service observability (tracing, metrics)</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">Self-service provisioning pipeline</div>
-      <div class="task task-p4">FedRAMP continuous monitoring for unified platform</div>
-    </div>
-
-    <!-- ROW: AI -->
-    <div class="swim-team-label team-ai">
-      <div class="team-icon">🤖</div>
-      <div class="team-info">
-        <h4>AI / ML</h4>
-        <p>Sidebar, scribe, CDS</p>
-      </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1 task-parallel">AI Sidebar Phase 0: shell, context bridge, HITL, audit, streaming</div>
-      <div class="task task-p1">Context bridge contract for Clinic + EMR host pages</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2">Sidebar Phase 1: non-medical (briefings, schedule analytics)</div>
-      <div class="task task-p2">Patient-facing AI: visit prep, care plan Q&A</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Sidebar Phase 2: SOAP drafts, ICD, drug checks</div>
-      <div class="task task-p3">Deployment-adaptive AI (disaster: triage; hospital: CDS)</div>
-      <div class="task task-p3">Multi-source data adapters (FHIR, HIE, labs)</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">AI workflow recommendations</div>
-      <div class="task task-p4">Predictive analytics per deployment</div>
-    </div>
-
-    <!-- ROW: QA / Compliance -->
-    <div class="swim-team-label team-qa">
-      <div class="team-icon">🛡️</div>
-      <div class="team-info">
-        <h4>QA / Compliance</h4>
-        <p>Testing, HIPAA, FedRAMP</p>
-      </div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p1">Data integrity: write-through sync correctness</div>
-      <div class="task task-p1">HIPAA audit for unified gateway (PHI routing)</div>
-      <div class="task task-p1">Integration tests: Clinic ↔ EMR data bridge</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p2">E2E test suites per deployment profile</div>
-      <div class="task task-p2">Patient portal security audit</div>
-      <div class="task task-p2">Offline sync conflict resolution testing</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p3">Cross-service integration regression suite</div>
-      <div class="task task-p3">AI safety validation (HITL, risk tiering, audit)</div>
-    </div>
-    <div class="swim-cell">
-      <div class="task task-p4">FedRAMP re-authorization for unified platform</div>
-      <div class="task task-p4">ONC Health IT Certification</div>
-      <div class="task task-p4">Pen test for self-service provisioning</div>
+    <!-- Virtual-Enabled Overlay Bar -->
+    <div class="fd-virtual-overlay">
+      <div class="fd-virtual-note"><strong>Virtual-ready by default</strong> — Video, messaging, and telehealth capabilities are built into every deployment type as platform services.</div>
     </div>
 
   </div>
 
-  <div class="footer2">
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Critical Path</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div> Blocked by prior</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Can start in parallel</div>
-      <div class="legend-item" style="margin-left:12px; padding-left:12px; border-left:1px solid #334155;">
-        <div class="legend-dot" style="background:#fbbf24;"></div> P1
-        <div class="legend-dot" style="background:#38bdf8;margin-left:6px;"></div> P2
-        <div class="legend-dot" style="background:#a78bfa;margin-left:6px;"></div> P3
-        <div class="legend-dot" style="background:#34d399;margin-left:6px;"></div> P4
-      </div>
+  <div class="footer2" style="margin-top: 18px;">
+    <div class="legend" style="gap: 18px;">
+      <div class="legend-item" style="font-size:12px; color:#94a3b8; font-weight:600;">Each deployment type = a JSON profile that toggles modules, sets default layouts, and configures workflows</div>
     </div>
     <span>VSee Health — April 2026</span>
   </div>
@@ -1072,11 +1646,11 @@
       border-radius: 11px;
       overflow: hidden;
       background: #0f1629;
-      font-size: 9px;
+      font-size: 12px;
     }
     .gap-header {
-      padding: 8px 10px;
-      font-size: 9px;
+      padding: 10px 12px;
+      font-size: 12px;
       font-weight: 700;
       text-align: center;
       border-bottom: 1px solid #1e293b;
@@ -1092,7 +1666,7 @@
     .gap-cat {
       grid-column: 1 / -1;
       padding: 6px 12px;
-      font-size: 9px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -1110,7 +1684,7 @@
       border-bottom: 1px solid #1e293b12;
       border-left: 1px solid #1e293b;
       line-height: 1.45;
-      font-size: 8.5px;
+      font-size: 11px;
       color: #cbd5e1;
     }
     .gap-cell:first-child { border-left: none; font-weight: 600; color: #e2e8f0; }
@@ -1120,9 +1694,9 @@
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      font-size: 7.5px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -1134,9 +1708,9 @@
 
     .action-badge {
       display: inline-flex;
-      font-size: 7.5px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 3px 8px;
       border-radius: 3px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -1158,7 +1732,7 @@
     }
     .gap-legend-item {
       display: flex; align-items: center; gap: 5px;
-      font-size: 8px; color: #64748b;
+      font-size: 11px; color: #64748b;
     }
 
     .gap-summary-row {
@@ -1175,13 +1749,13 @@
       min-width: 140px;
     }
     .gap-summary-card .num {
-      font-size: 26px;
+      font-size: 32px;
       font-weight: 800;
       line-height: 1;
       margin-bottom: 4px;
     }
     .gap-summary-card .label {
-      font-size: 8.5px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.6px;
@@ -1410,11 +1984,11 @@
     <div class="gap-cat cat-operational">Operational / Patient Engagement</div>
 
     <div class="gap-row">
-      <div class="gap-cell module-name">Scheduling Engine</div>
-      <div class="gap-cell"><span class="status-badge s-full">Full</span> Multi-provider, self-schedule, walk-in</div>
+      <div class="gap-cell module-name">Enterprise Scheduling</div>
+      <div class="gap-cell"><span class="status-badge s-full">Full</span> Multi-provider, self-schedule, walk-in, templates</div>
       <div class="gap-cell"><span class="status-badge s-none">None</span></div>
-      <div class="gap-cell"><span class="status-badge s-partial">Partial</span> Clinic-only</div>
-      <div class="gap-cell"><span class="action-badge a-reuse">Reuse</span> Expose as shared service via gateway</div>
+      <div class="gap-cell"><span class="status-badge s-partial">Partial</span> Clinic-only, no multi-location</div>
+      <div class="gap-cell"><span class="action-badge a-extend">Extend</span> Multi-location, block sched, waitlist, resource booking</div>
     </div>
     <div class="gap-row">
       <div class="gap-cell module-name">Waiting Room / Queue</div>
@@ -1551,633 +2125,253 @@
 
 </div>
 
+
 <!-- ==================== DIVIDER ==================== -->
 <div class="page-divider"><hr></div>
 
-<!-- ==================== PAGE 4: DEFAULT DIGITAL FRONT DOORS ==================== -->
-<div class="slide" style="padding-bottom: 44px;">
+<!-- ==================== PAGE 4: TEAM ROADMAP ==================== -->
+<div class="roadmap-slide">
 
-  <div class="header">
-    <h1>Default Digital Front Door — v1 per Deployment Type
-      <span>Default screen layout, modules, and workflows for each mode</span>
-    </h1>
-    <div class="logo">Front Door Designs</div>
+  <div class="roadmap-header">
+    <h2>Team Action Items by Phase
+      <span>Who does what, and when — across all teams</span>
+    </h2>
+    <div class="logo">Cross-Team Roadmap</div>
   </div>
 
-  <style>
-    .fd-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .fd-row {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-    }
+  <div class="swimlane-grid">
 
-    .fd-card {
-      flex: 1;
-      max-width: 640px;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-    .fd-card-header {
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .fd-card-header .fd-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-    }
-    .fd-card-header h3 { font-size: 13px; font-weight: 700; }
-    .fd-card-header p { font-size: 8.5px; opacity: 0.7; line-height: 1.3; margin-top: 1px; }
-    .fd-use-case {
-      font-size: 7.5px; font-weight: 600; padding: 2px 7px; border-radius: 3px;
-      text-transform: uppercase; letter-spacing: 0.4px; margin-left: auto;
-    }
+    <!-- Column Headers -->
+    <div class="corner-label">Team</div>
+    <div class="phase-col-header ph1">Phase 1 — Foundation<br><span style="font-size:10px;font-weight:500;opacity:0.7;">Q2–Q3 2026</span></div>
+    <div class="phase-col-header ph2">Phase 2 — Digital Front Door<br><span style="font-size:10px;font-weight:500;opacity:0.7;">Q3–Q4 2026</span></div>
+    <div class="phase-col-header ph3">Phase 3 — Shared Services<br><span style="font-size:10px;font-weight:500;opacity:0.7;">Q1–Q2 2027</span></div>
+    <div class="phase-col-header ph4">Phase 4 — Self-Service<br><span style="font-size:10px;font-weight:500;opacity:0.7;">Q3 2027+</span></div>
 
-    /* Wireframe area */
-    .fd-wireframe {
-      padding: 8px 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .fd-section-label {
-      font-size: 7px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.7px; margin-bottom: 2px; opacity: 0.6;
-    }
-
-    /* Screen wireframe blocks */
-    .fd-screen-row {
-      display: flex;
-      gap: 5px;
-    }
-    .fd-screen {
-      border-radius: 6px;
-      padding: 6px 8px;
-      flex: 1;
-      min-height: 44px;
-    }
-    .fd-screen h4 {
-      font-size: 8.5px;
-      font-weight: 700;
-      margin-bottom: 3px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .fd-screen h4 .screen-icon { font-size: 10px; }
-    .fd-screen p {
-      font-size: 7.5px;
-      line-height: 1.4;
-      opacity: 0.8;
-    }
-    .fd-screen .fd-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2px;
-      margin-top: 3px;
-    }
-    .fd-screen .fd-pill {
-      font-size: 6.5px;
-      font-weight: 600;
-      padding: 1px 4px;
-      border-radius: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.2px;
-    }
-    .fd-primary { flex: 1.5; }
-    .fd-narrow { flex: 0.7; min-width: 90px; }
-
-    /* Workflow bar */
-    .fd-workflow {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      padding: 4px 8px;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .fd-step {
-      font-size: 7px;
-      font-weight: 700;
-      padding: 3px 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-      position: relative;
-    }
-    .fd-step::after {
-      content: '→';
-      margin-left: 8px;
-      opacity: 0.4;
-    }
-    .fd-step:last-child::after { content: ''; }
-
-    .fd-feature-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3px;
-      margin-top: 3px;
-    }
-    .fd-feature {
-      font-size: 7px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 3px;
-      letter-spacing: 0.2px;
-    }
-
-    /* Color themes per deployment */
-    .fd-inpatient { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #2563eb40; }
-    .fd-inpatient .fd-card-header { background: linear-gradient(90deg, #2563eb15, transparent); }
-    .fd-inpatient .fd-card-header h3 { color: #60a5fa; }
-    .fd-inpatient .fd-icon { background: #2563eb25; }
-    .fd-inpatient .fd-use-case { background: #2563eb20; color: #93c5fd; }
-    .fd-inpatient .fd-screen { background: #2563eb10; border: 1px solid #2563eb25; }
-    .fd-inpatient .fd-screen h4 { color: #93c5fd; }
-    .fd-inpatient .fd-pill { background: #2563eb15; color: #93c5fd; }
-    .fd-inpatient .fd-workflow { background: #2563eb08; border: 1px solid #2563eb20; }
-    .fd-inpatient .fd-step { color: #93c5fd; }
-    .fd-inpatient .fd-feature { background: #2563eb12; color: #93c5fd; border: 1px solid #2563eb20; }
-
-    .fd-outpatient { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #8b5cf640; }
-    .fd-outpatient .fd-card-header { background: linear-gradient(90deg, #8b5cf615, transparent); }
-    .fd-outpatient .fd-card-header h3 { color: #a78bfa; }
-    .fd-outpatient .fd-icon { background: #8b5cf625; }
-    .fd-outpatient .fd-use-case { background: #8b5cf620; color: #c4b5fd; }
-    .fd-outpatient .fd-screen { background: #8b5cf610; border: 1px solid #8b5cf625; }
-    .fd-outpatient .fd-screen h4 { color: #c4b5fd; }
-    .fd-outpatient .fd-pill { background: #8b5cf615; color: #c4b5fd; }
-    .fd-outpatient .fd-workflow { background: #8b5cf608; border: 1px solid #8b5cf620; }
-    .fd-outpatient .fd-step { color: #c4b5fd; }
-    .fd-outpatient .fd-feature { background: #8b5cf612; color: #c4b5fd; border: 1px solid #8b5cf620; }
-
-    .fd-disaster { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #f9731640; }
-    .fd-disaster .fd-card-header { background: linear-gradient(90deg, #f9731615, transparent); }
-    .fd-disaster .fd-card-header h3 { color: #fb923c; }
-    .fd-disaster .fd-icon { background: #f9731625; }
-    .fd-disaster .fd-use-case { background: #f9731620; color: #fed7aa; }
-    .fd-disaster .fd-screen { background: #f9731610; border: 1px solid #f9731625; }
-    .fd-disaster .fd-screen h4 { color: #fed7aa; }
-    .fd-disaster .fd-pill { background: #f9731615; color: #fed7aa; }
-    .fd-disaster .fd-workflow { background: #f9731608; border: 1px solid #f9731620; }
-    .fd-disaster .fd-step { color: #fed7aa; }
-    .fd-disaster .fd-feature { background: #f9731612; color: #fed7aa; border: 1px solid #f9731620; }
-
-    .fd-mission { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #10b98140; }
-    .fd-mission .fd-card-header { background: linear-gradient(90deg, #10b98115, transparent); }
-    .fd-mission .fd-card-header h3 { color: #34d399; }
-    .fd-mission .fd-icon { background: #10b98125; }
-    .fd-mission .fd-use-case { background: #10b98120; color: #a7f3d0; }
-    .fd-mission .fd-screen { background: #10b98110; border: 1px solid #10b98125; }
-    .fd-mission .fd-screen h4 { color: #a7f3d0; }
-    .fd-mission .fd-pill { background: #10b98115; color: #a7f3d0; }
-    .fd-mission .fd-workflow { background: #10b98108; border: 1px solid #10b98120; }
-    .fd-mission .fd-step { color: #a7f3d0; }
-    .fd-mission .fd-feature { background: #10b98112; color: #a7f3d0; border: 1px solid #10b98120; }
-
-    .fd-virtual { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #ec489940; }
-    .fd-virtual .fd-card-header { background: linear-gradient(90deg, #ec489915, transparent); }
-    .fd-virtual .fd-card-header h3 { color: #f472b6; }
-    .fd-virtual .fd-icon { background: #ec489925; }
-    .fd-virtual .fd-use-case { background: #ec489920; color: #fbcfe8; }
-    .fd-virtual .fd-screen { background: #ec489910; border: 1px solid #ec489925; }
-    .fd-virtual .fd-screen h4 { color: #fbcfe8; }
-    .fd-virtual .fd-pill { background: #ec489915; color: #fbcfe8; }
-    .fd-virtual .fd-workflow { background: #ec489908; border: 1px solid #ec489920; }
-    .fd-virtual .fd-step { color: #fbcfe8; }
-    .fd-virtual .fd-feature { background: #ec489912; color: #fbcfe8; border: 1px solid #ec489920; }
-
-    .fd-offline-badge {
-      display: inline-flex; align-items: center; gap: 3px;
-      font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
-      background: #f59e0b18; color: #fcd34d; border: 1px solid #f59e0b30;
-      text-transform: uppercase; letter-spacing: 0.3px;
-    }
-    .fd-online-badge {
-      display: inline-flex; align-items: center; gap: 3px;
-      font-size: 7px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
-      background: #22c55e18; color: #4ade80; border: 1px solid #22c55e30;
-      text-transform: uppercase; letter-spacing: 0.3px;
-    }
-  </style>
-
-  <div class="fd-container">
-
-    <!-- ROW 1: Hospital Inpatient + Hospital Outpatient -->
-    <div class="fd-row">
-
-      <!-- HOSPITAL INPATIENT -->
-      <div class="fd-card fd-inpatient">
-        <div class="fd-card-header">
-          <div class="fd-icon">🏥</div>
-          <div>
-            <h3>Hospital Inpatient</h3>
-            <p>Admission, census board, nursing, orders, discharge</p>
-          </div>
-          <div class="fd-use-case">Provider-Facing</div>
-        </div>
-        <div class="fd-wireframe">
-          <div class="fd-section-label">Default Dashboard Layout</div>
-          <div class="fd-screen-row">
-            <div class="fd-screen fd-primary">
-              <h4><span class="screen-icon">📋</span> Census Board (Main View)</h4>
-              <p>Real-time bed grid showing patient name, room, acuity, attending, LOS, pending orders. Color-coded by unit. Click-through to patient chart.</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Bed Grid</span>
-                <span class="fd-pill">Acuity Colors</span>
-                <span class="fd-pill">Pending Orders</span>
-                <span class="fd-pill">LOS Counter</span>
-              </div>
-            </div>
-            <div class="fd-screen fd-narrow">
-              <h4><span class="screen-icon">🔔</span> Alerts Panel</h4>
-              <p>Critical labs, overdue meds, pending discharges, code alerts</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Critical</span>
-                <span class="fd-pill">STAT Orders</span>
-              </div>
-            </div>
-          </div>
-          <div class="fd-screen-row">
-            <div class="fd-screen">
-              <h4><span class="screen-icon">💊</span> MAR / Medication Admin</h4>
-              <p>Real-time medication administration record. Due/given/held status per patient. Barcode scan verification.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">📝</span> Order Entry</h4>
-              <p>Full order catalog — labs, imaging, medications, nursing orders. Order sets per condition. CPOE compliant.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">🔄</span> Discharge Planner</h4>
-              <p>Discharge checklist, pending items, follow-up scheduling, discharge summary generation.</p>
-            </div>
-          </div>
-          <div class="fd-section-label">Default Workflow</div>
-          <div class="fd-workflow">
-            <div class="fd-step">Admission</div>
-            <div class="fd-step">Assessment</div>
-            <div class="fd-step">Orders</div>
-            <div class="fd-step">Nursing Notes</div>
-            <div class="fd-step">Rounding</div>
-            <div class="fd-step">Discharge Plan</div>
-            <div class="fd-step">Discharge</div>
-          </div>
-          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
-          <div class="fd-feature-list">
-            <span class="fd-feature">Census Board</span>
-            <span class="fd-feature">Bed Management</span>
-            <span class="fd-feature">Full Orders (CPOE)</span>
-            <span class="fd-feature">MAR</span>
-            <span class="fd-feature">Vitals Flowsheet</span>
-            <span class="fd-feature">Nursing Notes</span>
-            <span class="fd-feature">Care Plans</span>
-            <span class="fd-feature">Discharge</span>
-            <span class="fd-feature">Shift Handoff</span>
-            <span class="fd-feature">AI Scribe</span>
-          </div>
-        </div>
+    <!-- ROW: Product & Design -->
+    <div class="swim-team-label team-product">
+      <div class="team-icon">🎨</div>
+      <div class="team-info">
+        <h4>Product & Design</h4>
+        <p>UX, specs, profiles</p>
       </div>
-
-      <!-- HOSPITAL OUTPATIENT -->
-      <div class="fd-card fd-outpatient">
-        <div class="fd-card-header">
-          <div class="fd-icon">🩺</div>
-          <div>
-            <h3>Hospital Outpatient</h3>
-            <p>Patient self-service, scheduling, insurance, video visits</p>
-          </div>
-          <div class="fd-use-case">Patient + Provider</div>
-        </div>
-        <div class="fd-wireframe">
-          <div class="fd-section-label">Patient Portal (Default Home)</div>
-          <div class="fd-screen-row">
-            <div class="fd-screen fd-primary">
-              <h4><span class="screen-icon">🏠</span> Patient Dashboard</h4>
-              <p>Upcoming appointments, recent results, messages, action items. One-click to schedule, message provider, or join video visit.</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Appointments</span>
-                <span class="fd-pill">Results</span>
-                <span class="fd-pill">Messages</span>
-                <span class="fd-pill">Rx Refills</span>
-              </div>
-            </div>
-            <div class="fd-screen fd-narrow">
-              <h4><span class="screen-icon">📅</span> Self-Schedule</h4>
-              <p>Provider search, availability picker, insurance verify, copay</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Calendar</span>
-                <span class="fd-pill">Copay</span>
-              </div>
-            </div>
-          </div>
-          <div class="fd-section-label">Provider View</div>
-          <div class="fd-screen-row">
-            <div class="fd-screen">
-              <h4><span class="screen-icon">📊</span> Provider Calendar</h4>
-              <p>Day/week view, appointment types, walk-in queue, room assignments. Drag-and-drop reschedule.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">🏪</span> Waiting Room</h4>
-              <p>Real-time patient queue. Check-in status, intake completion, time waiting. Auto-sort by priority.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">💳</span> Checkout / Billing</h4>
-              <p>Superbill generation, copay collection, insurance claim submit, follow-up scheduling.</p>
-            </div>
-          </div>
-          <div class="fd-section-label">Default Workflow</div>
-          <div class="fd-workflow">
-            <div class="fd-step">Schedule</div>
-            <div class="fd-step">Insurance Verify</div>
-            <div class="fd-step">Online Intake</div>
-            <div class="fd-step">Check-in</div>
-            <div class="fd-step">Waiting Room</div>
-            <div class="fd-step">Visit (Video/In-Person)</div>
-            <div class="fd-step">Checkout</div>
-          </div>
-          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
-          <div class="fd-feature-list">
-            <span class="fd-feature">Patient Portal</span>
-            <span class="fd-feature">Self-Scheduling</span>
-            <span class="fd-feature">Insurance Verify</span>
-            <span class="fd-feature">Dynamic Intake</span>
-            <span class="fd-feature">Waiting Room</span>
-            <span class="fd-feature">Video Visits</span>
-            <span class="fd-feature">Payments</span>
-            <span class="fd-feature">Chat/Messaging</span>
-            <span class="fd-feature">Superbills</span>
-            <span class="fd-feature">AI Scribe</span>
-          </div>
-        </div>
-      </div>
-
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1 task-critical">Unified patient identity schema (Clinic ↔ EMR mapping)</div>
+      <div class="task task-p1">EMR data model expansion: insurance, payments, claims records</div>
+      <div class="task task-p1">Resource management data model (sites, rooms, staff, supplies)</div>
+      <div class="task task-p1">RBAC model spanning Clinic + EMR roles</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2 task-critical">4 deployment profiles: default modules, dashboards, workflows per mode</div>
+      <div class="task task-p2">Patient portal UX (scheduling, records, payments, messaging)</div>
+      <div class="task task-p2">Configurable check-in flows per deployment type</div>
+      <div class="task task-p2">Provider calendar + resource scheduling UX</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Unified analytics dashboard specs per deployment type</div>
+      <div class="task task-p3">Cross-module notification & messaging UX</div>
+      <div class="task task-p3">Pharmacy & supply management workflows</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">No-code deployment configurator UX</div>
+      <div class="task task-p4">Visual workflow builder design</div>
+      <div class="task task-p4">Template marketplace design</div>
     </div>
 
-    <!-- ROW 2: Disaster Relief + Field Mission -->
-    <div class="fd-row">
-
-      <!-- DISASTER RELIEF -->
-      <div class="fd-card fd-disaster">
-        <div class="fd-card-header">
-          <div class="fd-icon">🚨</div>
-          <div>
-            <h3>Disaster Relief</h3>
-            <p>Mass casualty triage, offline-first, rapid registration, supply tracking</p>
-          </div>
-          <div class="fd-use-case">Provider-Facing</div>
-          <div class="fd-offline-badge">Offline-First</div>
-        </div>
-        <div class="fd-wireframe">
-          <div class="fd-section-label">Default Dashboard Layout</div>
-          <div class="fd-screen-row">
-            <div class="fd-screen fd-primary">
-              <h4><span class="screen-icon">🔴</span> MCI Triage Board (Main View)</h4>
-              <p>Color-coded patient cards (Immediate/Delayed/Minor/Expectant). Touch-friendly. Drag to re-triage. Count badges per category. Large fonts for field use.</p>
-              <div class="fd-pills">
-                <span class="fd-pill">START/SALT</span>
-                <span class="fd-pill">Color Zones</span>
-                <span class="fd-pill">Patient Count</span>
-                <span class="fd-pill">Touch UI</span>
-              </div>
-            </div>
-            <div class="fd-screen fd-narrow">
-              <h4><span class="screen-icon">📦</span> Supply Status</h4>
-              <p>Critical supply levels, medication shortages, kit status, resupply alerts</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Alerts</span>
-                <span class="fd-pill">Shortages</span>
-              </div>
-            </div>
-          </div>
-          <div class="fd-screen-row">
-            <div class="fd-screen">
-              <h4><span class="screen-icon">⚡</span> Rapid Registration</h4>
-              <p>Minimal-field patient entry: name/age/sex/chief complaint. Wristband barcode. Photo capture. Works offline.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">📋</span> Treatment Tracker</h4>
-              <p>Active treatments per patient. Medication given, IV status, procedures done. Timestamp everything.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">🔄</span> Sync Dashboard</h4>
-              <p>Connectivity status. Queue depth. Last sync time. Manual push/pull. Conflict alerts.</p>
-            </div>
-          </div>
-          <div class="fd-section-label">Default Workflow</div>
-          <div class="fd-workflow">
-            <div class="fd-step">Field Arrival</div>
-            <div class="fd-step">Rapid ID</div>
-            <div class="fd-step">START Triage</div>
-            <div class="fd-step">Stabilize</div>
-            <div class="fd-step">Treatment</div>
-            <div class="fd-step">Disposition</div>
-            <div class="fd-step">Transport/Release</div>
-          </div>
-          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
-          <div class="fd-feature-list">
-            <span class="fd-feature">MCI Triage</span>
-            <span class="fd-feature">Rapid Registration</span>
-            <span class="fd-feature">Offline Mode</span>
-            <span class="fd-feature">Vital Capture (Devices)</span>
-            <span class="fd-feature">Supply Tracking</span>
-            <span class="fd-feature">Pharmacy Inventory</span>
-            <span class="fd-feature">Treatment Log</span>
-            <span class="fd-feature">Sync Engine</span>
-            <span class="fd-feature">AI X-Ray</span>
-            <span class="fd-feature">Shift Handoff</span>
-          </div>
-        </div>
+    <!-- ROW: Backend -->
+    <div class="swim-team-label team-backend">
+      <div class="team-icon">⚙️</div>
+      <div class="team-info">
+        <h4>Backend / API</h4>
+        <p>EMR, Clinic, Gateway</p>
       </div>
-
-      <!-- FIELD MISSION -->
-      <div class="fd-card fd-mission">
-        <div class="fd-card-header">
-          <div class="fd-icon">🌍</div>
-          <div>
-            <h3>Field Mission</h3>
-            <p>Walk-in clinic, screening, pharmacy, mission analytics</p>
-          </div>
-          <div class="fd-use-case">Provider-Facing</div>
-          <div class="fd-offline-badge">Hybrid Online/Offline</div>
-        </div>
-        <div class="fd-wireframe">
-          <div class="fd-section-label">Default Dashboard Layout</div>
-          <div class="fd-screen-row">
-            <div class="fd-screen fd-primary">
-              <h4><span class="screen-icon">📊</span> Mission Dashboard (Main View)</h4>
-              <p>Today's patient count, patients seen by provider, pending queue, screening completion rates. Mission-level KPIs (patients/day, common conditions, med usage).</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Daily Stats</span>
-                <span class="fd-pill">Queue</span>
-                <span class="fd-pill">Conditions</span>
-                <span class="fd-pill">KPIs</span>
-              </div>
-            </div>
-            <div class="fd-screen fd-narrow">
-              <h4><span class="screen-icon">💊</span> Pharmacy</h4>
-              <p>Dispensing log, stock levels, expiry alerts, substitute suggestions</p>
-              <div class="fd-pills">
-                <span class="fd-pill">Dispense</span>
-                <span class="fd-pill">Stock</span>
-              </div>
-            </div>
-          </div>
-          <div class="fd-screen-row">
-            <div class="fd-screen">
-              <h4><span class="screen-icon">📝</span> Walk-in Registration</h4>
-              <p>Streamlined entry: demographics + chief complaint + screening questionnaire. Multilingual. Photo ID. QR repeat-visit lookup.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">🩺</span> Clinical Encounter</h4>
-              <p>SOAP notes, vitals, problem list, medications, referral if needed. AI Scribe for note generation.</p>
-            </div>
-            <div class="fd-screen">
-              <h4><span class="screen-icon">📈</span> Mission Reports</h4>
-              <p>Exportable summaries: patients by condition, meds dispensed, referrals made, supplies consumed. For funders/NGOs.</p>
-            </div>
-          </div>
-          <div class="fd-section-label">Default Workflow</div>
-          <div class="fd-workflow">
-            <div class="fd-step">Walk-in</div>
-            <div class="fd-step">Registration</div>
-            <div class="fd-step">Screening</div>
-            <div class="fd-step">Vitals</div>
-            <div class="fd-step">Encounter</div>
-            <div class="fd-step">Pharmacy</div>
-            <div class="fd-step">Follow-up/Exit</div>
-          </div>
-          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
-          <div class="fd-feature-list">
-            <span class="fd-feature">Walk-in Queue</span>
-            <span class="fd-feature">Rapid Registration</span>
-            <span class="fd-feature">Screening Forms</span>
-            <span class="fd-feature">SOAP Notes</span>
-            <span class="fd-feature">Vital Capture</span>
-            <span class="fd-feature">Pharmacy Dispensing</span>
-            <span class="fd-feature">Offline Sync</span>
-            <span class="fd-feature">Mission Analytics</span>
-            <span class="fd-feature">AI Scribe</span>
-            <span class="fd-feature">Multilingual</span>
-          </div>
-        </div>
-      </div>
-
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1 task-critical">Unified patient identity service (Clinic user ↔ EMR FHIR Patient)</div>
+      <div class="task task-p1 task-critical">Standardize EMR REST API (versioned, aligned w/ Clinic API v3)</div>
+      <div class="task task-p1">Add financial collections to EMR: insurance, payments, claims, invoices</div>
+      <div class="task task-p1">Build resource mgmt service: sites, rooms, beds, devices, supply inventory</div>
+      <div class="task task-p1 task-dep">Clinic → EMR data bridge (redirect clinical reads/writes)</div>
+      <div class="task task-p1">Stand up unified API gateway + single JWT auth</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2">Expose scheduling engine as shared service via gateway</div>
+      <div class="task task-p2">Deployment profile config system (JSON-driven feature flags)</div>
+      <div class="task task-p2">Patient portal auth (login, registration, SSO)</div>
+      <div class="task task-p2">Provider roster / shift mgmt APIs</div>
+      <div class="task task-p2">Configurable intake workflow engine for EMR deployments</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Abstract video service (auto-create EMR encounters)</div>
+      <div class="task task-p3">Unify messaging (patient ↔ provider, bulk SMS)</div>
+      <div class="task task-p3">Payments + insurance as shared services</div>
+      <div class="task task-p3">Pharmacy dispensing + supply tracking APIs</div>
+      <div class="task task-p3">RPM pipeline → EMR observations</div>
+      <div class="task task-p3">Event bus for cross-service comms</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">Full FHIR R4 server</div>
+      <div class="task task-p4">Multi-tenant enterprise mgmt APIs</div>
+      <div class="task task-p4">Template marketplace backend</div>
     </div>
 
-    <!-- ROW 3: Virtual Clinic (full width) -->
-    <div class="fd-row">
-
-      <!-- VIRTUAL CLINIC -->
-      <div class="fd-card fd-virtual" style="max-width: 100%;">
-        <div class="fd-card-header">
-          <div class="fd-icon">💻</div>
-          <div>
-            <h3>Virtual Clinic</h3>
-            <p>Full telehealth: patient self-service, scheduling, intake, video, RPM, payments, messaging</p>
-          </div>
-          <div class="fd-use-case">Patient + Provider</div>
-          <div class="fd-online-badge">Cloud-First</div>
-        </div>
-        <div class="fd-wireframe">
-          <div style="display:flex;gap:14px;">
-            <div style="flex:1;">
-              <div class="fd-section-label">Patient Experience</div>
-              <div class="fd-screen-row">
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">🏠</span> Patient Home</h4>
-                  <p>Upcoming visits, health dashboard (RPM trends), messages, prescription refills, care plan progress. One-click video join.</p>
-                  <div class="fd-pills">
-                    <span class="fd-pill">Visits</span>
-                    <span class="fd-pill">Health</span>
-                    <span class="fd-pill">Messages</span>
-                    <span class="fd-pill">Rx</span>
-                  </div>
-                </div>
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">📅</span> Book Visit</h4>
-                  <p>Search by specialty/symptom, see availability, pick slot, complete intake, pay copay — all pre-visit.</p>
-                </div>
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">📱</span> RPM Dashboard</h4>
-                  <p>Connected device readings (BP, glucose, weight, SpO2). Trends, alerts, provider-set goals. Daily check-in prompts.</p>
-                </div>
-              </div>
-            </div>
-            <div style="flex:1;">
-              <div class="fd-section-label">Provider Experience</div>
-              <div class="fd-screen-row">
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">📊</span> Provider Schedule</h4>
-                  <p>Day view with video/in-person/phone appointment types. Real-time waiting room. Patient intake status. One-click chart open.</p>
-                  <div class="fd-pills">
-                    <span class="fd-pill">Calendar</span>
-                    <span class="fd-pill">Queue</span>
-                    <span class="fd-pill">Intake</span>
-                  </div>
-                </div>
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">🎥</span> Video Visit</h4>
-                  <p>HD video + AI Scribe running. Patient chart sidebar. Screen share with annotation. Multi-party (interpreter, specialist).</p>
-                </div>
-                <div class="fd-screen">
-                  <h4><span class="screen-icon">📋</span> Post-Visit</h4>
-                  <p>AI-generated SOAP, order entry, prescriptions (eRx), patient instructions, follow-up scheduling, superbill.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="fd-section-label">Default Workflow</div>
-          <div class="fd-workflow">
-            <div class="fd-step">Patient Books Online</div>
-            <div class="fd-step">Insurance Verify</div>
-            <div class="fd-step">Pre-Visit Intake</div>
-            <div class="fd-step">Copay</div>
-            <div class="fd-step">Waiting Room</div>
-            <div class="fd-step">Video Visit + AI Scribe</div>
-            <div class="fd-step">Post-Visit (Rx, Orders)</div>
-            <div class="fd-step">Follow-up</div>
-          </div>
-          <div class="fd-section-label" style="margin-top:4px;">Modules ON by default</div>
-          <div class="fd-feature-list">
-            <span class="fd-feature">Patient Portal</span>
-            <span class="fd-feature">Self-Scheduling</span>
-            <span class="fd-feature">Insurance Verify</span>
-            <span class="fd-feature">Dynamic Intake</span>
-            <span class="fd-feature">Waiting Room</span>
-            <span class="fd-feature">HD Video</span>
-            <span class="fd-feature">AI Scribe</span>
-            <span class="fd-feature">SOAP Generation</span>
-            <span class="fd-feature">eRx (DoseSpot)</span>
-            <span class="fd-feature">Payments (Stripe)</span>
-            <span class="fd-feature">RPM Dashboard</span>
-            <span class="fd-feature">Secure Messaging</span>
-            <span class="fd-feature">Superbills</span>
-            <span class="fd-feature">Notifications</span>
-          </div>
-        </div>
+    <!-- ROW: Frontend (Web) -->
+    <div class="swim-team-label team-frontend">
+      <div class="team-icon">🖥️</div>
+      <div class="team-info">
+        <h4>Frontend (Web)</h4>
+        <p>React, portal, dashboard</p>
       </div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1">Assess Clinic KnockoutJS → React migration state</div>
+      <div class="task task-p1 task-parallel">Shared React component library (React 19, Tailwind, shadcn/ui)</div>
+      <div class="task task-p1">Verify EMR frontend reads from new API bridge</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2 task-critical">Patient portal (login, records, appointments, payments, messaging)</div>
+      <div class="task task-p2">Patient self-scheduling UI (shared scheduling service)</div>
+      <div class="task task-p2">Configurable check-in / intake flow renderer</div>
+      <div class="task task-p2">Provider calendar + room/resource scheduling in EMR dashboard</div>
+      <div class="task task-p2">Deployment profile switcher (theme, modules, layout)</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Unified analytics dashboard</div>
+      <div class="task task-p3">Integrated messaging UI</div>
+      <div class="task task-p3">RPM health dashboard in Digital Front Door</div>
+      <div class="task task-p3">Resource / supply management views</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">No-code deployment configurator UI</div>
+      <div class="task task-p4">Visual drag-and-drop workflow builder</div>
+      <div class="task task-p4">Enterprise multi-site dashboard</div>
+    </div>
 
+    <!-- ROW: Mobile -->
+    <div class="swim-team-label team-mobile">
+      <div class="team-icon">📱</div>
+      <div class="team-info">
+        <h4>Mobile</h4>
+        <p>iOS, Android, ClinicKit</p>
+      </div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1">Update ClinicKit SDK to call unified gateway</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2">Patient app: scheduling + records + payments via unified API</div>
+      <div class="task task-p2">Offline check-in & intake (IndexedDB + sync queue)</div>
+      <div class="task task-p2">Deployment-specific push notifications</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">BLE device data → EMR vitals pipeline</div>
+      <div class="task task-p3">Offline encounter capture + conflict resolution</div>
+      <div class="task task-p3">Mobile chat/messaging integration</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">White-label app generator with profile config</div>
+    </div>
+
+    <!-- ROW: DevOps / Infra -->
+    <div class="swim-team-label team-devops">
+      <div class="team-icon">🔧</div>
+      <div class="team-info">
+        <h4>DevOps / Infra</h4>
+        <p>Cloud, CI/CD, security</p>
+      </div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1 task-dep">Deploy API gateway (Kong / AWS) + unified TLS</div>
+      <div class="task task-p1">CI/CD for unified API + shared component library</div>
+      <div class="task task-p1">Data migration tooling (Clinic MongoDB → EMR sync)</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2">Service Worker CDN for offline-capable front door</div>
+      <div class="task task-p2">Deployment profile provisioning automation</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Event bus infra (Kafka / EventBridge)</div>
+      <div class="task task-p3">Cross-service observability (tracing, metrics)</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">Self-service provisioning pipeline</div>
+      <div class="task task-p4">FedRAMP continuous monitoring for unified platform</div>
+    </div>
+
+    <!-- ROW: AI -->
+    <div class="swim-team-label team-ai">
+      <div class="team-icon">🤖</div>
+      <div class="team-info">
+        <h4>AI / ML</h4>
+        <p>Sidebar, scribe, CDS</p>
+      </div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1 task-parallel">AI Sidebar Phase 0: shell, context bridge, HITL, audit, streaming</div>
+      <div class="task task-p1">Context bridge contract for Clinic + EMR host pages</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2">Sidebar Phase 1: non-medical (briefings, schedule analytics)</div>
+      <div class="task task-p2">Patient-facing AI: visit prep, care plan Q&A</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Sidebar Phase 2: SOAP drafts, ICD, drug checks</div>
+      <div class="task task-p3">Deployment-adaptive AI (disaster: triage; hospital: CDS)</div>
+      <div class="task task-p3">Multi-source data adapters (FHIR, HIE, labs)</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">AI workflow recommendations</div>
+      <div class="task task-p4">Predictive analytics per deployment</div>
+    </div>
+
+    <!-- ROW: QA / Compliance -->
+    <div class="swim-team-label team-qa">
+      <div class="team-icon">🛡️</div>
+      <div class="team-info">
+        <h4>QA / Compliance</h4>
+        <p>Testing, HIPAA, FedRAMP</p>
+      </div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p1">Data integrity: write-through sync correctness</div>
+      <div class="task task-p1">HIPAA audit for unified gateway (PHI routing)</div>
+      <div class="task task-p1">Integration tests: Clinic ↔ EMR data bridge</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p2">E2E test suites per deployment profile</div>
+      <div class="task task-p2">Patient portal security audit</div>
+      <div class="task task-p2">Offline sync conflict resolution testing</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p3">Cross-service integration regression suite</div>
+      <div class="task task-p3">AI safety validation (HITL, risk tiering, audit)</div>
+    </div>
+    <div class="swim-cell">
+      <div class="task task-p4">FedRAMP re-authorization for unified platform</div>
+      <div class="task task-p4">ONC Health IT Certification</div>
+      <div class="task task-p4">Pen test for self-service provisioning</div>
     </div>
 
   </div>
 
-  <div class="footer2" style="margin-top: 18px;">
-    <div class="legend" style="gap: 18px;">
-      <div class="legend-item" style="font-size:9px; color:#94a3b8; font-weight:600;">Each deployment type = a JSON profile that toggles modules, sets default layouts, and configures workflows</div>
+  <div class="footer2">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Critical Path</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div> Blocked by prior</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div> Can start in parallel</div>
+      <div class="legend-item" style="margin-left:12px; padding-left:12px; border-left:1px solid #334155;">
+        <div class="legend-dot" style="background:#fbbf24;"></div> P1
+        <div class="legend-dot" style="background:#38bdf8;margin-left:6px;"></div> P2
+        <div class="legend-dot" style="background:#a78bfa;margin-left:6px;"></div> P3
+        <div class="legend-dot" style="background:#34d399;margin-left:6px;"></div> P4
+      </div>
     </div>
     <span>VSee Health — April 2026</span>
   </div>
 
 </div>
+
 
 </body>
 </html>
