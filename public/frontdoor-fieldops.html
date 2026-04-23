@@ -557,7 +557,7 @@
 
 <!-- ========== MESSENGER VIEW ========== -->
 <div id="messenger-view" class="main-content main-content--offset scroll-y hidden" style="padding:0; display:none;">
-  <div class="msngr-embedded" style="height:calc(100vh - var(--header-height) - var(--fd-nav-h));">
+  <div class="msngr-embedded" style="height:calc(100vh - var(--header-height) - var(--fd-nav-h)); width:100%;">
     <!-- Contact List -->
     <div class="msngr-list">
       <div class="msngr-list-header">
@@ -2231,7 +2231,7 @@ function showView(viewId) {
     if (el) {
       if (id === viewId) {
         el.classList.remove('hidden');
-        el.style.display = '';
+        el.style.display = (id === 'messenger-view') ? 'flex' : '';
       } else {
         el.classList.add('hidden');
         el.style.display = 'none';

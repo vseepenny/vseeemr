@@ -450,7 +450,7 @@
 
   <!-- ==================== MESSENGER VIEW ==================== -->
   <main class="main-content hidden" id="messenger-view" style="padding:0;display:none">
-    <div class="msngr-embedded" style="height:calc(100vh - var(--header-height) - var(--fd-nav-h))">
+    <div class="msngr-embedded" style="height:calc(100vh - var(--header-height) - var(--fd-nav-h)); width:100%">
 
       <!-- Contacts List -->
       <div class="msngr-list">
@@ -1787,7 +1787,8 @@ function showView(viewId) {
     target.style.display = '';
     target.classList.remove('hidden');
     if (viewId === 'messenger-view') {
-      target.style.display = 'block';
+      target.style.display = 'flex';
+      target.style.padding = '0';
     }
   }
   // Toggle active class on sidebar

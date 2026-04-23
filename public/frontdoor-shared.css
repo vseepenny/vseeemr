@@ -122,8 +122,8 @@ body {
   align-items: center;
   gap: 2px;
   padding: 0 24px;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
+  background: #1a1a2e;
+  border-bottom: 1px solid #2d2d44;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -133,7 +133,7 @@ body {
 .fd-nav-logo {
   font-size: var(--fs-caption);
   font-weight: 800;
-  color: var(--brand);
+  color: #ffffff;
   margin-right: 20px;
   padding: 10px 0;
   letter-spacing: -0.3px;
@@ -147,7 +147,7 @@ body {
   padding: 10px 16px;
   font-size: var(--fs-caption);
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #94a3b8;
   text-decoration: none;
   border-bottom: 2px solid transparent;
   transition: all 0.12s;
@@ -155,14 +155,14 @@ body {
 }
 
 .fd-nav a:hover {
-  color: var(--text-primary);
-  background: var(--grey-200);
+  color: #e2e8f0;
+  background: #2d2d44;
 }
 
 .fd-nav a.fd-active {
-  color: var(--text-primary);
-  border-bottom-color: var(--brand);
-  background: var(--brand-50);
+  color: #ffffff;
+  border-bottom-color: #38bdf8;
+  background: #2d2d44;
 }
 
 .fd-nav-dot {
@@ -1913,8 +1913,16 @@ body {
 .msngr-embedded {
   display: flex;
   height: 100%;
+  width: 100%;
   min-height: 0;
   overflow: hidden;
+}
+
+/* Ensure messenger fills parent when used as a view */
+.main-content > .msngr-embedded,
+#messenger-view.msngr-embedded {
+  flex: 1;
+  min-width: 0;
 }
 
 .msngr-embedded .msngr-list {
