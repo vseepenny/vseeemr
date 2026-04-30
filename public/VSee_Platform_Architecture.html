@@ -565,113 +565,135 @@
 
   <div class="header">
     <h1>VSee Unified Platform Architecture
-      <span>One EMR backend, configurable frontends per deployment mode</span>
+      <span>Configuration-driven architecture: Module Registry &rarr; Deployment Presets &rarr; Role Views</span>
     </h1>
     <div class="logo">VSee Health</div>
   </div>
 
   <div style="display:flex;justify-content:center;">
     <div class="insight-callout">
-      <strong>Core Concept:</strong> VSee EMR is the single source of truth for all patient records — clinical <em>and</em> financial. The EMR has an <strong>Online (cloud)</strong> and <strong>Offline (snapshot)</strong> mode that sync bidirectionally — enabling disaster/field deployments to capture data without connectivity and merge back later. Each deployment mode gets a <strong>configurable Digital Front Door</strong>. Virtual capabilities (video, AI Scribe, RPM, Messenger) layer on top of any deployment type.
+      <strong>Core Concept:</strong> VSee EMR is the single source of truth for all patient records — clinical <em>and</em> financial. A <strong>3-layer Configuration Engine</strong> sits above the backend: the <strong>Module Registry</strong> defines all available capabilities, <strong>Deployment Presets</strong> bundle modules for each use case (solo provider through health system), and <strong>Role Views</strong> tailor the UI per user role. The EMR supports <strong>Online (cloud)</strong> and <strong>Offline (snapshot)</strong> modes with bidirectional sync. Virtual capabilities (video, AI Scribe, RPM, Messenger) are available across all presets.
     </div>
   </div>
 
   <div class="architecture">
 
-    <div class="layer-label label-frontdoor">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6"/></svg>
-      Digital Front Door — Configurable per Deployment
+    <!-- ===== CONFIGURATION ENGINE — 3-LAYER MODEL ===== -->
+    <div style="display:flex; align-items:stretch; gap:0; width:100%; max-width:1100px; margin-bottom:0;">
+
+      <!-- Config Engine Badge (left side) -->
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 14px; min-width:54px; background:linear-gradient(180deg, #f59e0b18, #f59e0b08); border:1px solid #f59e0b40; border-right:none; border-radius:12px 0 0 12px; position:relative;">
+        <div style="writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg); font-size:11px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; color:#fbbf24; white-space:nowrap;">Config Engine</div>
+        <div style="margin-top:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <!-- Vertical connector line -->
+        <div style="position:absolute; right:-1px; top:18px; bottom:18px; width:2px; background:linear-gradient(180deg, #fbbf2460, #fbbf2420, #fbbf2460);"></div>
+      </div>
+
+      <!-- 3-Layer Content -->
+      <div style="flex:1; display:flex; flex-direction:column; gap:0; border:1px solid #334155; border-radius:0 12px 12px 0; overflow:hidden; background:#0f1629;">
+
+        <!-- Layer 1: Module Registry -->
+        <div style="padding:14px 20px; border-bottom:1px solid #334155; border-left:2px solid #10b981;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <span style="font-size:13px; font-weight:700; color:#34d399; letter-spacing:0.3px;">Module Registry</span>
+            <span style="font-size:10px; color:#64748b; margin-left:4px;">All available platform capabilities</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center;">
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Scheduling</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Clinical</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Inpatient</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Communication</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Field Ops</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 14px; border-radius:6px; background:#10b98112; color:#6ee7b7; border:1px solid #10b98130;">Tools</span>
+          </div>
+        </div>
+
+        <!-- Arrow between Layer 1 and 2 -->
+        <div style="display:flex; align-items:center; justify-content:center; padding:2px 0; background:#0d1117;">
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M10 2v10M6 8l4 4 4-4" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:9px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-left:4px;">selects modules into</span>
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M10 2v10M6 8l4 4 4-4" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Layer 2: Deployment Presets -->
+        <div style="padding:14px 20px; border-bottom:1px solid #334155; background:linear-gradient(135deg, #1e293b, #0f172a);">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span style="font-size:13px; font-weight:700; color:#c4b5fd; letter-spacing:0.3px;">Deployment Presets</span>
+            <span style="font-size:10px; color:#64748b; margin-left:4px;">Pre-configured module bundles per deployment type</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:center;">
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #7c3aed15, #7c3aed08); color:#c4b5fd; border:1px solid #7c3aed40; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#a78bfa;display:inline-block;"></span>Solo Provider</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #8b5cf615, #8b5cf608); color:#c4b5fd; border:1px solid #8b5cf640; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#8b5cf6;display:inline-block;"></span>Small Practice</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #6366f115, #6366f108); color:#a5b4fc; border:1px solid #6366f140; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#6366f1;display:inline-block;"></span>Multi-Specialty</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #3b82f615, #3b82f608); color:#93c5fd; border:1px solid #3b82f640; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#3b82f6;display:inline-block;"></span>Hospital</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #0ea5e915, #0ea5e908); color:#67e8f9; border:1px solid #0ea5e940; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#0ea5e9;display:inline-block;"></span>Health System</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #f9731615, #f9731608); color:#fed7aa; border:1px solid #f9731640; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#f97316;display:inline-block;"></span>Field Ops</span>
+            <span style="font-size:11px; font-weight:600; padding:5px 12px; border-radius:6px; background:linear-gradient(135deg, #10b98115, #10b98108); color:#6ee7b7; border:1px solid #10b98140; display:inline-flex; align-items:center; gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;"></span>Patient Portal</span>
+          </div>
+        </div>
+
+        <!-- Arrow between Layer 2 and 3 -->
+        <div style="display:flex; align-items:center; justify-content:center; padding:2px 0; background:#0d1117;">
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M10 2v10M6 8l4 4 4-4" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:9px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-left:4px;">surfaces as</span>
+          <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M10 2v10M6 8l4 4 4-4" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Layer 3: Role Views -->
+        <div style="padding:14px 20px; border-left:2px solid #22d3ee;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span style="font-size:13px; font-weight:700; color:#67e8f9; letter-spacing:0.3px;">Role Views</span>
+            <span style="font-size:10px; color:#64748b; margin-left:4px;">Tailored UI per user role</span>
+          </div>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <div style="padding:8px 18px; border-radius:8px; background:#22d3ee10; border:1px solid #22d3ee30; text-align:center;">
+              <div style="font-size:16px; margin-bottom:3px;">🩺</div>
+              <div style="font-size:12px; font-weight:700; color:#67e8f9;">Provider View</div>
+              <div style="font-size:9px; color:#64748b; margin-top:2px;">Clinical workflow</div>
+            </div>
+            <div style="padding:8px 18px; border-radius:8px; background:#22d3ee10; border:1px solid #22d3ee30; text-align:center;">
+              <div style="font-size:16px; margin-bottom:3px;">💉</div>
+              <div style="font-size:12px; font-weight:700; color:#67e8f9;">Nurse View</div>
+              <div style="font-size:9px; color:#64748b; margin-top:2px;">Care coordination</div>
+            </div>
+            <div style="padding:8px 18px; border-radius:8px; background:#22d3ee10; border:1px solid #22d3ee30; text-align:center;">
+              <div style="font-size:16px; margin-bottom:3px;">📋</div>
+              <div style="font-size:12px; font-weight:700; color:#67e8f9;">Admin View</div>
+              <div style="font-size:9px; color:#64748b; margin-top:2px;">Operations &amp; billing</div>
+            </div>
+            <div style="padding:8px 18px; border-radius:8px; background:#22d3ee10; border:1px solid #22d3ee30; text-align:center;">
+              <div style="font-size:16px; margin-bottom:3px;">👤</div>
+              <div style="font-size:12px; font-weight:700; color:#67e8f9;">Patient View</div>
+              <div style="font-size:9px; color:#64748b; margin-top:2px;">Self-service portal</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <div class="deployments-row">
-      <div class="deployment-card card-portal">
-        <div class="icon">👤</div>
-        <h3>Patient Portal</h3>
-        <p>Direct to consumer: scheduling, records, messaging, payments, RPM</p>
-        <div class="modules">
-          <span class="pill pill-on">Schedule</span>
-          <span class="pill pill-on">Records</span>
-          <span class="pill pill-on">Messages</span>
-          <span class="pill pill-on">Pay</span>
-          <span class="pill pill-on">RPM</span>
+    <!-- API Layer Connector between Config Engine and Backend Services -->
+    <div class="connector-section" style="padding: 8px 0;">
+      <div style="width:1100px; display:flex; align-items:center; justify-content:center; gap:12px; padding:8px 20px; background:linear-gradient(90deg, #1e1b4b, #312e81, #1e1b4b); border:1px solid #6366f150; border-radius:8px; box-shadow:0 0 30px #6366f110;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span style="font-size:13px; font-weight:700; color:#c7d2fe; letter-spacing:0.3px;">API Layer</span>
+        <span style="font-size:10px; color:#818cf8;">—</span>
+        <span style="font-size:11px; color:#a5b4fc;">Configuration Engine drives which backend modules surface per preset &amp; role</span>
+        <div style="display:flex; gap:6px; margin-left:12px;">
+          <span style="font-size:10px; font-weight:600; padding:3px 9px; border-radius:4px; background:#4f46e530; color:#a5b4fc;">Auth (JWT/OAuth)</span>
+          <span style="font-size:10px; font-weight:600; padding:3px 9px; border-radius:4px; background:#4f46e530; color:#a5b4fc;">Routing</span>
+          <span style="font-size:10px; font-weight:600; padding:3px 9px; border-radius:4px; background:#4f46e530; color:#a5b4fc;">Rate Limiting</span>
+          <span style="font-size:10px; font-weight:600; padding:3px 9px; border-radius:4px; background:#4f46e530; color:#a5b4fc;">Versioning</span>
         </div>
       </div>
-      <div class="deployment-card card-clinic">
-        <div class="icon">🩺</div>
-        <h3>Clinic</h3>
-        <p>Outpatient &amp; virtual: scheduling, intake, video visits, billing, referrals</p>
-        <div class="modules">
-          <span class="pill pill-on">Schedule</span>
-          <span class="pill pill-on">Intake</span>
-          <span class="pill pill-on">Video</span>
-          <span class="pill pill-on">Pay</span>
-          <span class="pill pill-on">Insurance</span>
-          <span class="pill pill-on">Referrals</span>
-        </div>
-      </div>
-      <div class="deployment-card card-hospital">
-        <div class="icon">🏥</div>
-        <h3>Hospital</h3>
-        <p>Inpatient: census board, bed mgmt, MAR, orders, nursing, discharge</p>
-        <div class="modules">
-          <span class="pill pill-on">Census</span>
-          <span class="pill pill-on">Beds</span>
-          <span class="pill pill-on">MAR</span>
-          <span class="pill pill-on">Orders</span>
-          <span class="pill pill-on">Vitals</span>
-          <span class="pill pill-on">Discharge</span>
-        </div>
-      </div>
-      <div class="deployment-card card-fieldops">
-        <div class="icon">🌍</div>
-        <h3>Field Ops</h3>
-        <p>Disaster &amp; mission: offline-first, triage, rapid reg, supply tracking, pharmacy</p>
-        <div class="modules">
-          <span class="pill pill-on">Offline</span>
-          <span class="pill pill-on">Triage</span>
-          <span class="pill pill-on">Supplies</span>
-          <span class="pill pill-on">Pharmacy</span>
-          <span class="pill pill-on">Sync</span>
-          <span class="pill pill-on">Devices</span>
-        </div>
-      </div>
     </div>
 
-    <!-- Virtual-Enabled annotation -->
-    <div class="virtual-overlay-bar">
-      <div class="virtual-note"><strong>Virtual-ready by default</strong> — Every deployment includes video, messaging, and telehealth capabilities. No separate "virtual" mode needed — these are platform services available across all four deployment types.</div>
-    </div>
-
-    <div class="connector-section">
-      <div class="connector-lines">
-        <svg viewBox="0 0 900 32" fill="none">
-          <line class="connector-line" x1="135" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="335" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="565" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <line class="connector-line" x1="765" y1="0" x2="450" y2="28" stroke="#38bdf830" stroke-width="1.5"/>
-          <polygon points="450,32 446,25 454,25" fill="#fbbf2460"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="layer-label label-gateway">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      Unified API Gateway
-    </div>
-
-    <div class="gateway-bar">
-      <h3>API Gateway</h3>
-      <div class="gateway-features">
-        <span class="gateway-chip">Single Auth (JWT/OAuth)</span>
-        <span class="gateway-chip">Request Routing</span>
-        <span class="gateway-chip">Rate Limiting</span>
-        <span class="gateway-chip">API Versioning</span>
-        <span class="gateway-chip">Service Discovery</span>
-        <span class="gateway-chip">Audit Logging</span>
-      </div>
-    </div>
-
-    <div class="connector-section" style="padding: 5px 0;">
+    <div class="connector-section" style="padding: 4px 0;">
       <div class="connector-lines">
         <svg viewBox="0 0 900 32" fill="none">
           <line class="connector-line" x1="450" y1="0" x2="90" y2="28" stroke="#10b98140" stroke-width="2"/>

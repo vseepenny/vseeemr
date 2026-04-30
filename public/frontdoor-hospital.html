@@ -127,6 +127,7 @@
   .settings-item-desc { font-size:var(--fs-caption); color:var(--text-secondary); }
   .settings-item-arrow { color:var(--text-tertiary); }
 </style>
+<script src="vsee-platform-config.js"></script>
 </head>
 <body>
 
@@ -138,6 +139,7 @@
   <a href="frontdoor-hospital.html" class="fd-active"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital</a>
   <a href="frontdoor-fieldops.html"><span class="fd-nav-dot" style="background:#F97316"></span>Field Ops</a>
   <a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
+  <a href="frontdoor-configurator.html"><span class="fd-nav-dot" style="background:#fbbf24"></span>Configurator</a>
 </nav>
 
 <!-- Header -->
@@ -164,79 +166,7 @@
 <!-- App Body -->
 <div class="app-body">
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="nav-section">
-      <div class="nav-section-label">Clinical</div>
-      <a class="nav-item active" onclick="showView('dashboard')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Census Board
-        <span class="nav-badge nav-badge-accent">24</span>
-      </a>
-      <a class="nav-item" onclick="showView('bed-mgmt')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-        Bed Management
-      </a>
-      <a class="nav-item" onclick="showView('alerts')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Active Alerts
-        <span class="nav-badge nav-badge-danger">3</span>
-      </a>
-      <a class="nav-item" onclick="showView('orders')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
-        Pending Orders
-        <span class="nav-badge nav-badge-accent">8</span>
-      </a>
-      <a class="nav-item" onclick="showView('vitals')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        Vitals Monitor
-      </a>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Workflow</div>
-      <a class="nav-item" onclick="showView('discharge')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        Discharge Tracker
-      </a>
-      <a class="nav-item" onclick="showView('handoff')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Handoff Board
-      </a>
-      <a class="nav-item" onclick="showView('mar')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-        MAR
-      </a>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">VSee Messenger</div>
-      <a class="nav-item" onclick="showView('messenger')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Messages
-        <span class="nav-badge nav-badge-accent">4</span>
-      </a>
-      <a class="nav-item" onclick="showView('video-call')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        Video Call
-      </a>
-      <a class="nav-item" onclick="showView('channels')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Channels
-      </a>
-    </div>
-    <div class="nav-section">
-      <div class="nav-section-label">Tools</div>
-      <a class="nav-item" onclick="showView('scribe')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-        AI Scribe
-      </a>
-      <a class="nav-item" onclick="showView('analytics')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Analytics
-      </a>
-      <a class="nav-item" onclick="showView('settings')">
-        <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Settings
-      </a>
-    </div>
+  <aside class="sidebar" id="sidebar-container">
   </aside>
 
   <!-- Main Content -->
@@ -1816,6 +1746,44 @@ function showView(view) {
     }
   }
 }
+</script>
+
+<script>
+(function() {
+  var PRESET_ID = 'hospital';
+
+  // Map module IDs → view element IDs used by showView()
+  var viewIdMap = {
+    'scheduling':    'dashboard',
+    'bed-mgmt':      'bed-mgmt',
+    'alerts':        'alerts',
+    'orders':        'orders',
+    'vitals':        'vitals',
+    'discharge':     'discharge',
+    'handoff':       'handoff',
+    'mar':           'mar',
+    'messenger':     'messenger',
+    'video-call':    'video-call',
+    'channels':      'channels',
+    'scribe':        'scribe',
+    'analytics':     'analytics',
+    'settings':      'settings'
+  };
+
+  var badgeCounts = {
+    'scheduling': 142,
+    'alerts': 3,
+    'orders': 24,
+    'discharge': 11,
+    'messenger': 8,
+    'vitals': 47
+  };
+
+  var sidebar = document.getElementById('sidebar-container');
+  if (sidebar && typeof buildSidebarHTML === 'function') {
+    sidebar.innerHTML = buildSidebarHTML(PRESET_ID, viewIdMap, 'dashboard', badgeCounts);
+  }
+})();
 </script>
 
 </body>
