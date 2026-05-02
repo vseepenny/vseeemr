@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSee Platform Front Door</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontdoor-shared.css">
+<style>
+  /* ─── Module view chrome ─────────────────────────────────── */
+  .view-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .view-header-text { min-width: 0; }
+  .view-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--text-primary);
+  }
+  .view-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .view-header-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+  /* Tables */
+  .fd-table {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .fd-thead, .fd-tr {
+    display: flex;
+    align-items: center;
+  }
+  .fd-thead {
+    background: var(--bg-subtle, #F9FAFB);
+    border-bottom: 1px solid var(--border);
+  }
+  .fd-th {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary, #9CA3AF);
+  }
+  .fd-tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .fd-tr:last-child { border-bottom: none; }
+  .fd-tr:hover { background: var(--bg-subtle, #F9FAFB); }
+  .fd-td {
+    flex: 1;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+
+  /* Cards */
+  .fd-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .fd-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .fd-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .fd-card-body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .fd-card-actions { display: flex; gap: 6px; }
+
+  /* List */
+  .fd-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fd-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .fd-list-item:hover { border-color: var(--border-strong, #D1D5DB); }
+
+  .fd-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary, #9CA3AF);
+    margin-bottom: 8px;
+  }
+
+  /* Chips */
+  .fd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--bg-muted, #F3F4F6);
+    color: var(--text-secondary, #6B7280);
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+  .fd-chip-accent  { background: rgba(59,130,246,0.12); color: var(--accent, #3B82F6); }
+  .fd-chip-success { background: #D1FAE5; color: #065F46; }
+  .fd-chip-warn    { background: #FEF3C7; color: #92400E; }
+  .fd-chip-danger  { background: #FEE2E2; color: #991B1B; }
+  .fd-chip-muted   { background: var(--bg-muted, #F3F4F6); color: var(--text-secondary, #6B7280); }
+
+  /* Inputs */
+  .fd-search, .fd-input {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+    font-family: inherit;
+    color: var(--text-primary);
+  }
+  .fd-search { width: 240px; }
+  .fd-input { width: 100%; box-sizing: border-box; }
+  .fd-field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; }
+  .fd-field span { color: var(--text-tertiary, #9CA3AF); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; font-size: 10px; }
+
+  /* Placeholder */
+  .view-placeholder {
+    text-align: center;
+    padding: 70px 20px;
+    color: var(--text-secondary);
+  }
+  .view-placeholder .vp-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--accent-light, #EFF6FF);
+    color: var(--accent, #3B82F6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .view-placeholder h2 {
+    font-size: 18px;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+  }
+  .view-placeholder p {
+    font-size: 13px;
+    margin: 0 auto 14px;
+    max-width: 420px;
+  }
+  .view-placeholder .vp-stub {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #FEF3C7;
+    color: #78350F;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Stat-card spacing tweak (used as home strip) */
+  .stat-cards { margin-bottom: 24px; }
+
+  /* Buttons (small fallbacks if not in shared) */
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+</style>
+<script src="vsee-platform-config.js"></script>
+<script src="frontdoor-modules.js"></script>
+</head>
+<body>
+
+<!-- Top nav (rendered dynamically so we can highlight active preset) -->
+<nav class="fd-nav" id="fdNav"></nav>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <span id="hdrLogoText">VSee Health</span>
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-subtitle" id="hdrSubtitle"></span>
+    <div class="header-divider"></div>
+    <span class="text-sm fw-600" id="hdrFacility" style="color:var(--text-primary)"></span>
+  </div>
+  <div class="header-right">
+    <div class="online-status">
+      <span class="online-dot"></span>
+      Online
+    </div>
+    <div class="header-divider"></div>
+    <div id="roleSwitcher"></div>
+    <div class="header-divider"></div>
+    <div class="user-avatar" id="userAvatar"></div>
+  </div>
+</header>
+
+<!-- App body -->
+<div class="app-body">
+  <aside class="sidebar" id="sidebar-container"></aside>
+  <main class="main-content" id="contentArea"></main>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Read preset from URL ──
+  var params = new URLSearchParams(window.location.search);
+  var PRESET_ID = params.get('preset') || 'small-practice';
+  if (!DEPLOYMENT_PRESETS[PRESET_ID]) {
+    console.warn('Unknown preset:', PRESET_ID, '— falling back to small-practice');
+    PRESET_ID = 'small-practice';
+  }
+  var preset = DEPLOYMENT_PRESETS[PRESET_ID];
+
+  // ── Apply preset to page chrome ──
+  document.title = 'VSee — ' + preset.label;
+  document.documentElement.style.setProperty('--accent', preset.color);
+  document.documentElement.style.setProperty('--accent-light', tintColor(preset.color, 0.12));
+  document.documentElement.style.setProperty('--accent-hover', preset.color);
+
+  document.getElementById('hdrSubtitle').textContent = preset.headerSubtitle;
+  document.getElementById('hdrFacility').innerHTML =
+    '<svg class="icon-svg" viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+    escapeText(preset.facilityName);
+
+  var avatar = document.getElementById('userAvatar');
+  avatar.textContent = initialsFor(preset);
+  avatar.style.background = preset.color;
+
+  // ── Render top nav (links to all 7 presets) ──
+  renderTopNav();
+
+  // ── Build the sidebar ──
+  // viewIdMap: every module in the registry maps to a view ID = the module ID itself.
+  // Modules without a render function fall back to renderModulePlaceholder.
+  var viewIdMap = {};
+  Object.keys(MODULE_REGISTRY).forEach(function(m) { viewIdMap[m] = m; });
+
+  // Default landing view: pick the first module in the first sidebar section
+  var defaultViewId = pickDefaultView(PRESET_ID);
+  var badgeCounts = computeBadgeCounts(PRESET_ID);
+
+  function rebuildSidebar() {
+    var roleId = (typeof getCurrentRole === 'function') ? getCurrentRole(PRESET_ID) : null;
+    var sidebar = document.getElementById('sidebar-container');
+    sidebar.innerHTML = buildSidebarHTML(PRESET_ID, viewIdMap, defaultViewId, badgeCounts, roleId);
+    // After role change, the active view may be hidden — fall back to default
+    var activeVisible = sidebar.querySelector('.nav-item[data-module="' + currentView + '"]');
+    if (!activeVisible) showView(defaultViewId);
+    else activeVisible.classList.add('active');
+  }
+
+  // ── Show a view in the main content area ──
+  var currentView = defaultViewId;
+  function showView(viewId) {
+    currentView = viewId;
+    var contentArea = document.getElementById('contentArea');
+    var isDefault = (viewId === defaultViewId);
+    contentArea.innerHTML = renderModuleView(viewId, PRESET_ID, isDefault);
+    contentArea.scrollTop = 0;
+    // Highlight active sidebar item
+    document.querySelectorAll('.sidebar .nav-item').forEach(function(n) {
+      n.classList.toggle('active', n.dataset.module === viewId);
+    });
+  }
+  window.showView = showView;
+
+  // ── Initial render ──
+  rebuildSidebar();
+  showView(defaultViewId);
+
+  // Wire up role switcher (sidebar AND content area both refresh when role changes)
+  var switcherEl = document.getElementById('roleSwitcher');
+  if (switcherEl && typeof initRoleSwitcher === 'function') {
+    initRoleSwitcher(switcherEl, PRESET_ID, {
+      onChange: function() {
+        rebuildSidebar();
+        // If current view is no longer visible to this role, default; else just re-render
+        var stillVisible = document.querySelector('.sidebar .nav-item[data-module="' + currentView + '"]');
+        showView(stillVisible ? currentView : defaultViewId);
+      }
+    });
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // Helpers
+  // ──────────────────────────────────────────────────────────
+
+  function tintColor(hex, alpha) {
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  function escapeText(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+
+  function initialsFor(preset) {
+    var roleId = (typeof getCurrentRole === 'function') ? getCurrentRole(PRESET_ID) : null;
+    var defaults = {
+      'solo-provider':  'DR',
+      'small-practice': 'SK',
+      'multi-specialty':'MD',
+      'hospital':       'DR',
+      'health-system':  'EH',
+      'field-ops':      'CM',
+      'patient-portal': 'SC'
+    };
+    return defaults[preset.id] || 'VS';
+  }
+
+  function pickDefaultView(presetId) {
+    var sections = SIDEBAR_SECTIONS[presetId] || [];
+    var modStates = (typeof getEffectiveModules === 'function')
+                    ? getEffectiveModules(presetId)
+                    : DEPLOYMENT_PRESETS[presetId].modules;
+    for (var i = 0; i < sections.length; i++) {
+      for (var j = 0; j < sections[i].modules.length; j++) {
+        var m = sections[i].modules[j];
+        var st = modStates[m];
+        if (st === 'on' || st === 'opt') return m;
+      }
+    }
+    return null;
+  }
+
+  function computeBadgeCounts(presetId) {
+    // Mirror the badge counts that the existing front doors used; safe to send all,
+    // buildSidebarHTML only renders badges for modules in the sidebar.
+    var commonByPreset = {
+      'solo-provider': { 'scheduling': 6, 'waiting-room': 1, 'messenger': 3 },
+      'small-practice': { 'scheduling': 12, 'waiting-room': 3, 'video-visits': 4, 'messenger': 5, 'rpm': 2 },
+      'multi-specialty': { 'scheduling': 28, 'waiting-room': 7, 'video-visits': 8, 'messenger': 12, 'rpm': 5, 'orders': 9 },
+      'hospital': { 'scheduling': 142, 'alerts': 3, 'orders': 24, 'discharge': 11, 'messenger': 8, 'vitals': 47 },
+      'health-system': { 'scheduling': 248, 'alerts': 8, 'orders': 67, 'messenger': 28, 'bed-mgmt': 12 },
+      'field-ops': { 'walk-in-queue': 8, 'patients': 47, 'supply': 3, 'messenger': 5, 'sync': 2, 'alerts': 1 },
+      'patient-portal': { 'appointments': 1, 'rpm': 3, 'results': 1, 'messenger': 2 }
+    };
+    return commonByPreset[presetId] || {};
+  }
+
+  function renderTopNav() {
+    var navOrder = [
+      { id: 'patient-portal',  label: 'Patient Portal' },
+      { id: 'solo-provider',   label: 'Solo Provider' },
+      { id: 'small-practice',  label: 'Small Practice' },
+      { id: 'multi-specialty', label: 'Multi-Specialty' },
+      { id: 'hospital',        label: 'Hospital' },
+      { id: 'health-system',   label: 'Health System' },
+      { id: 'field-ops',       label: 'Field Ops' }
+    ];
+    var html = '<span class="fd-nav-logo">VSee Platform</span>';
+    navOrder.forEach(function(n) {
+      var p = DEPLOYMENT_PRESETS[n.id];
+      if (!p) return;
+      var active = (n.id === PRESET_ID) ? ' class="fd-active"' : '';
+      html += '<a href="frontdoor.html?preset=' + n.id + '"' + active + '>';
+      html += '<span class="fd-nav-dot" style="background:' + p.color + '"></span>';
+      html += escapeText(n.label);
+      html += '</a>';
+    });
+    // Feature link (not a preset)
+    html += '<a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>';
+    // Configurator
+    html += '<a href="frontdoor-configurator.html"><span class="fd-nav-dot" style="background:#fbbf24"></span>Configurator</a>';
+    document.getElementById('fdNav').innerHTML = html;
+  }
+})();
+</script>
+
+</body>
+</html>

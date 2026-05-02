@@ -1,1220 +1,1570 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSee Platform — Deployment Configurator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="frontdoor-shared.css">
+<meta charset="utf-8" />
+<title>VSee Platform Configurator</title>
+<meta name="viewport" content="width=1280, initial-scale=1" />
+<link rel="stylesheet" href="frontdoor-shared.css" />
 <script src="vsee-platform-config.js"></script>
 <style>
   :root {
-    --accent: #7C3AED;
-    --accent-light: #F3E8FF;
-    --accent-hover: #6D28D9;
+    --accent: #3B82F6;
+    --accent-light: rgba(59,130,246,0.12);
+    --accent-hover: #2563EB;
+    --bg: #FFFFFF;
+    --bg-subtle: #F9FAFB;
+    --bg-muted: #F3F4F6;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --text: #111827;
+    --text-muted: #6B7280;
+    --text-faint: #9CA3AF;
+    --on:  #059669;
+    --opt: #D97706;
+    --off: #6B7280;
+    --danger: #B91C1C;
   }
 
-  body { background: #F8F9FA; }
-
-  /* ---- Layout ---- */
-  .cfg-layout {
-    display: flex;
-    min-height: calc(100vh - var(--fd-nav-h));
-  }
-
-  /* ---- Left Panel ---- */
-  .cfg-left {
-    width: 260px;
-    min-width: 260px;
-    background: #fff;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .cfg-left-top {
-    flex: 1;
-    overflow-y: auto;
-    min-height: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .cfg-left-bottom {
-    flex: 0 0 auto;
-    max-height: 45%;
-    overflow-y: auto;
-    min-height: 0;
-  }
-
-  .cfg-left-header {
-    padding: 20px 16px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-  }
-
-  .cfg-preset-list {
-    padding: 0 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .cfg-preset-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--card-color, #ccc);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    background: #fff;
-  }
-
-  .cfg-preset-card:hover {
-    border-color: var(--card-color, #ccc);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-
-  .cfg-preset-card.active {
-    background: color-mix(in srgb, var(--card-color, #7C3AED) 8%, #fff);
-    border-color: var(--card-color, #7C3AED);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  }
-
-  .cfg-preset-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--card-color, #ccc);
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  .cfg-preset-info { flex: 1; min-width: 0; }
-
-  .cfg-preset-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.3;
-  }
-
-  .cfg-preset-sub {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    line-height: 1.3;
-    margin-top: 2px;
-  }
-
-  .cfg-preset-counts {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-top: 4px;
-    display: flex;
-    gap: 8px;
-  }
-
-  .cfg-preset-counts .on-count { color: #059669; }
-  .cfg-preset-counts .opt-count { color: #D97706; }
-
-  .cfg-summary {
-    padding: 14px 16px;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: var(--grey-200);
-    text-align: center;
-  }
-
-  .cfg-summary .num { font-weight: 800; color: var(--accent); }
-
-  /* ---- Center Column (Role Tabs + Sidebar Preview) ---- */
-  .cfg-center-col {
-    width: 240px;
-    min-width: 240px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .cfg-role-tabs {
-    background: #0F172A;
-    padding: 8px 8px 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    flex-shrink: 0;
-  }
-
-  .cfg-role-tab {
-    padding: 6px 12px;
-    border-radius: 6px 6px 0 0;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.5);
-    transition: all 0.15s;
-    font-family: inherit;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-  }
-  .cfg-role-tab:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
-  .cfg-role-tab.active { background: #1E293B; color: #fff; }
-  .cfg-role-tab.disabled { opacity: 0.3; cursor: not-allowed; }
-  .cfg-role-tab .role-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .cfg-role-tab-add {
-    padding: 6px 10px;
-    border-radius: 6px 6px 0 0;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px dashed rgba(255,255,255,0.2);
-    background: transparent;
-    color: rgba(255,255,255,0.4);
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-  .cfg-role-tab-add:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
-
-  .cfg-center {
-    flex: 1;
-    min-height: 0;
-    background: #1E293B;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
-
-  .cfg-center::-webkit-scrollbar { width: 5px; }
-  .cfg-center::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-
-  .cfg-sidebar-header {
-    padding: 16px 16px 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 12px;
-    margin-bottom: 4px;
-  }
-
-  .cfg-sidebar-logo {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cfg-sidebar-logo svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-  .cfg-sidebar-title {
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
     font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
+    color: var(--text);
+    background: #F3F4F6;
+  }
+  * { box-sizing: border-box; }
+
+  /* ─── App frame ─────────────────────────────────────────── */
+  .app-frame {
+    background: #fff;
+    margin: 8px 16px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    /* Cap height so inner panels scroll independently instead of growing the page */
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
   }
 
-  .cfg-sidebar-subtitle {
-    font-size: 10px;
-    color: rgba(255,255,255,0.5);
-    font-weight: 500;
-  }
-
-  .cfg-sidebar-section {
-    padding: 0 8px;
-    margin-bottom: 6px;
-  }
-
-  .cfg-sidebar-section-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.35);
-    padding: 10px 10px 4px;
-  }
-
-  .cfg-sidebar-item {
+  /* ─── App header bar ─────────────────────────────────────── */
+  .app-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.7);
-    transition: all 0.15s;
-    cursor: default;
-  }
-
-  .cfg-sidebar-item:hover {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.9);
-  }
-
-  .cfg-sidebar-item.is-optional {
-    color: rgba(255,255,255,0.45);
-  }
-
-  .cfg-sidebar-item svg {
-    width: 16px;
-    height: 16px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex-shrink: 0;
-  }
-
-  .cfg-sidebar-item .item-label { flex: 1; }
-
-  .cfg-sidebar-toggle {
-    position: relative;
-    width: 28px;
-    height: 16px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.15);
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-
-  .cfg-sidebar-toggle.active {
-    background: #059669;
-  }
-
-  .cfg-sidebar-toggle::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    justify-content: space-between;
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--border);
     background: #fff;
-    transition: transform 0.2s;
   }
-
-  .cfg-sidebar-toggle.active::after {
-    transform: translateX(12px);
-  }
-
-  .cfg-sidebar-badge {
-    font-size: 9px;
-    font-weight: 600;
-    padding: 1px 5px;
-    border-radius: 9999px;
-    background: rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.45);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  /* ---- Right Panel ---- */
-  .cfg-right {
-    flex: 1;
-    overflow-y: auto;
-    padding: 24px;
-    background: var(--grey-200);
-  }
-
-  .cfg-right::-webkit-scrollbar { width: 6px; }
-  .cfg-right::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-
-  .cfg-right-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-  }
-
-  .cfg-right-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-  }
-
-  /* Dashboard cards */
-  .cfg-dash-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-
-  .cfg-dash-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    transition: box-shadow 0.18s, transform 0.18s;
-  }
-
-  .cfg-dash-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
-  }
-
-  .cfg-dash-card-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 6px;
-  }
-
-  .cfg-dash-card-value {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1.1;
-  }
-
-  .cfg-dash-card-sub {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-
-  /* Module Configuration */
-  .cfg-modules-title {
+  .app-title {
     font-size: 16px;
     font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 16px;
+    color: var(--text);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
-
-  .cfg-modules-title svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--accent);
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .app-title-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    transition: background 0.15s;
   }
-
-  .cfg-cat-group {
-    margin-bottom: 20px;
-  }
-
-  .cfg-cat-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 0;
-    margin-bottom: 2px;
-  }
-
-  .cfg-cat-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .cfg-cat-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-secondary);
-  }
-
-  .cfg-cat-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .cfg-mod-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 4px;
-    transition: all 0.15s;
-  }
-
-  .cfg-mod-row:hover {
-    border-color: var(--border-strong);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-
-  .cfg-mod-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    background: var(--grey-200);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .cfg-mod-icon svg {
-    width: 16px;
-    height: 16px;
-    stroke: var(--text-secondary);
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .cfg-mod-info { flex: 1; min-width: 0; }
-
-  .cfg-mod-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .cfg-mod-desc {
+  .app-title-suffix {
     font-size: 11px;
-    color: var(--text-tertiary);
-    line-height: 1.3;
+    color: var(--text-faint);
+    font-weight: 500;
+    margin-left: 6px;
   }
-
-  /* 3-state toggle */
-  .cfg-toggle {
-    display: flex;
-    border-radius: 9999px;
-    overflow: hidden;
+  .app-actions { display: flex; gap: 8px; align-items: center; }
+  .v1-link {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  .v1-link:hover { color: var(--text); }
+  .btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
     border: 1px solid var(--border);
-    flex-shrink: 0;
-    background: var(--grey-200);
+    background: #fff;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
   }
+  .btn:hover { border-color: var(--border-strong); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { filter: brightness(0.95); }
+  .btn-danger {
+    color: var(--danger);
+    border-color: #FECACA;
+    background: #FEF2F2;
+  }
+  .btn-danger:hover { background: #FEE2E2; }
 
-  .cfg-toggle-btn {
-    padding: 4px 10px;
+  /* ─── Preset bar ─────────────────────────────────────────── */
+  .preset-bar {
+    display: flex;
+    align-items: stretch;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .preset-bar-label {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.6px;
+    color: var(--text-faint);
+    padding: 0 18px;
+    border-right: 1px solid var(--border);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .preset-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.12s;
+  }
+  .preset-pill:hover { background: rgba(0,0,0,0.03); }
+  .preset-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .preset-pill.active {
+    background: #fff;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ─── Context strip ──────────────────────────────────────── */
+  .context-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+  .ctx-name { font-weight: 700; color: var(--text); font-size: 15px; }
+  .ctx-sep  { color: var(--border-strong); }
+  .ctx-meta { color: var(--text-muted); }
+  .ctx-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: var(--accent-light);
+    color: var(--accent-hover);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .ctx-pill-opt { background: #FEF3C7; color: #92400E; }
+  .ctx-pill-muted { background: var(--bg-muted); color: var(--text-muted); }
+
+  /* ─── Main split: configure | preview ───────────────────── */
+  .main-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 440px;
+    flex: 1;
+    min-height: 0;
+    transition: grid-template-columns 0.2s ease;
+  }
+  .main-split.preview-collapsed {
+    grid-template-columns: minmax(0, 1fr) 50px;
+  }
+  .configure {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    border-right: 1px solid var(--border);
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ─── Vertical tab rail ─────────────────────────────────── */
+  .tab-rail {
+    background: var(--bg-subtle);
+    border-right: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .tab-rail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 8px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-left: 3px solid transparent;
+    transition: background 0.12s, color 0.12s;
+  }
+  .tab-rail-item:hover { background: rgba(0,0,0,0.03); }
+  .tab-rail-item.active {
+    background: #fff;
+    color: var(--accent);
+    font-weight: 600;
+    border-left-color: var(--accent);
+  }
+  .tab-rail-item svg {
+    width: 18px; height: 18px;
+    stroke-width: 2;
+  }
+
+  /* ─── Configure content area ─────────────────────────────── */
+  .cfg-content {
+    padding: 18px 22px;
+    overflow-y: auto;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+  .cfg-content-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 16px;
+  }
+  .cfg-content-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .cfg-content-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .cfg-search {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    width: 200px;
+    background: #fff;
+    font-family: inherit;
+  }
+
+  /* ── Module list (Modules tab) ──── */
+  .mod-cat-group { margin-bottom: 18px; }
+  .mod-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .mod-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .mod-cat-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text);
+  }
+  .mod-cat-line { flex: 1; height: 1px; background: var(--border); }
+  .mod-cat-count { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+  .mod-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    background: #fff;
+  }
+  .mod-row:hover { border-color: var(--border-strong); }
+  .mod-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--bg-muted);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .mod-icon svg { width: 14px; height: 14px; stroke-width: 2; }
+  .mod-info { flex: 1; min-width: 0; }
+  .mod-label { font-size: 13px; font-weight: 500; color: var(--text); }
+  .mod-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .mod-toggle {
+    display: flex;
+    background: var(--bg-muted);
+    border-radius: 6px;
+    padding: 2px;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+  .mod-toggle-btn {
     border: none;
     background: transparent;
-    color: var(--text-tertiary);
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.18s;
-    font-family: var(--font);
-    line-height: 1.4;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .mod-toggle-btn:hover { color: var(--text); }
+  .mod-toggle-btn.is-on  { background: var(--on);  color: #fff; }
+  .mod-toggle-btn.is-opt { background: var(--opt); color: #fff; }
+  .mod-toggle-btn.is-off { background: #fff; color: var(--text); border: 1px solid var(--border); }
+
+  /* ── Roles editor (Roles tab) ──── */
+  .roles-split {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    min-height: 600px;
+  }
+  .roles-list {
+    background: var(--bg-subtle);
+    border-right: 1px solid var(--border);
+    padding: 10px 8px;
+    overflow-y: auto;
+  }
+  .roles-list-header {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-faint);
+    padding: 4px 8px 8px;
+  }
+  .roles-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 4px;
+  }
+  .role-card {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: background 0.12s;
+  }
+  .role-card:hover { background: rgba(0,0,0,0.04); }
+  .role-card.active {
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .role-card.disabled { opacity: 0.4; cursor: not-allowed; }
+  .role-card.disabled:hover { background: transparent; }
+  .role-card .rdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .role-card .rinfo { flex: 1; min-width: 0; }
+  .role-card .rlabel { font-size: 13px; font-weight: 600; color: var(--text); }
+  .role-card .rdesc {
+    font-size: 11px; color: var(--text-muted); margin-top: 1px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .role-card.active .rlabel { color: var(--accent); }
+  .role-card .rcount {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-muted);
+    padding: 2px 7px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .role-card.active .rcount { background: var(--accent-light); color: var(--accent-hover); }
+  .role-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px;
+    border: 1px dashed var(--border-strong);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .role-add:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Edit canvas */
+  .role-edit { padding: 16px 20px; background: #fff; min-width: 0; overflow-y: auto; }
+  .role-edit-empty {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint); font-size: 13px; font-style: italic;
+    text-align: center; padding: 40px 16px;
+  }
+  .role-edit-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .role-color-swatch {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  .role-color-swatch svg { width: 18px; height: 18px; stroke-width: 2; }
+  .role-edit-title-block { min-width: 0; }
+  .role-edit-title {
+    font-size: 16px; font-weight: 700; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .role-edit-sub {
+    font-size: 12px; color: var(--text-muted); margin-top: 2px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .role-edit-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .role-edit-actions .btn { padding: 6px 10px; font-size: 12px; }
+
+  .vis-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .vis-section-help {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .vis-cat-block { margin-bottom: 14px; }
+  .vis-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .vis-cat-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+  .vis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+  }
+  .vis-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .vis-row.disabled { opacity: 0.4; cursor: not-allowed; }
+  .vis-row .opt-tag {
+    font-size: 9px; font-weight: 700;
+    color: #92400E; background: #FEF3C7;
+    padding: 1px 5px; border-radius: 3px;
+    margin-left: 4px;
+  }
+  .vis-row .off-tag {
+    font-size: 9px; color: var(--text-faint);
+    margin-left: 4px; font-style: italic;
+  }
+  .vis-row input[type="checkbox"] { accent-color: var(--accent); flex-shrink: 0; }
+
+  /* ─── Placeholder for Dashboard / Settings tabs ──────────── */
+  .cfg-placeholder {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .cfg-placeholder-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .cfg-placeholder-desc { font-size: 13px; max-width: 420px; margin: 0 auto 16px; }
+  .cfg-placeholder-stub {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #FEF3C7;
+    color: #78350F;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
   }
 
-  .cfg-toggle-btn:hover {
-    color: var(--text-primary);
+  /* ─── Preview pane ───────────────────────────────────────── */
+  .preview {
+    background: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .preview.is-collapsed .preview-body { display: none; }
+  .preview.is-collapsed .view-as-select { display: none; }
+  .preview.is-collapsed .preview-head {
+    flex-direction: column;
+    padding: 14px 8px;
+    gap: 10px;
+  }
+  .preview.is-collapsed .preview-head-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
   }
 
-  .cfg-toggle-btn.active-on {
-    background: #059669;
+  .preview-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+    gap: 10px;
+    position: relative;
+  }
+  .preview-head-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-faint);
+  }
+  .preview-collapse-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .preview-collapse-btn:hover { color: var(--text); border-color: var(--border-strong); }
+  .view-as-select {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    user-select: none;
+    flex: 1;
+    min-width: 0;
+  }
+  .view-as-select:hover { border-color: var(--border-strong); }
+  .view-as-select .va-label { color: var(--text-muted); font-weight: 400; }
+  .view-as-select .vrole-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .view-as-select strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .view-as-select .caret { color: var(--text-muted); margin-left: auto; flex-shrink: 0; }
+
+  .view-as-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 60px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 180px;
+    z-index: 10;
+  }
+  .va-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .va-item:hover { background: var(--bg-subtle); }
+  .va-item.active { background: var(--accent-light); color: var(--accent-hover); font-weight: 600; }
+  .va-item .vrole-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .preview-body {
+    padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .preview-note {
+    background: #FEF3C7;
+    color: #78350F;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 14px;
+    border-left: 3px solid #F59E0B;
+  }
+  .preview-empty {
+    padding: 32px 12px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+  }
+
+  /* sidebar preview */
+  .pv-sidebar {
+    background: #1E293B;
+    border-radius: 10px;
+    padding: 14px 0;
+    color: #fff;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .pv-sidebar-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 8px;
+  }
+  .pv-sidebar-logo {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
     color: #fff;
   }
+  .pv-sidebar-logo svg { width: 14px; height: 14px; stroke-width: 2; }
+  .pv-sidebar-title { font-size: 13px; font-weight: 700; color: #fff; }
+  .pv-sidebar-sub { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .pv-role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0 14px 8px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .pv-role-badge .pv-role-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .pv-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255,255,255,0.4);
+    padding: 8px 14px 4px;
+  }
+  .pv-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 14px;
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+    cursor: default;
+  }
+  .pv-nav-item:hover { background: rgba(255,255,255,0.05); }
+  .pv-nav-item svg { width: 14px; height: 14px; stroke-width: 2; flex-shrink: 0; color: rgba(255,255,255,0.7); }
+  .pv-nav-item .opt-mark {
+    margin-left: auto;
+    font-size: 8px;
+    color: #FCD34D;
+    background: rgba(252, 211, 77, 0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
 
-  .cfg-toggle-btn.active-opt {
-    background: #D97706;
+  /* dashboard preview */
+  .pv-dash-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .pv-dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .pv-dash-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .pv-dash-card-title { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+  .pv-dash-card-value { font-size: 20px; font-weight: 700; color: var(--text); margin: 2px 0; }
+  .pv-dash-card-sub { font-size: 10px; color: var(--text-faint); }
+  .pv-dash-empty {
+    padding: 18px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+  }
+
+  /* ─── Toast ──────────────────────────────────────────────── */
+  .cfg-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1E293B;
     color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    z-index: 100;
   }
+  .cfg-toast[hidden] { display: none; }
 
-  .cfg-toggle-btn.active-off {
-    background: #9CA3AF;
-    color: #fff;
-  }
-
-  /* Transitions */
-  .cfg-fade-in {
-    animation: cfgFadeIn 0.25s ease;
-  }
-
-  @keyframes cfgFadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Role picker cards */
-  .cfg-role-card {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 12px; border-radius: 8px;
-    border: 1px solid var(--border, #e5e7eb);
-    background: #fff; cursor: pointer;
-    margin-bottom: 6px; transition: all 0.15s;
-  }
-  .cfg-role-card:hover { background: #f9fafb; }
-  .cfg-role-card.active { border-color: var(--accent); background: var(--accent-light); }
-  .cfg-role-card.disabled { opacity: 0.4; cursor: not-allowed; }
-  .cfg-role-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .cfg-role-info { flex: 1; min-width: 0; }
-  .cfg-role-label { font-size: 13px; font-weight: 600; color: #1f2937; }
-  .cfg-role-desc { font-size: 11px; color: #6b7280; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cfg-role-card.active .cfg-role-label { color: var(--accent); }
-  .cfg-role-na { font-size: 10px; color: #9ca3af; font-style: italic; }
-  .cfg-role-count { font-size: 11px; color: #6b7280; font-weight: 600; white-space: nowrap; }
-
-  /* Custom role */
-  .cfg-add-role-btn {
-    display: block; width: 100%; padding: 8px;
-    border: 1px dashed #d1d5db; border-radius: 8px;
-    background: transparent; color: #6b7280; font-size: 12px; font-weight: 600;
-    cursor: pointer; margin-top: 8px; font-family: inherit;
-    transition: all 0.15s;
-  }
-  .cfg-add-role-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .cfg-custom-role-form {
-    margin-top: 8px; padding: 10px; border: 1px solid var(--border, #e5e7eb);
-    border-radius: 8px; background: #f9fafb;
-  }
-  .cfg-custom-role-form input {
-    width: 100%; padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px;
-    font-size: 13px; font-family: inherit; margin-bottom: 8px; box-sizing: border-box;
-  }
-  .cfg-custom-role-form .cfg-form-actions {
-    display: flex; gap: 6px; justify-content: flex-end;
-  }
-  .cfg-custom-role-form button {
-    padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
-    border: 1px solid #d1d5db; background: #fff; cursor: pointer; font-family: inherit;
-  }
-  .cfg-custom-role-form button.primary {
-    background: var(--accent); color: #fff; border-color: var(--accent);
-  }
-
-  /* Role active indicator on sidebar */
-  .cfg-sidebar-role-badge {
-    margin: 8px 12px; padding: 5px 10px; border-radius: 6px;
-    font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px;
-  }
-
-  /* Module visibility checkbox for custom role */
-  .cfg-role-mod-row {
-    display: flex; align-items: center; gap: 8px; padding: 4px 0;
-    font-size: 12px; color: #374151;
-  }
-  .cfg-role-mod-row input[type="checkbox"] {
-    width: 14px; height: 14px; accent-color: var(--accent);
-  }
-  .cfg-role-mod-row .mod-label { flex: 1; }
-  .cfg-role-mod-section { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.5px; margin: 8px 0 4px; }
-
-  /* Responsive tweaks */
-  @media (max-width: 1100px) {
-    .cfg-dash-grid {
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    }
+  /* ─── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 1180px) {
+    .main-split { grid-template-columns: minmax(0, 1fr) 380px; }
+    .roles-split { grid-template-columns: 180px minmax(0, 1fr); }
+    .vis-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- FD-Nav -->
+<!-- Top nav (consistent with all front doors) -->
 <nav class="fd-nav">
   <span class="fd-nav-logo">VSee Platform</span>
-  <a href="frontdoor-patient.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
-  <a href="frontdoor-clinic.html"><span class="fd-nav-dot" style="background:#7C3AED"></span>Clinic</a>
-  <a href="frontdoor-hospital.html"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital</a>
-  <a href="frontdoor-fieldops.html"><span class="fd-nav-dot" style="background:#F97316"></span>Field Ops</a>
+  <a href="frontdoor.html?preset=patient-portal"><span class="fd-nav-dot" style="background:#0D875C"></span>Patient Portal</a>
+  <a href="frontdoor.html?preset=solo-provider"><span class="fd-nav-dot" style="background:#8B5CF6"></span>Solo Provider</a>
+  <a href="frontdoor.html?preset=small-practice"><span class="fd-nav-dot" style="background:#7C3AED"></span>Small Practice</a>
+  <a href="frontdoor.html?preset=multi-specialty"><span class="fd-nav-dot" style="background:#7C3AED"></span>Multi-Specialty</a>
+  <a href="frontdoor.html?preset=hospital"><span class="fd-nav-dot" style="background:#3B82F6"></span>Hospital</a>
+  <a href="frontdoor.html?preset=health-system"><span class="fd-nav-dot" style="background:#1D4ED8"></span>Health System</a>
+  <a href="frontdoor.html?preset=field-ops"><span class="fd-nav-dot" style="background:#F97316"></span>Field Ops</a>
   <a href="frontdoor-messenger.html"><span class="fd-nav-dot" style="background:#0D875C"></span>Messenger</a>
-  <a href="frontdoor-configurator.html" class="fd-active"><span class="fd-nav-dot" style="background:#7C3AED"></span>Configurator</a>
+  <a href="frontdoor-configurator.html" class="fd-active"><span class="fd-nav-dot" style="background:#3B82F6"></span>Configurator</a>
 </nav>
 
-<div class="cfg-layout">
-  <!-- Left: Preset Selector + Role Cards -->
-  <div class="cfg-left">
-    <div class="cfg-left-top">
-      <div class="cfg-left-header">Deployment Presets</div>
-      <div class="cfg-preset-list" id="presetList"></div>
-      <div class="cfg-summary" id="presetSummary"></div>
+<div class="app-frame">
+
+  <!-- App header -->
+  <div class="app-header">
+    <div class="app-title">
+      <span class="app-title-dot" id="titleDot"></span>
+      VSee Platform Configurator
+      <span class="app-title-suffix">v2</span>
     </div>
-    <div class="cfg-left-bottom">
-      <div class="cfg-left-header">Role Views</div>
-      <div id="roleList" style="padding:0 10px;"></div>
-      <div id="customRoles" style="padding:0 10px;"></div>
-      <button class="cfg-add-role-btn" id="addCustomRoleBtn" style="margin:0 10px 12px;width:calc(100% - 20px);">+ Custom Role</button>
+    <div class="app-actions">
+      <a class="v1-link" href="frontdoor-configurator-v1.html" title="Open the previous configurator for comparison">Open V1 →</a>
+      <button class="btn" id="resetBtn">Reset</button>
+      <button class="btn btn-primary" id="saveBtn">Save Configuration</button>
     </div>
   </div>
 
-  <!-- Center: Role Tabs + Sidebar Preview -->
-  <div class="cfg-center-col">
-    <div class="cfg-role-tabs" id="roleTabs"></div>
-    <div class="cfg-center" id="sidebarPreview"></div>
-  </div>
+  <!-- Preset bar -->
+  <div class="preset-bar" id="presetBar"></div>
 
-  <!-- Right: Dashboard + Module Config -->
-  <div class="cfg-right" id="rightPanel"></div>
+  <!-- Context strip -->
+  <div class="context-strip" id="contextStrip"></div>
+
+  <!-- Main split -->
+  <div class="main-split" id="mainSplit">
+    <div class="configure">
+      <div class="tab-rail" id="tabRail"></div>
+      <div class="cfg-content" id="cfgContent"></div>
+    </div>
+    <div class="preview" id="preview"></div>
+  </div>
 </div>
+
+<div class="cfg-toast" id="cfgToast" hidden></div>
 
 <script>
 (function() {
   'use strict';
 
-  // ---- SVG Icon Map ----
-  const ICON_SVG = {
-    'calendar':       '<path d="M3 6h18M3 6v14a2 2 0 002 2h14a2 2 0 002-2V6M3 6V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2M8 2v4M16 2v4"/>',
-    'users':          '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>',
-    'video':          '<rect x="2" y="6" width="13" height="12" rx="2"/><path d="M20 8l4-2v12l-4-2"/>',
-    'user-plus':      '<path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>',
-    'calendar-check': '<path d="M3 6h18M3 6v14a2 2 0 002 2h14a2 2 0 002-2V6M3 6V4a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2M8 2v4M16 2v4"/><path d="M9 14l2 2 4-4"/>',
-    'check-circle':   '<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/>',
-    'file-text':      '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>',
-    'clipboard':      '<path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
-    'share':          '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
-    'activity':       '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
-    'heart':          '<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>',
-    'pill':           '<path d="M10.5 1.5L3 9a4.24 4.24 0 006 6l7.5-7.5a4.24 4.24 0 00-6-6z"/><line x1="9" y1="9" x2="15" y2="15"/>',
-    'grid':           '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
-    'send':           '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
-    'bar-chart-2':    '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
-    'folder':         '<path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>',
-    'target':         '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
-    'layout':         '<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
-    'alert-triangle': '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-    'log-out':        '<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
-    'repeat':         '<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>',
-    'message-circle': '<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>',
-    'hash':           '<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>',
-    'radio':          '<circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49M7.76 16.24a6 6 0 010-8.49"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/>',
-    'monitor':        '<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-    'package':        '<path d="M16.5 9.4l-9-5.19M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
-    'refresh-cw':     '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>',
-    'map-pin':        '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
-    'image':          '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
-    'download':       '<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
-    'mic':            '<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>',
-    'file':           '<path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/>',
-    'bar-chart':      '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
-    'credit-card':    '<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
-    'settings':       '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>',
-    'list':           '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
-    'clock':          '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-    'user':           '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>',
-    'building':       '<rect x="4" y="2" width="16" height="20" rx="1"/><line x1="9" y1="6" x2="9.01" y2="6"/><line x1="15" y1="6" x2="15.01" y2="6"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/><line x1="9" y1="14" x2="9.01" y2="14"/><line x1="15" y1="14" x2="15.01" y2="14"/><line x1="9" y1="18" x2="15" y2="18"/>',
-    'building-2':     '<rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22V6h6v16"/><line x1="8" y1="6" x2="8.01" y2="6"/><line x1="16" y1="6" x2="16.01" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/>',
-    'globe':          '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>',
-    'compass':        '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
-    'sliders':        '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>'
+  // ═══ State ═══════════════════════════════════════════════
+  var state = {
+    presetId: 'hospital',
+    tab: 'modules',          // 'modules' | 'roles' | 'dashboard' | 'settings'
+    editingRoleId: null,
+    previewRoleId: null,
+    modules: {},             // moduleId -> 'on' | 'opt' | 'off'
+    roleVisibility: {},      // roleId -> Set of moduleIds
+    customRoles: [],
+    customRoleCounter: 0,
+    previewCollapsed: false
   };
 
+  var presetOrder = ['solo-provider','small-practice','multi-specialty','hospital','health-system','field-ops','patient-portal'];
+  var presetRoleOrder = ['provider','nurse','admin','patient'];
+  var tabs = [
+    { id: 'modules',   label: 'Modules',   icon: 'sliders' },
+    { id: 'roles',     label: 'Roles',     icon: 'users' },
+    { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
+    { id: 'settings',  label: 'Settings',  icon: 'settings' }
+  ];
+
+  // ═══ Helpers ═════════════════════════════════════════════
   function iconSvg(name) {
     var inner = ICON_SVG[name] || ICON_SVG['settings'];
-    return '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
   }
 
-  // ---- State ----
-  var currentPresetId = 'small-practice';
-  var currentModules = {}; // moduleId -> "on"|"opt"|"off"
-  var currentRoleId = null; // null = "All Modules" / no role filter
-  var customRoles = []; // array of {id, label, color, modules: [...]}
-  var customRoleCounter = 0;
-
-  var presetOrder = ['solo-provider','small-practice','multi-specialty','hospital','health-system','field-ops','patient-portal'];
-
-  function loadPreset(presetId) {
-    currentPresetId = presetId;
-    currentRoleId = null;
-    var p = DEPLOYMENT_PRESETS[presetId];
-    currentModules = {};
-    for (var k in p.modules) {
-      currentModules[k] = p.modules[k];
-    }
-    // Update accent
-    document.documentElement.style.setProperty('--accent', p.color);
-    document.documentElement.style.setProperty('--accent-light', hexToLightBg(p.color));
-    renderAll();
+  function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
   }
 
-  function hexToLightBg(hex) {
-    // Return a very light tint of the color
-    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',0.08)';
-  }
-
-  // ---- Render Preset List ----
-  function renderPresetList() {
-    var html = '';
-    presetOrder.forEach(function(pid) {
-      var p = DEPLOYMENT_PRESETS[pid];
-      var onCount = 0, optCount = 0;
-      for (var k in p.modules) {
-        if (p.modules[k] === 'on') onCount++;
-        if (p.modules[k] === 'opt') optCount++;
-      }
-      var isActive = pid === currentPresetId;
-      html += '<div class="cfg-preset-card' + (isActive ? ' active' : '') + '" data-preset="' + pid + '" style="--card-color:' + p.color + '">';
-      html += '<div class="cfg-preset-dot"></div>';
-      html += '<div class="cfg-preset-info">';
-      html += '<div class="cfg-preset-label">' + p.label + '</div>';
-      html += '<div class="cfg-preset-sub">' + p.subtitle + '</div>';
-      html += '<div class="cfg-preset-counts"><span class="on-count">' + onCount + ' on</span><span class="opt-count">' + optCount + ' opt</span></div>';
-      html += '</div></div>';
-    });
-    document.getElementById('presetList').innerHTML = html;
-
-    // Summary
-    var onNow = 0, optNow = 0;
-    for (var k in currentModules) {
-      if (currentModules[k] === 'on') onNow++;
-      if (currentModules[k] === 'opt') optNow++;
-    }
-    document.getElementById('presetSummary').innerHTML = '<span class="num">' + onNow + '</span> modules active, <span class="num">' + optNow + '</span> optional';
-  }
-
-  // ---- Helper: get modules visible for the current role ----
-  function getVisibleForCurrentRole() {
-    if (currentRoleId === null) return null; // no filter
-
-    // Check if it's a custom role
-    var customRole = null;
-    for (var i = 0; i < customRoles.length; i++) {
-      if (customRoles[i].id === currentRoleId) { customRole = customRoles[i]; break; }
-    }
-
-    if (customRole) {
-      // Intersect custom role modules with currently enabled modules
-      return customRole.modules.filter(function(mid) {
-        return currentModules[mid] === 'on' || currentModules[mid] === 'opt';
-      });
-    }
-
-    // Preset role
-    var visible = getVisibleModules(currentPresetId, currentRoleId);
-    if (visible === null) return null; // role doesn't apply
-    // Intersect with current module states
-    return visible.filter(function(mid) {
-      return currentModules[mid] === 'on' || currentModules[mid] === 'opt';
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
     });
   }
 
-  // ---- Get current role info (color, label) ----
-  function getCurrentRoleInfo() {
-    if (currentRoleId === null) return null;
-    if (ROLE_PRESETS[currentRoleId]) return ROLE_PRESETS[currentRoleId];
-    for (var i = 0; i < customRoles.length; i++) {
-      if (customRoles[i].id === currentRoleId) return customRoles[i];
+  function getRole(roleId) {
+    if (!roleId) return null;
+    if (ROLE_PRESETS[roleId]) return ROLE_PRESETS[roleId];
+    for (var i = 0; i < state.customRoles.length; i++) {
+      if (state.customRoles[i].id === roleId) return state.customRoles[i];
     }
     return null;
   }
 
-  // ---- Render Role List ----
-  function renderRoleList() {
-    var html = '';
-    var roleOrder = ['provider', 'nurse', 'admin', 'patient'];
-
-    // "All Modules" card
-    var allActive = currentRoleId === null;
-    html += '<div class="cfg-role-card' + (allActive ? ' active' : '') + '" data-role="__all__">';
-    html += '<div class="cfg-role-dot" style="background:#6b7280;"></div>';
-    html += '<div class="cfg-role-info">';
-    html += '<div class="cfg-role-label">All Modules</div>';
-    html += '<div class="cfg-role-desc">No role filter applied</div>';
-    html += '</div>';
-    var enabledCount = 0;
-    for (var k in currentModules) { if (currentModules[k] === 'on' || currentModules[k] === 'opt') enabledCount++; }
-    html += '<span class="cfg-role-count">' + enabledCount + '</span>';
-    html += '</div>';
-
-    // Preset roles
-    roleOrder.forEach(function(rid) {
-      var role = ROLE_PRESETS[rid];
-      if (!role) return;
-      var vis = role.visibility[currentPresetId];
-      var isDisabled = vis === null;
-      var isActive = currentRoleId === rid;
-      var cls = 'cfg-role-card';
-      if (isActive) cls += ' active';
-      if (isDisabled) cls += ' disabled';
-      html += '<div class="' + cls + '" data-role="' + rid + '">';
-      html += '<div class="cfg-role-dot" style="background:' + role.color + ';"></div>';
-      html += '<div class="cfg-role-info">';
-      html += '<div class="cfg-role-label">' + role.label + '</div>';
-      html += '<div class="cfg-role-desc">' + role.description + '</div>';
-      html += '</div>';
-      if (isDisabled) {
-        html += '<span class="cfg-role-na">N/A</span>';
-      } else {
-        var mods = getVisibleModules(currentPresetId, rid);
-        var count = mods ? mods.filter(function(mid) { return currentModules[mid] === 'on' || currentModules[mid] === 'opt'; }).length : 0;
-        html += '<span class="cfg-role-count">' + count + '</span>';
-      }
-      html += '</div>';
+  function getEnabledModules() {
+    return Object.keys(state.modules).filter(function(m) {
+      return state.modules[m] === 'on' || state.modules[m] === 'opt';
     });
-
-    // Custom roles
-    customRoles.forEach(function(cr) {
-      var isActive = currentRoleId === cr.id;
-      var visibleCount = cr.modules.filter(function(mid) { return currentModules[mid] === 'on' || currentModules[mid] === 'opt'; }).length;
-      html += '<div class="cfg-role-card' + (isActive ? ' active' : '') + '" data-role="' + cr.id + '">';
-      html += '<div class="cfg-role-dot" style="background:' + cr.color + ';"></div>';
-      html += '<div class="cfg-role-info">';
-      html += '<div class="cfg-role-label">' + cr.label + '</div>';
-      html += '<div class="cfg-role-desc">Custom role</div>';
-      html += '</div>';
-      html += '<span class="cfg-role-count">' + visibleCount + '</span>';
-      html += '</div>';
-    });
-
-    document.getElementById('roleList').innerHTML = html;
   }
 
-  // ---- Render Sidebar Preview ----
-  function renderSidebar() {
-    var preset = DEPLOYMENT_PRESETS[currentPresetId];
-    var sections = SIDEBAR_SECTIONS[currentPresetId] || [];
-    var roleVisible = getVisibleForCurrentRole(); // null means no filter
-    var roleInfo = getCurrentRoleInfo();
+  function getEffectiveVisible(roleId) {
+    var vis = state.roleVisibility[roleId];
+    if (!vis) return null;
+    return getEnabledModules().filter(function(m) { return vis.has(m); });
+  }
 
-    var html = '';
-    // Header
-    html += '<div class="cfg-sidebar-header">';
-    html += '<div class="cfg-sidebar-logo">' + iconSvg(preset.icon) + '</div>';
-    html += '<div><div class="cfg-sidebar-title">' + preset.headerTitle + '</div>';
-    html += '<div class="cfg-sidebar-subtitle">' + preset.headerSubtitle + '</div></div>';
-    html += '</div>';
+  function isRoleApplicable(roleId) {
+    var v = state.roleVisibility[roleId];
+    return v !== null && v !== undefined;
+  }
 
-    // Role badge
-    if (roleInfo) {
-      html += '<div class="cfg-sidebar-role-badge" style="background:' + roleInfo.color + '22;color:' + roleInfo.color + ';">';
-      html += '<div class="cfg-role-dot" style="background:' + roleInfo.color + ';width:8px;height:8px;border-radius:50%;"></div>';
-      html += roleInfo.label + ' View';
-      html += '</div>';
+  function firstApplicableRole() {
+    var r = presetRoleOrder.find(isRoleApplicable);
+    if (r) return r;
+    if (state.customRoles.length > 0) return state.customRoles[0].id;
+    return null;
+  }
+
+  // ═══ State transitions ═══════════════════════════════════
+  function loadPreset(presetId) {
+    state.presetId = presetId;
+    var preset = DEPLOYMENT_PRESETS[presetId];
+    var overrides = loadOverrides(presetId);
+
+    // Modules: start from preset defaults, then layer overrides on top
+    state.modules = {};
+    Object.keys(preset.modules).forEach(function(m) {
+      state.modules[m] = preset.modules[m];
+    });
+    if (overrides && overrides.modules) {
+      Object.keys(overrides.modules).forEach(function(m) {
+        state.modules[m] = overrides.modules[m];
+      });
     }
 
-    sections.forEach(function(sec) {
-      var visibleModules = sec.modules.filter(function(mid) {
-        if (currentModules[mid] !== 'on' && currentModules[mid] !== 'opt') return false;
-        if (roleVisible !== null && roleVisible.indexOf(mid) === -1) return false;
-        return true;
-      });
-      if (visibleModules.length === 0) return;
+    // Custom roles: pull from saved overrides (per-preset)
+    state.customRoles = (overrides && overrides.customRoles) ? overrides.customRoles.slice() : [];
+    // Restore counter so new IDs don't collide
+    state.customRoleCounter = 0;
+    state.customRoles.forEach(function(r) {
+      var n = parseInt(String(r.id || '').replace('custom-', ''), 10);
+      if (!isNaN(n) && n > state.customRoleCounter) state.customRoleCounter = n;
+    });
 
-      html += '<div class="cfg-sidebar-section">';
-      html += '<div class="cfg-sidebar-section-label">' + sec.label + '</div>';
-      visibleModules.forEach(function(mid) {
-        var m = MODULE_REGISTRY[mid];
-        if (!m) return;
-        var isOpt = currentModules[mid] === 'opt';
-        html += '<div class="cfg-sidebar-item' + (isOpt ? ' is-optional' : '') + '" data-module="' + mid + '">';
-        html += iconSvg(m.icon);
-        html += '<span class="item-label">' + m.label + '</span>';
-        if (isOpt) {
-          html += '<span class="cfg-sidebar-badge">OPT</span>';
-        }
+    // Role visibility: overrides win, otherwise default from ROLE_PRESETS
+    state.roleVisibility = {};
+    presetRoleOrder.forEach(function(rid) {
+      if (overrides && overrides.roleVisibility && overrides.roleVisibility[rid]) {
+        state.roleVisibility[rid] = new Set(overrides.roleVisibility[rid]);
+      } else {
+        var v = getVisibleModules(presetId, rid);
+        state.roleVisibility[rid] = v ? new Set(v) : null;
+      }
+    });
+    state.customRoles.forEach(function(role) {
+      if (overrides && overrides.roleVisibility && overrides.roleVisibility[role.id]) {
+        state.roleVisibility[role.id] = new Set(overrides.roleVisibility[role.id]);
+      } else {
+        state.roleVisibility[role.id] = new Set(getEnabledModules());
+      }
+    });
+
+    var first = firstApplicableRole();
+    state.editingRoleId = first;
+    state.previewRoleId = first;
+
+    document.documentElement.style.setProperty('--accent', preset.color);
+    document.documentElement.style.setProperty('--accent-light', hexToRgba(preset.color, 0.12));
+
+    renderAll();
+  }
+
+  function serializeStateForSave() {
+    var data = {
+      modules: Object.assign({}, state.modules),
+      roleVisibility: {},
+      customRoles: state.customRoles.slice()
+    };
+    presetRoleOrder.forEach(function(rid) {
+      if (state.roleVisibility[rid]) {
+        data.roleVisibility[rid] = Array.from(state.roleVisibility[rid]);
+      }
+    });
+    state.customRoles.forEach(function(role) {
+      if (state.roleVisibility[role.id]) {
+        data.roleVisibility[role.id] = Array.from(state.roleVisibility[role.id]);
+      }
+    });
+    return data;
+  }
+
+  function showToast(msg) {
+    var t = document.getElementById('cfgToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(function() { t.hidden = true; }, 3500);
+  }
+
+  function setTab(tabId) {
+    state.tab = tabId;
+    renderTabRail();
+    renderCfgContent();
+  }
+
+  function setEditingRole(roleId) {
+    state.editingRoleId = roleId;
+    renderCfgContent();
+    renderPreview();  // re-render so the "editing X, previewing Y" warning appears immediately
+  }
+
+  function setPreviewRole(roleId) {
+    state.previewRoleId = roleId;
+    renderPreview();
+  }
+
+  function setModuleState(modId, val) {
+    state.modules[modId] = val;
+    renderContextStrip();
+    renderCfgContent();
+    renderPreview();
+  }
+
+  function toggleModuleVisibility(roleId, modId) {
+    var vis = state.roleVisibility[roleId];
+    if (!vis) return;
+    if (vis.has(modId)) vis.delete(modId);
+    else vis.add(modId);
+    renderCfgContent();
+    if (state.previewRoleId === roleId) renderPreview();
+  }
+
+  function createCustomRole(name) {
+    state.customRoleCounter++;
+    var palette = ['#8B5CF6','#EC4899','#F59E0B','#10B981','#06B6D4','#84CC16','#F97316','#A855F7'];
+    var color = palette[state.customRoleCounter % palette.length];
+    var role = {
+      id: 'custom-' + state.customRoleCounter,
+      label: name,
+      color: color,
+      description: 'Custom role',
+      isCustom: true
+    };
+    state.customRoles.push(role);
+    state.roleVisibility[role.id] = new Set(getEnabledModules());
+    state.editingRoleId = role.id;
+    state.previewRoleId = role.id;
+    renderAll();
+  }
+
+  function deleteCustomRole(roleId) {
+    state.customRoles = state.customRoles.filter(function(r) { return r.id !== roleId; });
+    delete state.roleVisibility[roleId];
+    if (state.editingRoleId === roleId) state.editingRoleId = firstApplicableRole();
+    if (state.previewRoleId === roleId) state.previewRoleId = state.editingRoleId;
+    renderAll();
+  }
+
+  function resetRoleToDefault(roleId) {
+    var defaults = getVisibleModules(state.presetId, roleId);
+    if (defaults) {
+      state.roleVisibility[roleId] = new Set(defaults);
+      renderCfgContent();
+      if (state.previewRoleId === roleId) renderPreview();
+    }
+  }
+
+  // ═══ Render: Preset bar ═════════════════════════════════
+  function renderPresetBar() {
+    var html = '<div class="preset-bar-label">Deployment</div>';
+    presetOrder.forEach(function(pid) {
+      var p = DEPLOYMENT_PRESETS[pid];
+      var active = pid === state.presetId;
+      var styleExtra = active ? ('box-shadow: inset 0 -3px 0 ' + p.color + ';') : '';
+      html += '<div class="preset-pill' + (active ? ' active' : '') + '" data-preset="' + pid + '" style="' + styleExtra + '">';
+      html += '<span class="dot" style="background:' + p.color + '"></span>';
+      html += escapeHtml(p.label);
+      html += '</div>';
+    });
+    document.getElementById('presetBar').innerHTML = html;
+  }
+
+  // ═══ Render: Context strip ══════════════════════════════
+  function renderContextStrip() {
+    var p = DEPLOYMENT_PRESETS[state.presetId];
+    var on = 0, opt = 0;
+    Object.keys(state.modules).forEach(function(m) {
+      if (state.modules[m] === 'on') on++;
+      else if (state.modules[m] === 'opt') opt++;
+    });
+    var rolesCount = presetRoleOrder.filter(isRoleApplicable).length + state.customRoles.length;
+
+    var html = '<span class="ctx-name">' + escapeHtml(p.label) + '</span>';
+    html += '<span class="ctx-sep">·</span>';
+    html += '<span class="ctx-meta">' + escapeHtml(p.facilityName) + '</span>';
+    html += '<span class="ctx-sep">·</span>';
+    html += '<span class="ctx-pill">' + on + ' modules ON</span>';
+    if (opt > 0) html += '<span class="ctx-pill ctx-pill-opt">' + opt + ' OPT</span>';
+    html += '<span class="ctx-pill ctx-pill-muted">' + rolesCount + ' role' + (rolesCount === 1 ? '' : 's') + '</span>';
+
+    document.getElementById('contextStrip').innerHTML = html;
+    document.getElementById('titleDot').style.background = p.color;
+  }
+
+  // ═══ Render: Tab rail ═══════════════════════════════════
+  function renderTabRail() {
+    var html = '';
+    tabs.forEach(function(t) {
+      var active = state.tab === t.id ? ' active' : '';
+      html += '<div class="tab-rail-item' + active + '" data-tab="' + t.id + '">';
+      html += iconSvg(t.icon);
+      html += t.label;
+      html += '</div>';
+    });
+    document.getElementById('tabRail').innerHTML = html;
+  }
+
+  // ═══ Render: Configure content ══════════════════════════
+  function renderCfgContent() {
+    var html;
+    if (state.tab === 'modules') html = renderModulesTab();
+    else if (state.tab === 'roles') html = renderRolesTab();
+    else if (state.tab === 'dashboard') html = renderPlaceholder('Dashboard cards', 'Customize the stat cards shown on the home dashboard for this deployment. Currently driven by DASHBOARD_CARDS in vsee-platform-config.js.');
+    else if (state.tab === 'settings') html = renderPlaceholder('Settings', 'Configure deployment-level metadata: facility name, header titles, accent color, sidebar section order.');
+    else html = '';
+    document.getElementById('cfgContent').innerHTML = html;
+  }
+
+  function renderPlaceholder(title, desc) {
+    return '<div class="cfg-placeholder">' +
+      '<div class="cfg-placeholder-title">' + escapeHtml(title) + '</div>' +
+      '<div class="cfg-placeholder-desc">' + escapeHtml(desc) + '</div>' +
+      '<div class="cfg-placeholder-stub">Coming soon</div>' +
+      '</div>';
+  }
+
+  // ═══ Render: Modules tab ════════════════════════════════
+  function renderModulesTab() {
+    var html = '<div class="cfg-content-header">';
+    html += '<div><div class="cfg-content-title">Modules</div>';
+    html += '<div class="cfg-content-sub">Turn capabilities <strong>ON</strong>, mark <strong>OPT</strong>ional, or turn <strong>OFF</strong> for this deployment.</div></div>';
+    html += '<input class="cfg-search" id="modSearch" placeholder="Search modules…" />';
+    html += '</div>';
+
+    MODULE_CATEGORIES.forEach(function(cat) {
+      var mods = [];
+      Object.keys(MODULE_REGISTRY).forEach(function(mid) {
+        if (MODULE_REGISTRY[mid].category === cat.id) mods.push(MODULE_REGISTRY[mid]);
+      });
+      if (mods.length === 0) return;
+
+      var enabledCount = mods.filter(function(m) {
+        return state.modules[m.id] === 'on' || state.modules[m.id] === 'opt';
+      }).length;
+
+      html += '<div class="mod-cat-group">';
+      html += '<div class="mod-cat-header">';
+      html += '<span class="mod-cat-dot" style="background:' + cat.color + '"></span>';
+      html += '<span class="mod-cat-label">' + escapeHtml(cat.label) + '</span>';
+      html += '<span class="mod-cat-line"></span>';
+      html += '<span class="mod-cat-count">' + enabledCount + ' / ' + mods.length + ' enabled</span>';
+      html += '</div>';
+
+      mods.forEach(function(m) {
+        var st = state.modules[m.id] || 'off';
+        html += '<div class="mod-row" data-module="' + m.id + '">';
+        html += '<div class="mod-icon">' + iconSvg(m.icon) + '</div>';
+        html += '<div class="mod-info">';
+        html += '<div class="mod-label">' + escapeHtml(m.label) + '</div>';
+        html += '<div class="mod-desc">' + escapeHtml(m.description) + '</div>';
+        html += '</div>';
+        html += '<div class="mod-toggle">';
+        html += '<button class="mod-toggle-btn' + (st==='on' ? ' is-on' : '') + '" data-val="on">ON</button>';
+        html += '<button class="mod-toggle-btn' + (st==='opt' ? ' is-opt' : '') + '" data-val="opt">OPT</button>';
+        html += '<button class="mod-toggle-btn' + (st==='off' ? ' is-off' : '') + '" data-val="off">OFF</button>';
+        html += '</div>';
         html += '</div>';
       });
       html += '</div>';
     });
-
-    document.getElementById('sidebarPreview').innerHTML = html;
+    return html;
   }
 
-  // ---- Check if a custom role is active ----
-  function getActiveCustomRole() {
-    if (currentRoleId === null) return null;
-    for (var i = 0; i < customRoles.length; i++) {
-      if (customRoles[i].id === currentRoleId) return customRoles[i];
-    }
-    return null;
-  }
-
-  // ---- Render Right Panel ----
-  function renderRight() {
-    var preset = DEPLOYMENT_PRESETS[currentPresetId];
-    var cards = DASHBOARD_CARDS[currentPresetId] || [];
-    var roleVisible = getVisibleForCurrentRole();
-    var activeCustomRole = getActiveCustomRole();
-
-    var html = '';
-    html += '<div class="cfg-fade-in">';
-    html += '<div class="cfg-right-title">' + preset.label + ' Dashboard</div>';
-    html += '<div class="cfg-right-subtitle">' + preset.subtitle + ' &mdash; ' + preset.facilityName + '</div>';
-
-    // Dashboard cards — filter by role visibility
-    var filteredCards = cards.filter(function(c) {
-      if (roleVisible === null) return true; // no role filter
-      return roleVisible.indexOf(c.link) !== -1;
-    });
-    html += '<div class="cfg-dash-grid">';
-    filteredCards.forEach(function(c) {
-      html += '<div class="cfg-dash-card">';
-      html += '<div class="cfg-dash-card-title">' + c.title + '</div>';
-      html += '<div class="cfg-dash-card-value">' + c.value + '</div>';
-      html += '<div class="cfg-dash-card-sub">' + c.subtitle + '</div>';
-      html += '</div>';
-    });
+  // ═══ Render: Roles tab ══════════════════════════════════
+  function renderRolesTab() {
+    var html = '<div class="cfg-content-header">';
+    html += '<div><div class="cfg-content-title">Roles</div>';
+    html += '<div class="cfg-content-sub">Define what each user role sees within this deployment. Modules that are <strong>OFF</strong> can\'t be enabled per role.</div></div>';
     html += '</div>';
 
-    // Module Configuration
-    html += '<div class="cfg-modules-title">';
-    html += iconSvg('sliders');
-    if (activeCustomRole) {
-      html += ' Module Visibility — ' + activeCustomRole.label + '</div>';
-    } else {
-      html += ' Module Configuration</div>';
+    html += '<div class="roles-split">';
+
+    // ── Roles list ──
+    html += '<div class="roles-list">';
+    html += '<div class="roles-list-header">In this deployment</div>';
+
+    presetRoleOrder.forEach(function(rid) {
+      var role = ROLE_PRESETS[rid];
+      var applicable = isRoleApplicable(rid);
+      var active = state.editingRoleId === rid && applicable;
+      var visible = applicable ? getEffectiveVisible(rid) : null;
+      var count = visible ? visible.length : '—';
+      var classes = 'role-card';
+      if (active) classes += ' active';
+      if (!applicable) classes += ' disabled';
+
+      html += '<div class="' + classes + '" data-role="' + rid + '">';
+      html += '<div class="rdot" style="background:' + role.color + '"></div>';
+      html += '<div class="rinfo">';
+      html += '<div class="rlabel">' + escapeHtml(role.label) + '</div>';
+      html += '<div class="rdesc">' + (applicable ? escapeHtml(role.description) : 'N/A in ' + escapeHtml(DEPLOYMENT_PRESETS[state.presetId].label)) + '</div>';
+      html += '</div>';
+      html += '<div class="rcount">' + count + '</div>';
+      html += '</div>';
+    });
+
+    if (state.customRoles.length > 0) {
+      html += '<div class="roles-divider"></div>';
+      html += '<div class="roles-list-header">Custom roles</div>';
+      state.customRoles.forEach(function(role) {
+        var active = state.editingRoleId === role.id;
+        var visible = getEffectiveVisible(role.id);
+        var count = visible ? visible.length : 0;
+        html += '<div class="role-card' + (active ? ' active' : '') + '" data-role="' + role.id + '">';
+        html += '<div class="rdot" style="background:' + role.color + '"></div>';
+        html += '<div class="rinfo">';
+        html += '<div class="rlabel">' + escapeHtml(role.label) + '</div>';
+        html += '<div class="rdesc">' + escapeHtml(role.description || 'Custom role') + '</div>';
+        html += '</div>';
+        html += '<div class="rcount">' + count + '</div>';
+        html += '</div>';
+      });
     }
+
+    html += '<div class="role-add" id="addRoleBtn">+ New custom role</div>';
+    html += '</div>';
+
+    html += renderRoleEditCanvas();
+
+    html += '</div>';
+    return html;
+  }
+
+  function renderRoleEditCanvas() {
+    var roleId = state.editingRoleId;
+    if (!roleId || !isRoleApplicable(roleId)) {
+      return '<div class="role-edit role-edit-empty">' +
+        '<div>Select a role on the left to edit its permissions, or add a custom one.</div></div>';
+    }
+    var role = getRole(roleId);
+    var presetLabel = DEPLOYMENT_PRESETS[state.presetId].label;
+    var totalEnabled = getEnabledModules().length;
+    var visibleSet = state.roleVisibility[roleId];
+    var visibleCount = (getEffectiveVisible(roleId) || []).length;
+    var isCustom = !!role.isCustom;
+
+    var html = '<div class="role-edit">';
+
+    html += '<div class="role-edit-head">';
+    html += '<div class="role-color-swatch" style="background:' + role.color + '">' + iconSvg('user') + '</div>';
+    html += '<div class="role-edit-title-block">';
+    html += '<div class="role-edit-title">Editing: ' + escapeHtml(role.label) + '</div>';
+    html += '<div class="role-edit-sub">In ' + escapeHtml(presetLabel) + ' · ' + visibleCount + ' of ' + totalEnabled + ' enabled modules visible</div>';
+    html += '</div>';
+    html += '<div class="role-edit-actions">';
+    if (isCustom) {
+      html += '<button class="btn btn-danger" data-action="delete-role">Delete</button>';
+    } else {
+      html += '<button class="btn" data-action="reset-role">Reset to default</button>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="vis-section-title">Visible modules</div>';
+    html += '<div class="vis-section-help">Check the modules this role should see. Modules <strong>OFF</strong> in this deployment can\'t be enabled here.</div>';
 
     MODULE_CATEGORIES.forEach(function(cat) {
       var mods = [];
-      for (var k in MODULE_REGISTRY) {
-        if (MODULE_REGISTRY[k].category === cat.id) mods.push(MODULE_REGISTRY[k]);
-      }
+      Object.keys(MODULE_REGISTRY).forEach(function(mid) {
+        if (MODULE_REGISTRY[mid].category === cat.id) mods.push(MODULE_REGISTRY[mid]);
+      });
       if (mods.length === 0) return;
 
-      html += '<div class="cfg-cat-group">';
-      html += '<div class="cfg-cat-header">';
-      html += '<div class="cfg-cat-dot" style="background:' + cat.color + '"></div>';
-      html += '<div class="cfg-cat-label">' + cat.label + '</div>';
-      html += '<div class="cfg-cat-line"></div>';
+      html += '<div class="vis-cat-block">';
+      html += '<div class="vis-cat-header">';
+      html += '<span class="mod-cat-dot" style="background:' + cat.color + '"></span>';
+      html += '<span class="vis-cat-label">' + escapeHtml(cat.label) + '</span>';
       html += '</div>';
+      html += '<div class="vis-grid">';
 
       mods.forEach(function(m) {
-        var st = currentModules[m.id] || 'off';
+        var modState = state.modules[m.id] || 'off';
+        var isEnabled = modState === 'on' || modState === 'opt';
+        var isChecked = visibleSet.has(m.id) && isEnabled;
 
-        if (activeCustomRole) {
-          // Custom role mode: show checkboxes for enabled modules
-          var isEnabled = st === 'on' || st === 'opt';
-          var isInRole = activeCustomRole.modules.indexOf(m.id) !== -1;
-          html += '<div class="cfg-mod-row" data-module="' + m.id + '" style="' + (!isEnabled ? 'opacity:0.35;' : '') + '">';
-          html += '<div class="cfg-mod-icon">' + iconSvg(m.icon) + '</div>';
-          html += '<div class="cfg-mod-info">';
-          html += '<div class="cfg-mod-label">' + m.label + '</div>';
-          html += '<div class="cfg-mod-desc">' + m.description + '</div>';
-          html += '</div>';
-          if (isEnabled) {
-            html += '<div class="cfg-role-mod-row" style="padding:0;">';
-            html += '<input type="checkbox" data-custom-role-mod="' + m.id + '"' + (isInRole ? ' checked' : '') + '>';
-            html += '</div>';
-          } else {
-            html += '<span style="font-size:10px;color:#9ca3af;font-style:italic;">OFF</span>';
-          }
-          html += '</div>';
-        } else {
-          // Normal mode: ON/OPT/OFF toggles
-          html += '<div class="cfg-mod-row" data-module="' + m.id + '">';
-          html += '<div class="cfg-mod-icon">' + iconSvg(m.icon) + '</div>';
-          html += '<div class="cfg-mod-info">';
-          html += '<div class="cfg-mod-label">' + m.label + '</div>';
-          html += '<div class="cfg-mod-desc">' + m.description + '</div>';
-          html += '</div>';
-          html += '<div class="cfg-toggle" data-module="' + m.id + '">';
-          html += '<button class="cfg-toggle-btn' + (st === 'on' ? ' active-on' : '') + '" data-val="on">ON</button>';
-          html += '<button class="cfg-toggle-btn' + (st === 'opt' ? ' active-opt' : '') + '" data-val="opt">OPT</button>';
-          html += '<button class="cfg-toggle-btn' + (st === 'off' ? ' active-off' : '') + '" data-val="off">OFF</button>';
-          html += '</div>';
-          html += '</div>';
-        }
+        html += '<label class="vis-row' + (!isEnabled ? ' disabled' : '') + '">';
+        html += '<input type="checkbox" data-vis-mod="' + m.id + '"';
+        if (isChecked) html += ' checked';
+        if (!isEnabled) html += ' disabled';
+        html += '> ' + escapeHtml(m.label);
+        if (modState === 'opt') html += ' <span class="opt-tag">OPT</span>';
+        if (modState === 'off') html += ' <span class="off-tag">off</span>';
+        html += '</label>';
       });
 
-      html += '</div>';
+      html += '</div></div>';
     });
 
     html += '</div>';
-    document.getElementById('rightPanel').innerHTML = html;
+    return html;
   }
 
-  // ---- Render Role Tabs (above sidebar) ----
-  function renderRoleTabs() {
-    var html = '';
-    var allActive = currentRoleId === null ? ' active' : '';
-    html += '<button class="cfg-role-tab' + allActive + '" data-role="__all__">';
-    html += '<span class="role-dot" style="background:#94a3b8;"></span>All</button>';
+  // ═══ Render: Preview ════════════════════════════════════
+  function renderPreview() {
+    var p = DEPLOYMENT_PRESETS[state.presetId];
+    var roleId = state.previewRoleId;
+    var roleApplicable = roleId && isRoleApplicable(roleId);
+    var previewEl = document.getElementById('preview');
 
-    var roleOrder = ['provider', 'nurse', 'admin', 'patient'];
-    roleOrder.forEach(function(rid) {
-      var r = ROLE_PRESETS[rid];
-      var vis = r.visibility[currentPresetId];
-      var isActive = currentRoleId === rid;
-      var isDisabled = vis === null;
-      var cls = 'cfg-role-tab';
-      if (isActive) cls += ' active';
-      if (isDisabled) cls += ' disabled';
-      html += '<button class="' + cls + '" data-role="' + rid + '">';
-      html += '<span class="role-dot" style="background:' + r.color + ';"></span>';
-      html += r.label.replace(' / Front Desk', '');
-      html += '</button>';
-    });
+    if (state.previewCollapsed) {
+      previewEl.classList.add('is-collapsed');
+      document.getElementById('mainSplit').classList.add('preview-collapsed');
+    } else {
+      previewEl.classList.remove('is-collapsed');
+      document.getElementById('mainSplit').classList.remove('preview-collapsed');
+    }
 
-    customRoles.forEach(function(cr) {
-      var isActive = currentRoleId === cr.id;
-      html += '<button class="cfg-role-tab' + (isActive ? ' active' : '') + '" data-role="' + cr.id + '">';
-      html += '<span class="role-dot" style="background:' + cr.color + ';"></span>';
-      html += cr.label + '</button>';
-    });
+    var html = '<div class="preview-head">';
+    html += '<span class="preview-head-label">Preview</span>';
+    if (!state.previewCollapsed) {
+      html += '<div class="view-as-select" id="viewAsBtn">';
+      html += '<span class="va-label">As</span>';
+      if (roleApplicable) {
+        var role = getRole(roleId);
+        html += '<span class="vrole-dot" style="background:' + role.color + '"></span>';
+        html += '<strong>' + escapeHtml(role.label) + '</strong>';
+      } else {
+        html += '<em>None</em>';
+      }
+      html += '<svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      html += '</div>';
+      html += '<div class="view-as-menu" id="viewAsMenu" style="display:none;"></div>';
+    }
+    html += '<button class="preview-collapse-btn" id="collapseBtn" title="' + (state.previewCollapsed ? 'Expand' : 'Collapse') + ' preview">';
+    html += state.previewCollapsed ? '«' : '»';
+    html += '</button>';
+    html += '</div>';
 
-    html += '<button class="cfg-role-tab-add" id="roleTabAddBtn">+</button>';
-    document.getElementById('roleTabs').innerHTML = html;
-  }
+    if (!state.previewCollapsed) {
+      html += '<div class="preview-body">';
 
-  function renderAll() {
-    renderPresetList();
-    renderRoleList();
-    renderRoleTabs();
-    renderSidebar();
-    renderRight();
-  }
-
-  // ---- Event Delegation ----
-  // Preset clicks
-  document.getElementById('presetList').addEventListener('click', function(e) {
-    var card = e.target.closest('.cfg-preset-card');
-    if (!card) return;
-    var pid = card.getAttribute('data-preset');
-    if (pid) loadPreset(pid);
-  });
-
-  // Module toggle clicks
-  document.getElementById('rightPanel').addEventListener('click', function(e) {
-    var btn = e.target.closest('.cfg-toggle-btn');
-    if (!btn) return;
-    var toggle = btn.closest('.cfg-toggle');
-    var mid = toggle.getAttribute('data-module');
-    var val = btn.getAttribute('data-val');
-    if (mid && val) {
-      currentModules[mid] = val;
-      // Update toggle buttons in place
-      var btns = toggle.querySelectorAll('.cfg-toggle-btn');
-      btns.forEach(function(b) {
-        b.className = 'cfg-toggle-btn';
-        if (b.getAttribute('data-val') === val) {
-          b.classList.add('active-' + val);
+      if (state.tab === 'roles' && state.editingRoleId && state.editingRoleId !== state.previewRoleId) {
+        var editingRole = getRole(state.editingRoleId);
+        var previewRole = getRole(state.previewRoleId);
+        if (editingRole && previewRole) {
+          html += '<div class="preview-note">';
+          html += 'Editing <strong>' + escapeHtml(editingRole.label) + '</strong>, previewing <strong>' + escapeHtml(previewRole.label) + '</strong>. ';
+          html += 'Switch the dropdown above to see your edits.';
+          html += '</div>';
         }
-      });
-      // Update sidebar, summary, and role counts
-      renderSidebar();
-      renderPresetList();
-      renderRoleList();
-    }
-  });
-
-  // Custom role checkbox changes
-  document.getElementById('rightPanel').addEventListener('change', function(e) {
-    var cb = e.target;
-    if (!cb.hasAttribute('data-custom-role-mod')) return;
-    var mid = cb.getAttribute('data-custom-role-mod');
-    var cr = getActiveCustomRole();
-    if (!cr) return;
-    if (cb.checked) {
-      if (cr.modules.indexOf(mid) === -1) cr.modules.push(mid);
-    } else {
-      cr.modules = cr.modules.filter(function(m) { return m !== mid; });
-    }
-    renderSidebar();
-    renderRoleList();
-    // Re-render dashboard cards by re-rendering right panel would lose focus, so just update sidebar & role counts
-  });
-
-  // Role list clicks
-  document.getElementById('roleList').addEventListener('click', function(e) {
-    var card = e.target.closest('.cfg-role-card');
-    if (!card) return;
-    if (card.classList.contains('disabled')) return;
-    var rid = card.getAttribute('data-role');
-    if (rid === '__all__') {
-      currentRoleId = null;
-    } else {
-      currentRoleId = rid;
-    }
-    renderAll();
-  });
-
-  // Custom role creation
-  var customRoleFormVisible = false;
-  document.getElementById('addCustomRoleBtn').addEventListener('click', function() {
-    var container = document.getElementById('customRoles');
-    if (customRoleFormVisible) return;
-    customRoleFormVisible = true;
-
-    var formHtml = '<div class="cfg-custom-role-form" id="customRoleForm">';
-    formHtml += '<input type="text" id="customRoleName" placeholder="Role name (e.g. Specialist)" autofocus>';
-    formHtml += '<div class="cfg-form-actions">';
-    formHtml += '<button id="customRoleCancel">Cancel</button>';
-    formHtml += '<button class="primary" id="customRoleSave">Create</button>';
-    formHtml += '</div></div>';
-    container.innerHTML = formHtml;
-
-    var nameInput = document.getElementById('customRoleName');
-    nameInput.focus();
-
-    function closeForm() {
-      container.innerHTML = '';
-      customRoleFormVisible = false;
-    }
-
-    function createRole() {
-      var name = nameInput.value.trim();
-      if (!name) { nameInput.focus(); return; }
-      customRoleCounter++;
-      var colors = ['#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#3B82F6', '#F97316'];
-      var color = colors[customRoleCounter % colors.length];
-
-      // Initialize modules to all currently-enabled modules
-      var mods = [];
-      for (var k in currentModules) {
-        if (currentModules[k] === 'on' || currentModules[k] === 'opt') mods.push(k);
       }
 
-      var newRole = {
-        id: 'custom-' + customRoleCounter,
-        label: name,
-        color: color,
-        modules: mods
-      };
-      customRoles.push(newRole);
-      currentRoleId = newRole.id;
-      closeForm();
-      renderAll();
+      if (!roleApplicable) {
+        html += '<div class="preview-empty">No applicable role to preview in <strong>' + escapeHtml(p.label) + '</strong>.</div>';
+      } else {
+        html += renderPreviewSidebar(roleId);
+        html += renderPreviewDashboard(roleId);
+      }
+
+      html += '</div>';
     }
 
-    document.getElementById('customRoleCancel').addEventListener('click', closeForm);
-    document.getElementById('customRoleSave').addEventListener('click', createRole);
-    nameInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') createRole();
-      if (e.key === 'Escape') closeForm();
+    previewEl.innerHTML = html;
+  }
+
+  function renderPreviewSidebar(roleId) {
+    var p = DEPLOYMENT_PRESETS[state.presetId];
+    var role = getRole(roleId);
+    var sections = SIDEBAR_SECTIONS[state.presetId] || [];
+    var visible = getEffectiveVisible(roleId) || [];
+    var visibleSet = new Set(visible);
+
+    var html = '<div class="pv-sidebar">';
+    html += '<div class="pv-sidebar-head">';
+    html += '<div class="pv-sidebar-logo" style="background:' + p.color + '">' + iconSvg(p.icon) + '</div>';
+    html += '<div>';
+    html += '<div class="pv-sidebar-title">' + escapeHtml(p.headerTitle) + '</div>';
+    html += '<div class="pv-sidebar-sub">' + escapeHtml(p.headerSubtitle) + '</div>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="pv-role-badge" style="background:' + hexToRgba(role.color, 0.18) + ';color:' + role.color + ';">';
+    html += '<span class="pv-role-dot" style="background:' + role.color + '"></span>';
+    html += escapeHtml(role.label) + ' View';
+    html += '</div>';
+
+    var anySection = false;
+    sections.forEach(function(sec) {
+      var sectionMods = sec.modules.filter(function(m) { return visibleSet.has(m); });
+      if (sectionMods.length === 0) return;
+      anySection = true;
+      html += '<div class="pv-section-label">' + escapeHtml(sec.label) + '</div>';
+      sectionMods.forEach(function(modId) {
+        var mod = MODULE_REGISTRY[modId];
+        if (!mod) return;
+        var modState = state.modules[modId];
+        html += '<a class="pv-nav-item">';
+        html += iconSvg(mod.icon);
+        html += '<span>' + escapeHtml(mod.label) + '</span>';
+        if (modState === 'opt') html += '<span class="opt-mark">OPT</span>';
+        html += '</a>';
+      });
     });
+
+    if (!anySection) {
+      html += '<div style="padding: 16px; color: rgba(255,255,255,0.5); font-size: 12px; text-align: center;">No modules visible to this role.</div>';
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  function renderPreviewDashboard(roleId) {
+    var cards = DASHBOARD_CARDS[state.presetId] || [];
+    var visible = getEffectiveVisible(roleId) || [];
+    var visibleSet = new Set(visible);
+    var role = getRole(roleId);
+    var filtered = cards.filter(function(c) { return visibleSet.has(c.link); });
+
+    var html = '<div class="pv-dash-title">Dashboard cards · ' + escapeHtml(role.label) + ' view</div>';
+    if (filtered.length === 0) {
+      html += '<div class="pv-dash-empty">No cards match this role\'s visibility.</div>';
+    } else {
+      html += '<div class="pv-dash-grid">';
+      filtered.forEach(function(c) {
+        html += '<div class="pv-dash-card">';
+        html += '<div class="pv-dash-card-title">' + escapeHtml(c.title) + '</div>';
+        html += '<div class="pv-dash-card-value">' + escapeHtml(c.value) + '</div>';
+        html += '<div class="pv-dash-card-sub">' + escapeHtml(c.subtitle) + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function showViewAsMenu() {
+    var menu = document.getElementById('viewAsMenu');
+    if (!menu) return;
+    var html = '';
+    presetRoleOrder.forEach(function(rid) {
+      if (!isRoleApplicable(rid)) return;
+      var role = ROLE_PRESETS[rid];
+      var active = state.previewRoleId === rid;
+      html += '<div class="va-item' + (active ? ' active' : '') + '" data-preview-role="' + rid + '">';
+      html += '<span class="vrole-dot" style="background:' + role.color + '"></span>';
+      html += escapeHtml(role.label);
+      html += '</div>';
+    });
+    state.customRoles.forEach(function(role) {
+      var active = state.previewRoleId === role.id;
+      html += '<div class="va-item' + (active ? ' active' : '') + '" data-preview-role="' + role.id + '">';
+      html += '<span class="vrole-dot" style="background:' + role.color + '"></span>';
+      html += escapeHtml(role.label);
+      html += '</div>';
+    });
+    menu.innerHTML = html;
+    menu.style.display = 'block';
+  }
+
+  function hideViewAsMenu() {
+    var menu = document.getElementById('viewAsMenu');
+    if (menu) menu.style.display = 'none';
+  }
+
+  // ═══ Render all ═════════════════════════════════════════
+  function renderAll() {
+    renderPresetBar();
+    renderContextStrip();
+    renderTabRail();
+    renderCfgContent();
+    renderPreview();
+  }
+
+  // ═══ Event delegation ═══════════════════════════════════
+  document.getElementById('presetBar').addEventListener('click', function(e) {
+    var pill = e.target.closest('.preset-pill');
+    if (pill && pill.dataset.preset) loadPreset(pill.dataset.preset);
   });
 
-  // Role tabs click handler
-  document.getElementById('roleTabs').addEventListener('click', function(e) {
-    var tab = e.target.closest('.cfg-role-tab');
-    if (tab) {
-      if (tab.classList.contains('disabled')) return;
-      var rid = tab.getAttribute('data-role');
-      currentRoleId = rid === '__all__' ? null : rid;
-      renderAll();
+  document.getElementById('tabRail').addEventListener('click', function(e) {
+    var item = e.target.closest('.tab-rail-item');
+    if (item && item.dataset.tab) setTab(item.dataset.tab);
+  });
+
+  document.getElementById('cfgContent').addEventListener('click', function(e) {
+    var toggleBtn = e.target.closest('.mod-toggle-btn');
+    if (toggleBtn) {
+      var row = toggleBtn.closest('.mod-row');
+      if (row) setModuleState(row.dataset.module, toggleBtn.dataset.val);
       return;
     }
-    var addBtn = e.target.closest('.cfg-role-tab-add');
-    if (addBtn) {
-      document.getElementById('addCustomRoleBtn').click();
+    var roleCard = e.target.closest('.role-card');
+    if (roleCard && !roleCard.classList.contains('disabled')) {
+      setEditingRole(roleCard.dataset.role);
+      return;
+    }
+    if (e.target.id === 'addRoleBtn') {
+      var name = prompt('Custom role name (e.g. "Charge Nurse"):');
+      if (name && name.trim()) createCustomRole(name.trim());
+      return;
+    }
+    var actionBtn = e.target.closest('[data-action]');
+    if (actionBtn) {
+      var action = actionBtn.dataset.action;
+      if (action === 'delete-role') {
+        if (confirm('Delete this custom role?')) deleteCustomRole(state.editingRoleId);
+      } else if (action === 'reset-role') {
+        resetRoleToDefault(state.editingRoleId);
+      }
+      return;
     }
   });
 
-  // ---- Init ----
-  loadPreset('small-practice');
+  document.getElementById('cfgContent').addEventListener('change', function(e) {
+    if (e.target && e.target.dataset && e.target.dataset.visMod) {
+      toggleModuleVisibility(state.editingRoleId, e.target.dataset.visMod);
+    }
+  });
+
+  document.getElementById('cfgContent').addEventListener('input', function(e) {
+    if (e.target && e.target.id === 'modSearch') {
+      var q = e.target.value.toLowerCase().trim();
+      var rows = document.querySelectorAll('.mod-row');
+      rows.forEach(function(row) {
+        var text = row.textContent.toLowerCase();
+        row.style.display = (q === '' || text.indexOf(q) !== -1) ? '' : 'none';
+      });
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    var menuItem = e.target.closest('[data-preview-role]');
+    if (menuItem) {
+      setPreviewRole(menuItem.dataset.previewRole);
+      return;
+    }
+    var viewAsBtn = e.target.closest('#viewAsBtn');
+    if (viewAsBtn) {
+      var menu = document.getElementById('viewAsMenu');
+      if (menu && menu.style.display === 'block') hideViewAsMenu();
+      else showViewAsMenu();
+      e.stopPropagation();
+      return;
+    }
+    var collapseBtn = e.target.closest('#collapseBtn');
+    if (collapseBtn) {
+      state.previewCollapsed = !state.previewCollapsed;
+      renderPreview();
+      return;
+    }
+    if (!e.target.closest('#viewAsMenu')) hideViewAsMenu();
+  });
+
+  document.getElementById('saveBtn').addEventListener('click', function() {
+    var ok = saveOverrides(state.presetId, serializeStateForSave());
+    if (ok) {
+      var label = DEPLOYMENT_PRESETS[state.presetId].label;
+      showToast('Saved! Open frontdoor.html?preset=' + state.presetId + ' to see ' + label + ' with your changes.');
+    } else {
+      showToast('Save failed — localStorage unavailable.');
+    }
+  });
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    var label = DEPLOYMENT_PRESETS[state.presetId].label;
+    if (confirm('Reset all saved changes for ' + label + ' back to defaults? This will also affect the front door.')) {
+      clearOverrides(state.presetId);
+      loadPreset(state.presetId);
+      showToast('Reset to defaults for ' + label + '.');
+    }
+  });
+
+  // ═══ Init ═══════════════════════════════════════════════
+  loadPreset('hospital');
 })();
 </script>
+
 </body>
 </html>
