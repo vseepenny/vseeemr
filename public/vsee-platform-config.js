@@ -984,41 +984,182 @@ function getIconSvg(name) {
   return '<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
 }
 
+// ═══════════════════════════════════════════════════════════════
+// PERSISTENCE — localStorage overrides + per-front-door active role
+// ═══════════════════════════════════════════════════════════════
+// The configurator writes to these keys on Save; front doors read from
+// them to decide what to render. Falls back to DEPLOYMENT_PRESETS /
+// ROLE_PRESETS when no override exists.
+
+var STORAGE_OVERRIDES = 'vsee-config-overrides';
+var STORAGE_CURRENT_ROLE = 'vsee-current-role';
+
+function _safeGet(key) {
+  try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; }
+  catch (e) { return null; }
+}
+function _safeSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; }
+  catch (e) { return false; }
+}
+
+function loadOverrides(presetId) {
+  var all = _safeGet(STORAGE_OVERRIDES) || {};
+  return all[presetId] || null;
+}
+
+function saveOverrides(presetId, data) {
+  var all = _safeGet(STORAGE_OVERRIDES) || {};
+  all[presetId] = Object.assign({}, data, { savedAt: new Date().toISOString() });
+  return _safeSet(STORAGE_OVERRIDES, all);
+}
+
+function clearOverrides(presetId) {
+  var all = _safeGet(STORAGE_OVERRIDES);
+  if (!all) return;
+  delete all[presetId];
+  _safeSet(STORAGE_OVERRIDES, all);
+}
+
+function getCurrentRole(presetId) {
+  var stored = _safeGet(STORAGE_CURRENT_ROLE);
+  if (stored && stored[presetId]) return stored[presetId];
+  // Default: first applicable preset role, then first custom role
+  var roles = ['provider', 'nurse', 'admin', 'patient'];
+  for (var i = 0; i < roles.length; i++) {
+    var r = ROLE_PRESETS[roles[i]];
+    if (r && r.visibility[presetId] !== null) return roles[i];
+  }
+  var ov = loadOverrides(presetId);
+  if (ov && ov.customRoles && ov.customRoles.length > 0) return ov.customRoles[0].id;
+  return null;
+}
+
+function setCurrentRole(presetId, roleId) {
+  var stored = _safeGet(STORAGE_CURRENT_ROLE) || {};
+  stored[presetId] = roleId;
+  _safeSet(STORAGE_CURRENT_ROLE, stored);
+}
+
+// Returns the effective module-state map for a preset (overrides win).
+function getEffectiveModules(presetId) {
+  var preset = DEPLOYMENT_PRESETS[presetId];
+  var overrides = loadOverrides(presetId);
+  if (overrides && overrides.modules) {
+    var merged = {};
+    Object.keys(preset.modules).forEach(function(m) { merged[m] = preset.modules[m]; });
+    Object.keys(overrides.modules).forEach(function(m) { merged[m] = overrides.modules[m]; });
+    return merged;
+  }
+  return preset.modules;
+}
+
+// Returns visibility array for a role (overrides > ROLE_PRESETS).
+// Returns null if the role doesn't apply to the preset.
+function getEffectiveRoleVisibility(presetId, roleId) {
+  var overrides = loadOverrides(presetId);
+  if (overrides && overrides.roleVisibility && overrides.roleVisibility[roleId]) {
+    return overrides.roleVisibility[roleId];
+  }
+  if (ROLE_PRESETS[roleId]) {
+    var v = getVisibleModules(presetId, roleId);
+    return v;
+  }
+  // Custom role with no override visibility: nothing visible
+  return [];
+}
+
+// Returns role metadata (label, color) — looks up preset roles, then custom roles.
+function getRoleInfo(presetId, roleId) {
+  if (!roleId) return null;
+  if (ROLE_PRESETS[roleId]) {
+    return {
+      id: roleId,
+      label: ROLE_PRESETS[roleId].label,
+      color: ROLE_PRESETS[roleId].color,
+      isCustom: false
+    };
+  }
+  var overrides = loadOverrides(presetId);
+  if (overrides && overrides.customRoles) {
+    for (var i = 0; i < overrides.customRoles.length; i++) {
+      var cr = overrides.customRoles[i];
+      if (cr.id === roleId) return Object.assign({ isCustom: true }, cr);
+    }
+  }
+  return null;
+}
+
+// Returns the list of roles that apply to a preset (built-in + custom).
+function getApplicableRoles(presetId) {
+  var roles = [];
+  ['provider', 'nurse', 'admin', 'patient'].forEach(function(rid) {
+    var r = ROLE_PRESETS[rid];
+    if (r && r.visibility[presetId] !== null) {
+      roles.push({ id: rid, label: r.label, color: r.color, isCustom: false });
+    }
+  });
+  var ov = loadOverrides(presetId);
+  if (ov && ov.customRoles) {
+    ov.customRoles.forEach(function(cr) {
+      roles.push({ id: cr.id, label: cr.label, color: cr.color, isCustom: true });
+    });
+  }
+  return roles;
+}
+
 /**
  * Build a sidebar dynamically from the deployment preset config.
  *
- * @param {string} presetId — key in DEPLOYMENT_PRESETS (e.g. 'small-practice')
+ * @param {string} presetId — key in DEPLOYMENT_PRESETS
  * @param {Object} viewIdMap — maps module ID → view element ID used by showView()
- *                              e.g. { "scheduling": "dashboard-view", "waiting-room": "waiting-room-view" }
  * @param {string} defaultViewId — the view ID that should be active on load
  * @param {Object} [badgeCounts] — optional map of module ID → badge count
- *                              e.g. { "scheduling": 12, "waiting-room": 3 }
- * @returns {string} HTML string for the sidebar contents (sections + nav items)
+ * @param {string} [roleId] — if provided, filter to modules visible to this role
+ * @returns {string} HTML string for the sidebar contents
  */
-function buildSidebarHTML(presetId, viewIdMap, defaultViewId, badgeCounts) {
+function buildSidebarHTML(presetId, viewIdMap, defaultViewId, badgeCounts, roleId) {
   var preset = DEPLOYMENT_PRESETS[presetId];
   if (!preset) return '';
   var sections = SIDEBAR_SECTIONS[presetId];
   if (!sections) return '';
   badgeCounts = badgeCounts || {};
 
+  // Apply localStorage overrides on top of preset defaults
+  var moduleStates = getEffectiveModules(presetId);
+
+  // Build role-visibility filter (null means "show all enabled")
+  var roleVisSet = null;
+  var roleInfo = null;
+  if (roleId) {
+    roleInfo = getRoleInfo(presetId, roleId);
+    var rv = getEffectiveRoleVisibility(presetId, roleId);
+    if (rv && rv !== 'all' && Array.isArray(rv)) {
+      roleVisSet = {};
+      rv.forEach(function(m) { roleVisSet[m] = true; });
+    }
+  }
+
+  function isVisible(modId) {
+    var st = moduleStates[modId];
+    if (st !== 'on' && st !== 'opt') return false;
+    if (roleVisSet && !roleVisSet[modId]) return false;
+    return true;
+  }
+
   var html = '';
 
-  // Config badge
+  // Config badge: shows preset name + (when filtered) role
   html += '<div class="config-badge" style="margin:12px 16px 4px;padding:6px 10px;'
     + 'background:' + preset.color + '15;border:1px solid ' + preset.color + '33;'
     + 'border-radius:8px;font-size:11px;color:' + preset.color + ';font-weight:600;'
     + 'display:flex;align-items:center;gap:6px;">'
     + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
     + (ICON_SVG['settings'] || '') + '</svg>'
-    + '<span>' + preset.label + '</span></div>';
+    + '<span>' + preset.label + (roleInfo ? ' · ' + roleInfo.label : '') + '</span></div>';
 
   sections.forEach(function(section) {
-    // Filter to modules that are ON or OPT for this preset
-    var visibleModules = section.modules.filter(function(modId) {
-      var status = preset.modules[modId];
-      return status === 'on' || status === 'opt';
-    });
+    var visibleModules = section.modules.filter(isVisible);
     if (visibleModules.length === 0) return;
 
     html += '<div class="nav-section">';
@@ -1028,8 +1169,8 @@ function buildSidebarHTML(presetId, viewIdMap, defaultViewId, badgeCounts) {
       var mod = MODULE_REGISTRY[modId];
       if (!mod) return;
       var viewId = viewIdMap[modId];
-      if (!viewId) return; // no view for this module in this front door
-      var status = preset.modules[modId];
+      if (!viewId) return;
+      var status = moduleStates[modId];
       var isDefault = (viewId === defaultViewId);
       var activeClass = isDefault ? ' active' : '';
 
@@ -1037,13 +1178,11 @@ function buildSidebarHTML(presetId, viewIdMap, defaultViewId, badgeCounts) {
       html += getIconSvg(mod.icon);
       html += mod.label;
 
-      // Badge count
       if (badgeCounts[modId]) {
         var badgeClass = (modId === 'rpm' || modId === 'alerts') ? 'nav-badge nav-badge-danger' : 'nav-badge nav-badge-accent';
         html += '<span class="' + badgeClass + '">' + badgeCounts[modId] + '</span>';
       }
 
-      // OPT indicator
       if (status === 'opt') {
         html += '<span class="nav-badge" style="background:#FEF3C7;color:#92400E;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:auto;">OPT</span>';
       }
@@ -1057,7 +1196,115 @@ function buildSidebarHTML(presetId, viewIdMap, defaultViewId, badgeCounts) {
   return html;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ROLE SWITCHER — drop-in widget for front doors
+// ═══════════════════════════════════════════════════════════════
+// Usage:
+//   initRoleSwitcher(document.getElementById('roleSwitcher'),
+//                    'small-practice',
+//                    { onChange: rebuildSidebar });
+
+var _roleSwitcherStylesInjected = false;
+function _injectRoleSwitcherStyles() {
+  if (_roleSwitcherStylesInjected) return;
+  _roleSwitcherStylesInjected = true;
+  var s = document.createElement('style');
+  s.textContent = ''
+    + '.rs-wrap{position:relative;display:inline-flex}'
+    + '.rs-btn{display:flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;color:#111827;user-select:none}'
+    + '.rs-btn:hover{border-color:#D1D5DB}'
+    + '.rs-btn .rs-label{color:#6B7280;font-weight:400;font-size:11px}'
+    + '.rs-btn .rs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}'
+    + '.rs-btn .rs-caret{color:#9CA3AF;width:10px;height:10px}'
+    + '.rs-menu{position:absolute;top:calc(100% + 4px);right:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,0.1);min-width:160px;z-index:50}'
+    + '.rs-menu[hidden]{display:none}'
+    + '.rs-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;cursor:pointer;font-size:13px;color:#111827}'
+    + '.rs-item:hover{background:#F9FAFB}'
+    + '.rs-item.active{background:#EFF6FF;color:#1E40AF;font-weight:600}'
+    + '.rs-item .rs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}';
+  document.head.appendChild(s);
+}
+
+function initRoleSwitcher(containerEl, presetId, options) {
+  if (!containerEl) return null;
+  options = options || {};
+  _injectRoleSwitcherStyles();
+
+  var docHandlerBound = false;
+
+  function render() {
+    var current = getCurrentRole(presetId);
+    var roles = getApplicableRoles(presetId);
+    if (roles.length === 0) {
+      containerEl.innerHTML = '';
+      return;
+    }
+    var currentRole = null;
+    for (var i = 0; i < roles.length; i++) {
+      if (roles[i].id === current) { currentRole = roles[i]; break; }
+    }
+    if (!currentRole) {
+      currentRole = roles[0];
+      setCurrentRole(presetId, currentRole.id);
+    }
+
+    var html = '<div class="rs-wrap">';
+    html += '<button type="button" class="rs-btn" data-rs-toggle>';
+    html += '<span class="rs-label">View as</span>';
+    html += '<span class="rs-dot" style="background:' + currentRole.color + '"></span>';
+    html += '<span>' + currentRole.label + '</span>';
+    html += '<svg class="rs-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+    html += '</button>';
+    html += '<div class="rs-menu" hidden data-rs-menu>';
+    roles.forEach(function(r) {
+      var active = r.id === currentRole.id ? ' active' : '';
+      html += '<div class="rs-item' + active + '" data-rs-pick="' + r.id + '">';
+      html += '<span class="rs-dot" style="background:' + r.color + '"></span>';
+      html += r.label;
+      html += '</div>';
+    });
+    html += '</div></div>';
+    containerEl.innerHTML = html;
+
+    var btn = containerEl.querySelector('[data-rs-toggle]');
+    var menu = containerEl.querySelector('[data-rs-menu]');
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      menu.hidden = !menu.hidden;
+    });
+    menu.addEventListener('click', function(e) {
+      var item = e.target.closest('[data-rs-pick]');
+      if (!item) return;
+      var newId = item.getAttribute('data-rs-pick');
+      setCurrentRole(presetId, newId);
+      menu.hidden = true;
+      render();
+      if (options.onChange) options.onChange(newId);
+    });
+
+    if (!docHandlerBound) {
+      docHandlerBound = true;
+      document.addEventListener('click', function() {
+        var m = containerEl.querySelector('[data-rs-menu]');
+        if (m) m.hidden = true;
+      });
+    }
+  }
+
+  render();
+  return { rerender: render, getCurrent: function() { return getCurrentRole(presetId); } };
+}
+
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { MODULE_REGISTRY, DEPLOYMENT_PRESETS, SIDEBAR_SECTIONS, MODULE_CATEGORIES, DASHBOARD_CARDS, ROLE_PRESETS, getVisibleModules, ICON_SVG, getIconSvg, buildSidebarHTML };
+  module.exports = {
+    MODULE_REGISTRY, DEPLOYMENT_PRESETS, SIDEBAR_SECTIONS, MODULE_CATEGORIES,
+    DASHBOARD_CARDS, ROLE_PRESETS,
+    getVisibleModules, ICON_SVG, getIconSvg, buildSidebarHTML,
+    loadOverrides, saveOverrides, clearOverrides,
+    getCurrentRole, setCurrentRole,
+    getEffectiveModules, getEffectiveRoleVisibility, getRoleInfo, getApplicableRoles,
+    initRoleSwitcher
+  };
 }
